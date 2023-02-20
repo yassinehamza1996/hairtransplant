@@ -1,0 +1,150 @@
+.topbar-container-cls {
+  position: absolute;
+  width: 100%;
+  top: 0;
+}
+
+::ng-deep .logout-btn-cls {
+  .p-button:enabled:hover {
+    background-color: red !important;
+  }
+
+  .p-button {
+    margin-left: 0.25em;
+    background-color: black;
+    border-color: transparent !important;
+  }
+}
+
+::ng-deep body {
+  overflow-x: hidden;
+}
+
+::ng-deep .p-menubar {
+  background: #eceff4 !important;
+}
+
+::ng-deep .sidebar-cls {
+  .p-sidebar {
+    background-color: #282a35;
+  }
+
+  .p-button:enabled:hover {
+    background: orange !important;
+    color: #ffffff !important;
+    border-color: grey !important;
+  }
+
+  .p-button {
+    margin: 0;
+    display: inline-flex;
+    cursor: pointer;
+    -webkit-user-select: none;
+    user-select: none;
+    align-items: center;
+    border-left: none !important;
+    border-top: none !important;
+    border-bottom: none !important;
+    border-radius: 0px !important;
+    border-right: none !important;
+    font-size: 19px !important;
+    border-color: white !important;
+    background: transparent !important;
+    font-family: cursive;
+    vertical-align: bottom;
+    text-align: center;
+    width: fit-content;
+  }
+}
+
+::ng-deep .p-sidebar .p-sidebar-header .p-sidebar-close,
+.p-sidebar .p-sidebar-header .p-sidebar-icon {
+  background: white;
+}
+
+::ng-deep .p-menubar .p-menuitem {
+  font-size: 28px !important;
+}
+
+::ng-deep .p-menubar .p-menubar-root-list>.p-menuitem>.p-menuitem-link .p-menuitem-icon {
+  font-size: 27px !important;
+}
+
+::ng-deep .title-cls {
+  display: flex;
+  z-index: 1;
+  margin-top: -75px;
+  justify-content: center;
+  position: initial;
+  font-family: fantasy;
+  cursor: pointer;
+}
+
+::ng-deep .menu-items-cls {
+  padding-left: 29px;
+}
+
+::ng-deep .collapse-cls {
+  width: 20% !important;
+
+  .p-button {
+    width: 100% !important;
+    height: 100% !important;
+  }
+}
+
+::ng-deep .p-slidemenu {
+  width: 100% !important;
+  padding: 0.25rem 0;
+  background: none !important;
+  color: none !important;
+  border: none !important;
+  border-radius: 6px;
+}
+
+::ng-deep .p-slidemenu .p-slidemenu-wrapper {
+  width: 100% !important;
+}
+
+::ng-deep .p-slidemenu .p-slidemenu-rootlist {
+  width: 100% !important;
+}
+
+::ng-deep .p-slidemenu .p-menuitem-link .p-menuitem-text {
+  color: white !important;
+  font-size: 15px;
+}
+
+::ng-deep .p-sidebar .p-sidebar-header {
+  padding: 1.25rem;
+  margin-left: 27%;
+  color: white !important;
+  font-size: 30px;
+  font-family: fangsong;
+}
+
+::ng-deep .p-sidebar .p-sidebar-footer {
+  padding: 1.25rem;
+  color: orange;
+  font-family: "primeicons";
+}
+
+::ng-deep .p-slidemenu .p-menuitem-link .p-menuitem-icon {
+  color: white !important;
+}
+
+::ng-deep .p-slidemenu .p-slidemenu-content {
+  height: 752px !important;
+}
+
+::ng-deep .p-sidebar .p-sidebar-content {
+  overflow: hidden;
+}
+
+::ng-deep .p-dock-list-container{
+  display: flex;
+    position: fixed;
+    pointer-events: auto;
+    bottom: 0;
+    z-index: 9999;
+}

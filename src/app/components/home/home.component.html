@@ -1,0 +1,346 @@
+<div>
+<div>
+      <!--  ANIMATED CARDS-->
+  <div
+  *ngIf="isAnimated"
+    class="card"
+    style="display: inline-flex; margin-left: 10px; width: 100%"
+  >
+    <div
+      pAnimate
+      enterClass="flip"
+      class="flex justify-content-center align-items-center h-20rem w-20rem border-round shadow-2 animation-duration-1000 animation-ease-out"
+    >
+      <div class="card-holder-cls icon-class">
+        <div class="card">
+          <div class="flex justify-content-between mb-3">
+            <div class="m3">
+              <span class="block text-500 font-medium mb-3"
+                >Personal Information Data</span
+              >
+              <div class="text-900 font-medium text-xl">152</div>
+            </div>
+
+            <div
+              class="flex align-items-center justify-content-center bg-blue-100 border-round"
+              [ngStyle]="{ width: '5.5rem', height: '5.5rem' }"
+            >
+              <i class="fa-solid fa-address-card"></i>
+            </div>
+          </div>
+          <span class="text-green-500 font-medium">24 new </span>
+          <span class="text-500">since last visit</span>
+        </div>
+      </div>
+    </div>
+    <div
+      pAnimate
+      enterClass="flip"
+      class="flex justify-content-center align-items-center h-20rem w-20rem border-round shadow-2 animation-duration-1000 animation-ease-out"
+    >
+      <div class="card-holder-cls icon-class">
+        <div class="card">
+          <div class="flex justify-content-between mb-3">
+            <div class="m3">
+              <span class="block text-500 font-medium mb-3"
+                >Medical History Data</span
+              >
+              <div class="text-900 font-medium text-xl">152</div>
+            </div>
+            <div
+              class="flex align-items-center justify-content-center bg-blue-100 border-round"
+              [ngStyle]="{ width: '5.5rem', height: '5.5rem' }"
+            >
+              <i class="fa-solid fa-suitcase-medical"></i>
+            </div>
+          </div>
+          <span class="text-green-500 font-medium">24 new </span>
+          <span class="text-500">since last visit</span>
+        </div>
+      </div>
+    </div>
+    <div
+      pAnimate
+      enterClass="flip"
+      class="flex justify-content-center align-items-center h-20rem w-20rem border-round shadow-2 animation-duration-1000 animation-ease-out"
+    >
+      <div class="card-holder-cls icon-class">
+        <div class="card">
+          <div class="flex justify-content-between mb-3">
+            <div class="m3">
+              <span class="block text-500 font-medium mb-3"
+                >Life Style Data</span
+              >
+              <div class="text-900 font-medium text-xl">152</div>
+            </div>
+            <div
+              class="flex align-items-center justify-content-center bg-blue-100 border-round"
+              [ngStyle]="{ width: '5.5rem', height: '5.5rem' }"
+            >
+              <i class="fa-solid fa-heart-pulse"></i>
+            </div>
+          </div>
+          <span class="text-green-500 font-medium">24 new </span>
+          <span class="text-500">since last visit</span>
+        </div>
+      </div>
+    </div>
+    <div
+      pAnimate
+      enterClass="flip"
+      class="flex justify-content-center align-items-center h-20rem w-20rem border-round shadow-2 animation-duration-1000 animation-ease-out"
+    >
+      <div class="card-holder-cls icon-class">
+        <div class="card">
+          <div class="flex justify-content-between mb-3">
+            <div class="m3">
+              <span class="block text-500 font-medium mb-3"
+                >Hair Loss Data</span
+              >
+              <div class="text-900 font-medium text-xl">152</div>
+            </div>
+            <div
+              class="flex align-items-center justify-content-center bg-blue-100 border-round"
+              [ngStyle]="{ width: '5.5rem', height: '5.5rem' }"
+            >
+              <i class="fa-solid fa-head-side-virus"></i>
+            </div>
+          </div>
+          <span class="text-green-500 font-medium">24 new </span>
+          <span class="text-500">since last visit</span>
+        </div>
+      </div>
+    </div>
+    <div
+      pAnimate
+      enterClass="flip"
+      class="flex justify-content-center align-items-center h-20rem w-20rem border-round shadow-2 animation-duration-1000 animation-ease-out"
+    >
+      <div class="card-holder-cls icon-class">
+        <div class="card">
+          <div class="flex justify-content-between mb-3">
+            <div class="m3">
+              <span class="block text-500 font-medium mb-3">Goals Data</span>
+              <div class="text-900 font-medium text-xl">152</div>
+            </div>
+            <div
+              class="flex align-items-center justify-content-center bg-blue-100 border-round"
+              [ngStyle]="{ width: '5.5rem', height: '5.5rem' }"
+            >
+              <i class="fa-solid fa-bullseye"></i>
+            </div>
+          </div>
+          <span class="text-green-500 font-medium">24 new </span>
+          <span class="text-500">since last visit</span>
+        </div>
+      </div>
+    </div>
+    <div
+      pAnimate
+      enterClass="flip"
+      class="flex justify-content-center align-items-center h-20rem w-20rem border-round shadow-2 animation-duration-1000 animation-ease-out"
+    >
+      <div class="card-holder-cls icon-class">
+        <div class="card">
+          <div class="flex justify-content-between mb-3">
+            <div class="m3">
+              <span class="block text-500 font-medium mb-3"
+                >Client Visit Data</span
+              >
+              <div class="text-900 font-medium text-xl">152</div>
+            </div>
+            <div
+              class="flex align-items-center justify-content-center bg-blue-100 border-round"
+              [ngStyle]="{ width: '5.5rem', height: '5.5rem' }"
+            >
+              <i class="fa-solid fa-handshake"></i>
+            </div>
+          </div>
+          <span class="text-green-500 font-medium">24 new </span>
+          <span class="text-500">since last visit</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- NOT ANIMATED CARDS-->
+  <div
+  *ngIf="!isAnimated"
+    class="card"
+    style="display: inline-flex; margin-left: 10px; width: 100%"
+  >
+    <div
+    
+      class="flex justify-content-center align-items-center h-20rem w-20rem border-round shadow-2 animation-duration-1000 animation-ease-out"
+    >
+      <div class="card-holder-cls icon-class">
+        <div class="card">
+          <div class="flex justify-content-between mb-3">
+            <div class="m3">
+              <span class="block text-500 font-medium mb-3"
+                >Personal Information Data</span
+              >
+              <div class="text-900 font-medium text-xl">152</div>
+            </div>
+
+            <div
+              class="flex align-items-center justify-content-center bg-blue-100 border-round"
+              [ngStyle]="{ width: '5.5rem', height: '5.5rem' }"
+            >
+              <i class="fa-solid fa-address-card"></i>
+            </div>
+          </div>
+          <span class="text-green-500 font-medium">24 new </span>
+          <span class="text-500">since last visit</span>
+        </div>
+      </div>
+    </div>
+    <div
+
+      class="flex justify-content-center align-items-center h-20rem w-20rem border-round shadow-2 animation-duration-1000 animation-ease-out"
+    >
+      <div class="card-holder-cls icon-class">
+        <div class="card">
+          <div class="flex justify-content-between mb-3">
+            <div class="m3">
+              <span class="block text-500 font-medium mb-3"
+                >Medical History Data</span
+              >
+              <div class="text-900 font-medium text-xl">152</div>
+            </div>
+            <div
+              class="flex align-items-center justify-content-center bg-blue-100 border-round"
+              [ngStyle]="{ width: '5.5rem', height: '5.5rem' }"
+            >
+              <i class="fa-solid fa-suitcase-medical"></i>
+            </div>
+          </div>
+          <span class="text-green-500 font-medium">24 new </span>
+          <span class="text-500">since last visit</span>
+        </div>
+      </div>
+    </div>
+    <div
+     
+      class="flex justify-content-center align-items-center h-20rem w-20rem border-round shadow-2 animation-duration-1000 animation-ease-out"
+    >
+      <div class="card-holder-cls icon-class">
+        <div class="card">
+          <div class="flex justify-content-between mb-3">
+            <div class="m3">
+              <span class="block text-500 font-medium mb-3"
+                >Life Style Data</span
+              >
+              <div class="text-900 font-medium text-xl">152</div>
+            </div>
+            <div
+              class="flex align-items-center justify-content-center bg-blue-100 border-round"
+              [ngStyle]="{ width: '5.5rem', height: '5.5rem' }"
+            >
+              <i class="fa-solid fa-heart-pulse"></i>
+            </div>
+          </div>
+          <span class="text-green-500 font-medium">24 new </span>
+          <span class="text-500">since last visit</span>
+        </div>
+      </div>
+    </div>
+    <div
+     
+      class="flex justify-content-center align-items-center h-20rem w-20rem border-round shadow-2 animation-duration-1000 animation-ease-out"
+    >
+      <div class="card-holder-cls icon-class">
+        <div class="card">
+          <div class="flex justify-content-between mb-3">
+            <div class="m3">
+              <span class="block text-500 font-medium mb-3"
+                >Hair Loss Data</span
+              >
+              <div class="text-900 font-medium text-xl">152</div>
+            </div>
+            <div
+              class="flex align-items-center justify-content-center bg-blue-100 border-round"
+              [ngStyle]="{ width: '5.5rem', height: '5.5rem' }"
+            >
+              <i class="fa-solid fa-head-side-virus"></i>
+            </div>
+          </div>
+          <span class="text-green-500 font-medium">24 new </span>
+          <span class="text-500">since last visit</span>
+        </div>
+      </div>
+    </div>
+    <div
+    
+      class="flex justify-content-center align-items-center h-20rem w-20rem border-round shadow-2 animation-duration-1000 animation-ease-out"
+    >
+      <div class="card-holder-cls icon-class">
+        <div class="card">
+          <div class="flex justify-content-between mb-3">
+            <div class="m3">
+              <span class="block text-500 font-medium mb-3">Goals Data</span>
+              <div class="text-900 font-medium text-xl">152</div>
+            </div>
+            <div
+              class="flex align-items-center justify-content-center bg-blue-100 border-round"
+              [ngStyle]="{ width: '5.5rem', height: '5.5rem' }"
+            >
+              <i class="fa-solid fa-bullseye"></i>
+            </div>
+          </div>
+          <span class="text-green-500 font-medium">24 new </span>
+          <span class="text-500">since last visit</span>
+        </div>
+      </div>
+    </div>
+    <div
+    
+      class="flex justify-content-center align-items-center h-20rem w-20rem border-round shadow-2 animation-duration-1000 animation-ease-out"
+    >
+      <div class="card-holder-cls icon-class">
+        <div class="card">
+          <div class="flex justify-content-between mb-3">
+            <div class="m3">
+              <span class="block text-500 font-medium mb-3"
+                >Client Visit Data</span
+              >
+              <div class="text-900 font-medium text-xl">152</div>
+            </div>
+            <div
+              class="flex align-items-center justify-content-center bg-blue-100 border-round"
+              [ngStyle]="{ width: '5.5rem', height: '5.5rem' }"
+            >
+              <i class="fa-solid fa-handshake"></i>
+            </div>
+          </div>
+          <span class="text-green-500 font-medium">24 new </span>
+          <span class="text-500">since last visit</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="card" style="display: inline-flex; margin-left: 10px; width: 100%">
+    <div class="card chart-cls">
+      <h5>Basic</h5>
+      <p-chart
+        type="line"
+        [data]="basicData"
+        [options]="basicOptions"
+      ></p-chart>
+    </div>
+    <div class="card chart-cls">
+        <h5>Galleria</h5>
+        <p-galleria [value]="images" [responsiveOptions]="galleriaResponsiveOptions"
+                    [containerStyle]="{'max-width': '800px', 'margin':'auto'}" [numVisible]="6" [circular]="true">
+            <ng-template pTemplate="item" let-item>
+                <img [src]="item.itemImageSrc" style="width: 100%; display: block;"/>
+            </ng-template>
+            <ng-template pTemplate="thumbnail" let-item>
+                <div class="grid nogutter justify-center">
+                    <img [src]="item.thumbnailImageSrc" style="display: block;"/>
+                </div>
+            </ng-template>
+        </p-galleria>
+    </div>
+</div>
+</div>

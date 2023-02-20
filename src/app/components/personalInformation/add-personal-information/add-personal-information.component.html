@@ -1,0 +1,148 @@
+<form [formGroup]="myForm">
+  <div class="grid" class="person-form-cls">
+    <div class="col-12">
+      <div class="card">
+        <h5>Add new Personal Information</h5>
+        <div class="p-fluid p-formgrid grid">
+          <div class="field col-12 md:col-6">
+            <label for="firstname">Firstname</label>
+            <input
+              pInputText
+              formControlName="firstname"
+              required="true"
+              class="my-input"
+              #firstnameInput
+              type="text"
+              [placeholder]="
+                (myForm.get('firstname')?.hasError('required') &&
+                  firstnameInput.value === '') ||
+                (!myForm.controls['firstname'].pristine &&
+                  myForm.controls['firstname'].touched)
+                  ? '* Field is required'
+                  : ''
+              "
+            />
+          </div>
+          <div class="field col-12 md:col-6">
+            <label for="lastname">Lastname</label>
+            <input
+              pInputText
+              class="my-input"
+              formControlName="lastname"
+              required="true"
+              id="lastname"
+              #lastNameInput
+              type="text"
+              [placeholder]="
+                (myForm.get('lastname')?.hasError('required') &&
+                  lastNameInput.value === '') ||
+                (!myForm.controls['lastname'].pristine &&
+                  myForm.controls['lastname'].touched)
+                  ? '* Field is required'
+                  : ''
+              "
+            />
+          </div>
+          <div class="field col-12 md:col-4">
+            <label htmlFor="address">Address</label>
+            <input
+              pInputTextarea
+              formControlName="address"
+              required="true"
+              class="my-input"
+              id="address"
+              #addressInput
+              rows="4"
+              [placeholder]="
+                (myForm.get('address')?.hasError('required') &&
+                  addressInput.value === '') ||
+                (!myForm.controls['address'].pristine &&
+                  myForm.controls['address'].touched)
+                  ? '* Field is required'
+                  : ''
+              "
+            />
+          </div>
+          <div class="field col-12 md:col-4">
+            <label htmlFor="address">Phone Number</label>
+            <p-inputNumber
+              #phoneNumber
+              [placeholder]="
+                (myForm.get('phoneNumber')?.hasError('required') &&
+                  phoneNumber.value === null) ||
+                (!myForm.controls['phoneNumber'].pristine &&
+                  myForm.controls['phoneNumber'].touched)
+                  ? '* Field is required'
+                  : ''
+              "
+              formControlName="phoneNumber"
+              mode="decimal"
+            ></p-inputNumber>
+          </div>
+          <div class="field col-12 md:col-4">
+            <label htmlFor="address">Age</label>
+            <p-inputNumber
+              #ageInput
+              class="my-input"
+              [placeholder]="
+                (myForm.get('age')?.hasError('required') &&
+                  ageInput.value === null) ||
+                (!myForm.controls['age'].pristine &&
+                  myForm.controls['age'].touched)
+                  ? '* Field is required'
+                  : ''
+              "
+              formControlName="age"
+              mode="decimal"
+            ></p-inputNumber>
+          </div>
+          <div class="field col-12 md:col-4">
+            <label for="email">Email</label>
+            <input
+              #email
+              class="my-input"
+              [placeholder]="
+                (myForm.get('phoneNumber')?.hasError('required') &&
+                  email.value === '') ||
+                (!myForm.controls['email'].pristine &&
+                  myForm.controls['email'].touched)
+                  ? '* Field is required and should be unique'
+                  : ''
+              "
+              pInputText
+              formControlName="email"
+              id="email"
+              type="email"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="footer-form-cls">
+      <div style="margin-right: 2%">
+        <button
+          (click)="doSave()"
+          pButton
+          class="p-button-success"
+          type="submit"
+          icon="pi pi-check"
+          iconPos="left"
+          [disabled]="!myForm.valid"
+          label="Save"
+        ></button>
+      </div>
+      <div>
+        <button
+          pButton
+          class="p-button-danger"
+          icon="pi pi-times"
+          type="reset"
+          label="Reset"
+        ></button>
+      </div>
+    </div>
+  </div>
+</form>
+
+
+<p-toast position="bottom-right"></p-toast>

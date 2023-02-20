@@ -1,0 +1,20 @@
+<div class="topbar-container-cls">
+    <p-menubar [model]="items">
+      <div>
+        <!-- <input type="text" pInputText placeholder="Search"> -->
+        <div class="logout-btn-cls">
+          <button type="button" pButton label="Logout" icon="pi pi-power-off"></button>
+        </div>
+      </div>
+    </p-menubar>
+    <div class="title-cls" (click)="navigateToHome()">
+      <h1>HAIR TRANSPLANT COMPANY</h1>
+    </div>
+  </div>
+  <p-sidebar [(visible)]="display" class="sidebar-cls">
+    <ng-template pTemplate="header">Menu</ng-template>
+    <ng-template pTemplate="content">  <p-slideMenu [model]="slideMenuItems"></p-slideMenu></ng-template>
+    <ng-template pTemplate="footer">© Copyright 2023 Yassine.HAMZA</ng-template>
+  
+  </p-sidebar>
+  
