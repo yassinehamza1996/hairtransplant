@@ -67,7 +67,7 @@ export class AppComponent {
       this.currentPath = url.join('/');
     });
     let display = this.showDashboardService.getBoolean();
-    if (display != undefined && this.currentPath == undefined) {
+    if (display != undefined && this.currentPath != undefined) {
       this.showHomeScreen = display;
     }
   }
