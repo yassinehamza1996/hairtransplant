@@ -18,7 +18,7 @@ export class ListPersonalInformationComponent implements OnInit {
   personalInformationSubscription: Subscription;
   product: Product = {};
 
-  selectedProducts: Product[] = [];
+  selectedPersonalInformation: PersonalInformation[] = [];
   isLoading: boolean = false;
   submitted: boolean | undefined;
   constructor(
@@ -48,23 +48,34 @@ export class ListPersonalInformationComponent implements OnInit {
     this.submitted = true;
   }
 
-  deleteSelectedProducts() {
+  deleteSelectedPersonalInformation() {
     this.confirmationService.confirm({
       message:
-        'Are you sure you want to delete the selected presonalInformationList?',
+        'Are you sure you want to delete the selected presonal Information List?',
       header: 'Confirm',
       icon: 'pi pi-exclamation-triangle',
       accept: () => {
-        // this.presonalInformationList = this.presonalInformationList.filter(
-        //   (val) => !this.selectedProducts.includes(val)
-        // );
-        this.selectedProducts = [];
-        this.messageService.add({
-          severity: 'success',
-          summary: 'Successful',
-          detail: 'presonalInformationList Deleted',
-          life: 3000,
-        });
+        this.personalInformationSubscription = this.personalInformationService.deleteSelectedPersonalInformation(this.selectedPersonalInformation).subscribe(response=>{
+          this.presonalInformationList = this.presonalInformationList.filter(
+            (val) => !this.selectedPersonalInformation.includes(val)
+          );
+          this.selectedPersonalInformation = [];
+          this.messageService.add({
+            severity: 'success',
+            summary: 'Successful',
+            detail: 'presona lInformation List Deleted',
+            life: 3000,
+          });
+        },
+        (error)=>{
+          this.messageService.add({
+            severity:'error', 
+            summary: 'Error',
+            detail: 'Error '+error.message,
+          });
+        })
+        
+      
       },
     });
   }

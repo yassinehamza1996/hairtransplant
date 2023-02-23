@@ -20,4 +20,8 @@ export class PersonalInformationService {
   deletePersonalInformation(personalInfo: PersonalInformation): Observable<any> {
     return this.http.delete(environment.apiUrl + '/delete/'+personalInfo.id);
   }
+ 
+  deleteSelectedPersonalInformation(personalInformations: PersonalInformation[]): Observable<void> {
+    return this.http.request<void>('DELETE', `${environment.apiUrl}/delete/all`, { body: personalInformations });
+  }
 }

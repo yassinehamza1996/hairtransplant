@@ -17,8 +17,8 @@
         label="Delete"
         icon="pi pi-trash"
         class="p-button-danger"
-        (click)="deleteSelectedProducts()"
-        [disabled]="!selectedProducts || !selectedProducts.length"
+        (click)="deleteSelectedPersonalInformation()"
+        [disabled]="!selectedPersonalInformation || !selectedPersonalInformation.length"
       ></button>
     </ng-template>
 
@@ -54,7 +54,7 @@
       'age'
     ]"
     [tableStyle]="{ 'min-width': '75rem' }"
-    [(selection)]="selectedProducts"
+    [(selection)]="selectedPersonalInformation"
     [rowsPerPageOptions]="[10,15,20,50,100]"
     [rowHover]="true"
     dataKey="id"
