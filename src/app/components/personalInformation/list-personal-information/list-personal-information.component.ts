@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { Subscription } from 'rxjs';
 import { PersonalInformation } from '../../models/personal-Information.model';
@@ -21,6 +21,8 @@ export class ListPersonalInformationComponent implements OnInit {
   selectedPersonalInformation: PersonalInformation[] = [];
   isLoading: boolean = false;
   submitted: boolean | undefined;
+  @ViewChild('addpersonalInformation') addpersonalInformationComponent : ElementRef
+
   constructor(
     private messageService: MessageService,
     private confirmationService: ConfirmationService,
@@ -45,6 +47,7 @@ export class ListPersonalInformationComponent implements OnInit {
   }
 
   saveProduct() {
+    this.savePopUpPersonalInformation();
     this.submitted = true;
   }
 
@@ -55,27 +58,30 @@ export class ListPersonalInformationComponent implements OnInit {
       header: 'Confirm',
       icon: 'pi pi-exclamation-triangle',
       accept: () => {
-        this.personalInformationSubscription = this.personalInformationService.deleteSelectedPersonalInformation(this.selectedPersonalInformation).subscribe(response=>{
-          this.presonalInformationList = this.presonalInformationList.filter(
-            (val) => !this.selectedPersonalInformation.includes(val)
+        this.personalInformationSubscription = this.personalInformationService
+          .deleteSelectedPersonalInformation(this.selectedPersonalInformation)
+          .subscribe(
+            (response) => {
+              this.presonalInformationList =
+                this.presonalInformationList.filter(
+                  (val) => !this.selectedPersonalInformation.includes(val)
+                );
+              this.selectedPersonalInformation = [];
+              this.messageService.add({
+                severity: 'success',
+                summary: 'Successful',
+                detail: 'presona lInformation List Deleted',
+                life: 3000,
+              });
+            },
+            (error) => {
+              this.messageService.add({
+                severity: 'error',
+                summary: 'Error',
+                detail: 'Error ' + error.message,
+              });
+            }
           );
-          this.selectedPersonalInformation = [];
-          this.messageService.add({
-            severity: 'success',
-            summary: 'Successful',
-            detail: 'presona lInformation List Deleted',
-            life: 3000,
-          });
-        },
-        (error)=>{
-          this.messageService.add({
-            severity:'error', 
-            summary: 'Error',
-            detail: 'Error '+error.message,
-          });
-        })
-        
-      
       },
     });
   }
@@ -89,28 +95,42 @@ export class ListPersonalInformationComponent implements OnInit {
     console.log(event);
     console.log(event.target.value);
   }
-  deleteRow(event : any){
+  deleteRow(event: any) {
     console.log(event);
     this.confirmationService.confirm({
       message: 'Are you sure you want to delete ' + event.firstname + '?',
       header: 'Confirm',
       icon: 'pi pi-exclamation-triangle',
       accept: () => {
-          this.personalInformationService.deletePersonalInformation(event).subscribe(res=>{
-            this.messageService.add({severity:'success', summary: 'Successful', detail: 'Personal Information Deleted', life: 3000});
-            this.presonalInformationList = this.presonalInformationList.filter(r=>r.id != event.id)
-          },
-          (error)=>{
-            this.messageService.add({
-              severity:'error', 
-              summary: 'Error',
-              detail: 'Error '+error.message,
-            });
-          })
-          
-      }
-  });
-   
+        this.personalInformationService
+          .deletePersonalInformation(event)
+          .subscribe(
+            (res) => {
+              this.messageService.add({
+                severity: 'success',
+                summary: 'Successful',
+                detail: 'Personal Information Deleted',
+                life: 3000,
+              });
+              this.presonalInformationList =
+                this.presonalInformationList.filter((r) => r.id != event.id);
+            },
+            (error) => {
+              this.messageService.add({
+                severity: 'error',
+                summary: 'Error',
+                detail: 'Error ' + error.message,
+              });
+            }
+          );
+      },
+    });
   }
+
+  savePopUpPersonalInformation(){
+    console.log(this.addpersonalInformationComponent)
+    // this.addpersonalInformationComponent.nativeElement.doSave();
+  }
+
   clickme() {}
 }

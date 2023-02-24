@@ -42,6 +42,9 @@ import { TableModule } from 'primeng/table';
 import { DialogModule } from 'primeng/dialog';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import {ProgressSpinnerModule} from 'primeng/progressspinner';
+import {FieldsetModule} from 'primeng/fieldset';
+import {CalendarModule} from 'primeng/calendar';
+import {InputMaskModule} from 'primeng/inputmask';
 
 @NgModule({
   declarations: [
@@ -85,7 +88,10 @@ import {ProgressSpinnerModule} from 'primeng/progressspinner';
     FileUploadModule,
     DialogModule,
     ConfirmDialogModule,
-    ProgressSpinnerModule
+    ProgressSpinnerModule,
+    FieldsetModule,
+    CalendarModule,
+    InputMaskModule
   ],
   providers: [PhotoService, MessageService, ConfirmationService],
   bootstrap: [AppComponent],

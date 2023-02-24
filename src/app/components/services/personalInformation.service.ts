@@ -8,20 +8,26 @@ import { PersonalInformation } from '../models/personal-Information.model';
   providedIn: 'root',
 })
 export class PersonalInformationService {
+
+   controllerPath = "PersonalInformations"
+
   constructor(private http: HttpClient) {}
 
   findAllPersonalInformation(): Observable<any> {
-    return this.http.get<any>(environment.apiUrl + '/search/all');
+    return this.http.get<any>(environment.apiUrl + this.controllerPath + '/search/all');
   }
   savePersonalInformation(personalInfo: PersonalInformation): Observable<any> {
-    return this.http.post(environment.apiUrl + '/save', personalInfo);
+    return this.http.post(environment.apiUrl + this.controllerPath + '/save', personalInfo);
   }
 
   deletePersonalInformation(personalInfo: PersonalInformation): Observable<any> {
-    return this.http.delete(environment.apiUrl + '/delete/'+personalInfo.id);
+    return this.http.delete(environment.apiUrl + this.controllerPath + '/delete/'+personalInfo.id);
   }
  
   deleteSelectedPersonalInformation(personalInformations: PersonalInformation[]): Observable<void> {
-    return this.http.request<void>('DELETE', `${environment.apiUrl}/delete/all`, { body: personalInformations });
+    return this.http.request<void>('DELETE', `${environment.apiUrl + this.controllerPath}/delete/all`, { body: personalInformations });
+  }
+  getCountPersonalInformation(): Observable<any>{
+    return this.http.get<any>(environment.apiUrl + this.controllerPath +'/count');
   }
 }

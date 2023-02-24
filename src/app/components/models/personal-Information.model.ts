@@ -6,7 +6,6 @@ export interface PersonalInformation {
     email: string;
     phoneNumber: string;
     age: number;
-    
   }
   export class PersonImpl implements PersonalInformation {
     constructor(

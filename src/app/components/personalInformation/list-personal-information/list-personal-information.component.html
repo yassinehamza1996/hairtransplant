@@ -196,12 +196,19 @@
 
 <p-dialog
   [(visible)]="productDialog"
-  [style]="{ width: '450px' }"
-  header="personalInfo Details"
+  [style]="{ width: '70%' }"
+  header="personal Information Details"
   [modal]="true"
   styleClass="p-fluid"
 >
-  <ng-template pTemplate="content">
+<ng-template pTemplate="content">
+
+  <app-add-personal-information
+  #addpersonalInformation
+  [showButtons]="false"
+  ></app-add-personal-information>
+</ng-template>
+  <!-- <ng-template pTemplate="content">
     <img
       [src]="
         'https://primefaces.org/cdn/primeng/images/demo/personalInfo/' +
@@ -247,22 +254,7 @@
     <div class="field">
       <label class="mb-3">Category</label>
       <div class="formgrid grid">
-        <!-- <div class="field-radiobutton col-6">
-                    <p-radioButton id="category1" name="category" value="Accessories" [(ngModel)]="personalInfo.category"></p-radioButton>
-                    <label for="category1">Accessories</label>
-                </div>
-                <div class="field-radiobutton col-6">
-                    <p-radioButton id="category2" name="category" value="Clothing" [(ngModel)]="personalInfo.category"></p-radioButton>
-                    <label for="category2">Clothing</label>
-                </div>
-                <div class="field-radiobutton col-6">
-                    <p-radioButton id="category3" name="category" value="Electronics" [(ngModel)]="personalInfo.category"></p-radioButton>
-                    <label for="category3">Electronics</label>
-                </div>
-                <div class="field-radiobutton col-6">
-                    <p-radioButton id="category4" name="category" value="Fitness" [(ngModel)]="personalInfo.category"></p-radioButton>
-                    <label for="category4">Fitness</label>
-                </div> -->
+
       </div>
     </div>
 
@@ -281,7 +273,7 @@
         <p-inputNumber id="quantity"></p-inputNumber>
       </div>
     </div>
-  </ng-template>
+  </ng-template> -->
 
   <ng-template pTemplate="footer">
     <button
