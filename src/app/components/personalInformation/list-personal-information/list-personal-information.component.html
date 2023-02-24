@@ -1,5 +1,4 @@
-<p-toast></p-toast>
-
+<p-toast position="bottom-right"></p-toast>
 <div class="card">
   <p-toolbar styleClass="mb-4 gap-2">
     <ng-template pTemplate="left">
@@ -18,7 +17,9 @@
         icon="pi pi-trash"
         class="p-button-danger"
         (click)="deleteSelectedPersonalInformation()"
-        [disabled]="!selectedPersonalInformation || !selectedPersonalInformation.length"
+        [disabled]="
+          !selectedPersonalInformation || !selectedPersonalInformation.length
+        "
       ></button>
     </ng-template>
 
@@ -40,22 +41,16 @@
       ></button>
     </ng-template>
   </p-toolbar>
-  
+
   <p-table
     #dt
     [value]="presonalInformationList"
     [rows]="10"
     [paginator]="true"
-    
-    [globalFilterFields]="[
-      'firstname',
-      'lastname',
-      'email',
-      'age'
-    ]"
+    [globalFilterFields]="['firstname', 'lastname', 'email', 'age']"
     [tableStyle]="{ 'min-width': '75rem' }"
     [(selection)]="selectedPersonalInformation"
-    [rowsPerPageOptions]="[10,15,20,50,100]"
+    [rowsPerPageOptions]="[10, 15, 20, 50, 100]"
     [rowHover]="true"
     dataKey="id"
     currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
@@ -85,7 +80,7 @@
         <th pSortableColumn="firstname" style="min-width: 15rem">
           First Name <p-sortIcon field="firstname"></p-sortIcon>
         </th>
-        
+
         <th pSortableColumn="lastname">
           Last Name <p-sortIcon field="lastname"></p-sortIcon>
         </th>
@@ -100,29 +95,68 @@
         </th>
         <!-- <th>Image</th> -->
         <th></th>
-
       </tr>
       <tr>
         <th></th>
         <th>
-            <input pInputText type="text" (input)="dt.filter($any($event.target).value, 'firstname', 'contains')" [value]="$any(dt.filters['firstname'])?.value" placeholder="Search by First Name" class="w-full">
+          <input
+            pInputText
+            type="text"
+            (input)="
+              dt.filter($any($event.target).value, 'firstname', 'contains')
+            "
+            [value]="$any(dt.filters['firstname'])?.value"
+            placeholder="Search by First Name"
+            class="w-full"
+          />
         </th>
         <th>
-            <input pInputText type="text" (input)="dt.filter($any($event.target).value, 'lastname', 'contains')" [value]="$any(dt.filters['lastname'])?.value" placeholder="Search by Last Name" class="w-full">
+          <input
+            pInputText
+            type="text"
+            (input)="
+              dt.filter($any($event.target).value, 'lastname', 'contains')
+            "
+            [value]="$any(dt.filters['lastname'])?.value"
+            placeholder="Search by Last Name"
+            class="w-full"
+          />
         </th>
         <th>
-            <input pInputText type="text" (input)="dt.filter($any($event.target).value, 'email', 'contains')" [value]="$any(dt.filters['email'])?.value" placeholder="Search by Email" class="w-full">
+          <input
+            pInputText
+            type="text"
+            (input)="dt.filter($any($event.target).value, 'email', 'contains')"
+            [value]="$any(dt.filters['email'])?.value"
+            placeholder="Search by Email"
+            class="w-full"
+          />
         </th>
         <th>
-            <input pInputText type="text" (input)="dt.filter($any($event.target).value, 'phoneNumber', 'contains')" [value]="$any(dt.filters['phoneNumber'])?.value" placeholder="Search by Phone Number" class="w-full">
+          <input
+            pInputText
+            type="text"
+            (input)="
+              dt.filter($any($event.target).value, 'phoneNumber', 'contains')
+            "
+            [value]="$any(dt.filters['phoneNumber'])?.value"
+            placeholder="Search by Phone Number"
+            class="w-full"
+          />
         </th>
         <th>
-          <input pInputText type="text" (input)="dt.filter($any($event.target).value, 'age', 'contains')" [value]="$any(dt.filters['age'])?.value" placeholder="Search by Age" class="w-full">
-      </th>
-      <th></th>
-    </tr>
+          <input
+            pInputText
+            type="text"
+            (input)="dt.filter($any($event.target).value, 'age', 'contains')"
+            [value]="$any(dt.filters['age'])?.value"
+            placeholder="Search by Age"
+            class="w-full"
+          />
+        </th>
+        <th></th>
+      </tr>
     </ng-template>
-   
 
     <ng-template pTemplate="body" let-personalInfo>
       <tr>
@@ -130,13 +164,12 @@
           <p-tableCheckbox [value]="personalInfo"></p-tableCheckbox>
         </td>
         <td>{{ personalInfo.firstname }}</td>
-   
+
         <td>{{ personalInfo.lastname }}</td>
         <td>{{ personalInfo.email }}</td>
-        <td>{{personalInfo.phoneNumber }}</td>
+        <td>{{ personalInfo.phoneNumber }}</td>
         <td>
-          {{personalInfo.age }}
-          
+          {{ personalInfo.age }}
         </td>
         <!-- <td>
           <img
@@ -166,28 +199,24 @@
           ></button>
         </td>
       </tr>
-      <div *ngIf="isLoading" 
-      class="spinner-cls"
-      >
-    <p-progressSpinner></p-progressSpinner>
-  </div>
+      <div *ngIf="isLoading" class="spinner-cls">
+        <p-progressSpinner></p-progressSpinner>
+      </div>
     </ng-template>
     <ng-template pTemplate="emptymessage">
       <tr>
-          <td colspan="7" style="text-align:center" *ngIf="isLoading">
-              <p-progressSpinner></p-progressSpinner>
-          </td>
-          <td colspan="7" style="text-align:center" *ngIf="!isLoading">
-            <span>No available personal informations !</span>
+        <td colspan="7" style="text-align: center" *ngIf="isLoading">
+          <p-progressSpinner></p-progressSpinner>
+        </td>
+        <td colspan="7" style="text-align: center" *ngIf="!isLoading">
+          <span>No available personal informations !</span>
         </td>
       </tr>
-  </ng-template>
+    </ng-template>
     <ng-template pTemplate="summary">
       <div class="flex align-items-center justify-content-between">
         In total there are
-        {{
-          presonalInformationList ? presonalInformationList.length : 0
-        }}
+        {{ presonalInformationList ? presonalInformationList.length : 0 }}
         personal informations.
       </div>
     </ng-template>
@@ -195,19 +224,18 @@
 </div>
 
 <p-dialog
-  [(visible)]="productDialog"
+  [(visible)]="personalInformationDialog"
   [style]="{ width: '70%' }"
-  header="personal Information Details"
+  header="Personal Information Details"
   [modal]="true"
   styleClass="p-fluid"
 >
-<ng-template pTemplate="content">
-
-  <app-add-personal-information
-  #addpersonalInformation
-  [showButtons]="false"
-  ></app-add-personal-information>
-</ng-template>
+  <ng-template pTemplate="content">
+    <app-add-personal-information
+      #addpersonalInformation
+      [showButtons]="false"
+    ></app-add-personal-information>
+  </ng-template>
   <!-- <ng-template pTemplate="content">
     <img
       [src]="
@@ -290,7 +318,7 @@
       label="Save"
       icon="pi pi-check"
       class="p-button-text"
-      (click)="saveProduct()"
+      (click)="savePersonalInformationPopUp()"
     ></button>
   </ng-template>
 </p-dialog>

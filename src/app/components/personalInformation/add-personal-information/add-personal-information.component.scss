@@ -40,4 +40,12 @@ h5 {
   /* Firefox 18- */
   color: red;
 }
+.trash-btn{
+  display: flex;
+  flex-direction: row-reverse;
 
+}
+::ng-deep .p-dialog .p-dialog-footer{
+  display: flex !important;
+  flex-direction: row-reverse !important;
+}

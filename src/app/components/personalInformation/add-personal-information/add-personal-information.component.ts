@@ -1,10 +1,11 @@
-import { MedicalHistory } from './../../models/medicalHistory.model';
+import { PersonalInformation } from './../../models/personal-Information.model';
 import { PersonalInformationService } from './../../services/personalInformation.service';
 import { ShowDashBoardService } from '../../services/showDashBoard.service';
 import { Component, Input, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
-import { MenuItem, MessageService } from 'primeng/api';
+import { ActivatedRoute, Router } from '@angular/router';
+import { ConfirmationService, MessageService } from 'primeng/api';
+import { catchError, Observable, tap, throwError } from 'rxjs';
 @Component({
   selector: 'app-add-personal-information',
   templateUrl: './add-personal-information.component.html',
@@ -14,14 +15,17 @@ export class AddPersonalInformationComponent implements OnInit {
   dropdownItems: any;
   myForm: FormGroup;
   currentPath: string = '';
-  @Input() showButtons : boolean
-  
+  personNodeResult: PersonalInformation;
+  @Input() showButtons: boolean;
+
   constructor(
     private formBuilder: FormBuilder,
     private route: ActivatedRoute,
     private showDashboardService: ShowDashBoardService,
     private personalInformationService: PersonalInformationService,
-    private messageService: MessageService
+    private messageService: MessageService,
+    private confirmationService: ConfirmationService,
+    private router: Router
   ) {
     this.myForm = this.createForm();
     this.addMedicalHistory();
@@ -31,14 +35,13 @@ export class AddPersonalInformationComponent implements OnInit {
   }
 
   ngOnInit() {
-    if(this.showButtons == undefined){
+    if (this.showButtons == undefined) {
       this.showButtons = true;
     }
     console.log(this.myForm);
     if (this.currentPath != undefined) {
       this.showDashboardService.setBoolean(false);
     }
-
   }
   createForm(): FormGroup<any> {
     return this.formBuilder.group({
@@ -48,69 +51,78 @@ export class AddPersonalInformationComponent implements OnInit {
       phoneNumber: [null, Validators.required],
       age: [null, Validators.required],
       email: [null, Validators.required],
-      medicalHistoryList: this.formBuilder.array([
-      ])
+      medicalHistoryList: this.formBuilder.array([]),
     });
   }
 
-  get medicalHistoryGroupArray () {
-    return this.myForm.get('medicalHistoryList') as FormArray
+  get medicalHistoryGroupArray() {
+    return this.myForm.get('medicalHistoryList') as FormArray;
   }
 
- newMedicalHistoryGroup(): FormGroup {
+  newMedicalHistoryGroup(): FormGroup {
     return this.formBuilder.group({
-      preExistingConditions :'',
-      currentMedications : '',
-      allergies :'',
-      previousTransplants : '',
-      dateDataEntry : null,
-      personalInformation : this.myForm.value
-    })
+      preExistingConditions: '',
+      currentMedications: '',
+      allergies: '',
+      previousTransplants: '',
+      dateDataEntry: null,
+      personalInformation: this.myForm.value,
+    });
   }
- 
+
   addMedicalHistory() {
     this.medicalHistoryGroupArray.push(this.newMedicalHistoryGroup());
   }
- 
-  removeMedicalHistory(i:number) {
-    this.medicalHistoryGroupArray.removeAt(i);
-  }
- 
 
-  doSave() {
-    console.log(this.myForm);
-    if(this.myForm.value.medicalHistoryList != undefined && this.myForm.value.medicalHistoryList.length != 0){
-      this.myForm.value.medicalHistoryList.forEach((res : any) => {
-        res.personalInformation ={
-          firstname: this.myForm.value.firstname,
-          lastname : this.myForm.value.lastname,
-          address : this.myForm.value.address,
-          age : this.myForm.value.age,
-          email : this.myForm.value.email,
-          phoneNumber : this.myForm.value.phoneNumber
-        } 
-        
-      })
-    }
-    
-    this.personalInformationService
-      .savePersonalInformation(this.myForm.value)
-      .subscribe((value) => {
-        this.messageService.add({
-          severity: 'success',
-          summary: 'success',
-          detail: this.myForm.value['firstname'] + ' Saved Successfully',
-        });
+  removeMedicalHistory(i: number) {
+    this.confirmationService.confirm({
+      message:
+        'Are you sure you want to delete the selected Medical History Node?',
+      header: 'Confirm',
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
+        this.medicalHistoryGroupArray.removeAt(i);
       },
-      error => {
-        console.log(error);
-        
-        this.messageService.add({
-          severity:'error', 
-          summary: 'Error',
-          detail: 'Error '+error.message,
-        });
-      }
+    });
+  }
+
+  doSave(): Observable<PersonalInformation> {
+    if (
+      this.myForm.value.medicalHistoryList != undefined &&
+      this.myForm.value.medicalHistoryList.length != 0
+    ) {
+      this.myForm.value.medicalHistoryList.forEach((res: any) => {
+        res.personalInformation = {
+          firstname: this.myForm.value.firstname,
+          lastname: this.myForm.value.lastname,
+          address: this.myForm.value.address,
+          age: this.myForm.value.age,
+          email: this.myForm.value.email,
+          phoneNumber: this.myForm.value.phoneNumber,
+        };
+      });
+    }
+
+    return this.personalInformationService
+      .savePersonalInformation(this.myForm.value)
+      .pipe(
+        tap((value) => {
+          this.messageService.add({
+            severity: 'success',
+            summary: 'success',
+            detail: this.myForm.value['firstname'] + ' Saved Successfully',
+          });
+          this.router.navigate(['/listpersonalinformation']);
+          this.personNodeResult = value;
+        }),
+        catchError((error) => {
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Error',
+            detail: 'Error ' + error.message,
+          });
+          return throwError(error);
+        })
       );
   }
 }

@@ -65,11 +65,15 @@
             />
           </div>
           <div class="field col-12 md:col-4">
-            <label  for="phoneNumber">Phone Number</label>
-            <p-inputMask mask="(999) 999-9999"  #phoneNumber
-            id="phoneNumber"
-            [showClear]="true"
-           formControlName="phoneNumber" placeholder="(999) 999-9999"></p-inputMask>
+            <label for="phoneNumber">Phone Number</label>
+            <p-inputMask
+              mask="(999) 999-999-9999"
+              #phoneNumber
+              id="phoneNumber"
+              [showClear]="true"
+              formControlName="phoneNumber"
+              placeholder="(999) 999-999-9999"
+            ></p-inputMask>
             <!-- <p-inputNumber
               #phoneNumber
               id="phoneNumber"
@@ -124,87 +128,118 @@
             />
           </div>
           <div class="field col-12 md:col-12">
-            <p-fieldset legend="Medical History" 
+            <p-fieldset
+              legend="Medical History"
               [collapsed]="true"
-             [toggleable]="true">
+              [toggleable]="true"
+            >
               <div formArrayName="medicalHistoryList">
-                <div style=" display: flex;
-                flex-direction: row-reverse;">
-                  <p-button icon="pi pi-plus" pTooltip="Add Medical History Node" tooltipPosition="left" (click)="addMedicalHistory()"></p-button>
+                <div style="display: flex; flex-direction: row-reverse">
+                  <p-button
+                    icon="pi pi-plus"
+                    pTooltip="Add Medical History Node"
+                    tooltipPosition="left"
+                    (click)="addMedicalHistory()"
+                  ></p-button>
                 </div>
-                <div *ngFor="let medical of medicalHistoryGroupArray.controls; let i=index">
-                  <div [formGroupName]="i" style="margin-top: 12px;">
-                    <p-fieldset legend="Medical History Node" 
-                    [collapsed]="true"
-                   [toggleable]="true">
-                   <div style="display: flex; flex-wrap: wrap;">
+                <div
+                  *ngFor="
+                    let medical of medicalHistoryGroupArray.controls;
+                    let i = index
+                  "
+                >
+                  <div [formGroupName]="i" style="margin-top: 12px">
+                    <p-fieldset
+                      legend="Medical History Node"
+                      [collapsed]="false"
+                      [toggleable]="true"
+                    >
+                      <div class="trash-btn">
+                        <button
+                          pButton
+                          icon="pi pi-trash"
+                          type="button"
+                          class="p-button-danger"
+                          pTooltip="Delete Medical History Node"
+                          tooltipPosition="left"
+                          (click)="removeMedicalHistory(i)"
+                        ></button>
+                      </div>
+                      <div style="display: flex; flex-wrap: wrap">
+                        <div class="field col-4 md:col-4 lg:col-4">
+                          <label for="preExistingConditions"
+                            >Pre-existing Conditions</label
+                          >
+                          <input
+                            pInputText
+                            id="preExistingConditions"
+                            formControlName="preExistingConditions"
+                            required="true"
+                            class="my-input"
+                            #PreexistingConditionsInput
+                            type="text"
+                          />
+                        </div>
 
-                   <div class="field col-4 md:col-4 lg:col-4">
-                     <label for="preExistingConditions">Pre-existing Conditions</label>
-                     <input
-                       pInputText
-                       id="preExistingConditions"
-                       formControlName="preExistingConditions"
-                       required="true"
-                       class="my-input"
-                       #PreexistingConditionsInput
-                       type="text"
-                     />
-                   </div>
+                        <div class="field col-4 md:col-4 lg:col-4">
+                          <label for="currentMedications"
+                            >Current Medications</label
+                          >
+                          <input
+                            pInputText
+                            id="currentMedications"
+                            formControlName="currentMedications"
+                            required="true"
+                            class="my-input"
+                            #currentMedicationsInput
+                            type="text"
+                          />
+                        </div>
 
-                   <div class="field col-4 md:col-4 lg:col-4">
-                     <label for="currentMedications">Current Medications</label>
-                     <input
-                       pInputText
-                       id="currentMedications"
-                       formControlName="currentMedications"
-                       required="true"
-                       class="my-input"
-                       #currentMedicationsInput
-                       type="text"
-                     />
-                   </div>
-                   
-                   <div class="field col-4 md:col-4 lg:col-4">
-                     <label for="allergies">Allergies</label>
-                     <input
-                       pInputText
-                       formControlName="allergies"
-                       required="true"
-                       class="my-input"
-                       id="allergies"
-                       #allergiesInput
-                       type="text"
-                     />
-                   </div>
-                 
-                   <div class="field col-4 md:col-4 lg:col-4">
-                     <label for="previousTransplants">Previous Transplants</label>
-                     <input
-                       pInputText
-                       id="previousTransplants"
-                       formControlName="previousTransplants"
-                       required="true"
-                       class="my-input"
-                       id="previousTransplants"
-                       #previousTransplantsInput
-                       type="text"
-                     />
-                   </div>
-                
-                   <div class="field col-4 md:col-4 lg:col-4">
-                     <label for="dateDataEntry">Date Data Entry</label>
-                     <p-calendar formControlName="dateDataEntry" [showIcon]="true"dateFormat="dd/mm/yy" inputId="icon"></p-calendar>
-                   </div>
-                
+                        <div class="field col-4 md:col-4 lg:col-4">
+                          <label for="allergies">Allergies</label>
+                          <input
+                            pInputText
+                            formControlName="allergies"
+                            required="true"
+                            class="my-input"
+                            id="allergies"
+                            #allergiesInput
+                            type="text"
+                          />
+                        </div>
 
-                 </div>
-                  </p-fieldset>
+                        <div class="field col-4 md:col-4 lg:col-4">
+                          <label for="previousTransplants"
+                            >Previous Transplants</label
+                          >
+                          <input
+                            pInputText
+                            id="previousTransplants"
+                            formControlName="previousTransplants"
+                            required="true"
+                            class="my-input"
+                            id="previousTransplants"
+                            #previousTransplantsInput
+                            type="text"
+                          />
+                        </div>
+
+                        <div class="field col-4 md:col-4 lg:col-4">
+                          <label for="dateDataEntry">Date Data Entry</label>
+                          <p-calendar
+                            formControlName="dateDataEntry"
+                            [showIcon]="true"
+                            dateFormat="dd/mm/yy"
+                            inputId="icon"
+                          ></p-calendar>
+                        </div>
+                      </div>
+                    </p-fieldset>
                   </div>
                 </div>
-                </div>
-          </p-fieldset>
-
+              </div>
+            </p-fieldset>
           </div>
         </div>
       </div>
@@ -235,5 +270,5 @@
   </div>
 </form>
 
-
 <p-toast position="bottom-right"></p-toast>
+<p-confirmDialog [style]="{ width: '450px' }"></p-confirmDialog>

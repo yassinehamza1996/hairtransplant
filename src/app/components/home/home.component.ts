@@ -1,3 +1,4 @@
+import { MedicalHistoryService } from './../services/medicalHistory.service';
 import { Subscription } from 'rxjs';
 import { PersonalInformationService } from './../services/personalInformation.service';
 import { PersonalInformation } from './../models/personal-Information.model';
@@ -16,8 +17,9 @@ export class HomeComponent implements OnInit {
   basicOptions: any;
   isAnimated: boolean = true;
   images!: any[];
-  subscription: Subscription;
-  numberOfPersonalInformations : number;
+  subscription: Subscription = new Subscription();
+  numberOfPersonalInformations : number = 0;
+  numberOfMedicalHistories : number = 0;
   galleriaResponsiveOptions: any[] = [
     {
       breakpoint: '1024px',
@@ -39,16 +41,21 @@ export class HomeComponent implements OnInit {
 
   constructor(
     private photoService: PhotoService,
-    private personalInformationService: PersonalInformationService
+    private personalInformationService: PersonalInformationService,
+    private medicalHistoryService : MedicalHistoryService
   ) {}
   ngOnInit() {
     this.initChart();
     this.applyLightTheme();
-    this.subscription = this.personalInformationService
+    this.subscription.add(this.medicalHistoryService.getCountMedicalHistorys().subscribe(res=>{
+      this.numberOfMedicalHistories = res
+    }))
+    this.subscription.add(this.personalInformationService
       .getCountPersonalInformation()
       .subscribe((count) => {
         this.numberOfPersonalInformations = count;
-      });
+      }))
+    
     setTimeout(() => {
       // Remove the pAnimate attribute to stop the animation
       this.isAnimated = false;

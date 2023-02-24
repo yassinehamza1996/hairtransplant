@@ -1,3 +1,4 @@
+import { AddPersonalInformationComponent } from './../add-personal-information/add-personal-information.component';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { Subscription } from 'rxjs';
@@ -12,7 +13,7 @@ import { ShowDashBoardService } from '../../services/showDashBoard.service';
   styleUrls: ['./list-personal-information.component.scss'],
 })
 export class ListPersonalInformationComponent implements OnInit {
-  productDialog: boolean | undefined;
+  personalInformationDialog: boolean | undefined;
 
   presonalInformationList: PersonalInformation[] = [];
   personalInformationSubscription: Subscription;
@@ -21,7 +22,8 @@ export class ListPersonalInformationComponent implements OnInit {
   selectedPersonalInformation: PersonalInformation[] = [];
   isLoading: boolean = false;
   submitted: boolean | undefined;
-  @ViewChild('addpersonalInformation') addpersonalInformationComponent : ElementRef
+  @ViewChild('addpersonalInformation')
+  addpersonalInformationComponent: AddPersonalInformationComponent;
 
   constructor(
     private messageService: MessageService,
@@ -29,6 +31,7 @@ export class ListPersonalInformationComponent implements OnInit {
     private personalInformationService: PersonalInformationService,
     private showDashboardService: ShowDashBoardService
   ) {}
+
   ngOnInit() {
     this.isLoading = true;
     this.showDashboardService.setBoolean(false);
@@ -42,19 +45,20 @@ export class ListPersonalInformationComponent implements OnInit {
   }
 
   hideDialog() {
-    this.productDialog = false;
+    this.personalInformationDialog = false;
     this.submitted = false;
   }
 
-  saveProduct() {
+  savePersonalInformationPopUp() {
     this.savePopUpPersonalInformation();
     this.submitted = true;
+    this.personalInformationDialog = false;
   }
 
   deleteSelectedPersonalInformation() {
     this.confirmationService.confirm({
       message:
-        'Are you sure you want to delete the selected presonal Information List?',
+        'Are you sure you want to delete the selected personal Information List?',
       header: 'Confirm',
       icon: 'pi pi-exclamation-triangle',
       accept: () => {
@@ -89,7 +93,7 @@ export class ListPersonalInformationComponent implements OnInit {
   openNew() {
     this.product = {};
     this.submitted = false;
-    this.productDialog = true;
+    this.personalInformationDialog = true;
   }
   getAllPossibleValues(event: any) {
     console.log(event);
@@ -127,9 +131,11 @@ export class ListPersonalInformationComponent implements OnInit {
     });
   }
 
-  savePopUpPersonalInformation(){
-    console.log(this.addpersonalInformationComponent)
-    // this.addpersonalInformationComponent.nativeElement.doSave();
+  savePopUpPersonalInformation() {
+    this.addpersonalInformationComponent.doSave().subscribe((value: PersonalInformation) => {
+      this.presonalInformationList.push(value)
+    });;
+   
   }
 
   clickme() {}
