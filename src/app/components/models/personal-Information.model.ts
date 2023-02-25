@@ -1,3 +1,4 @@
+import { MedicalHistory } from './medicalHistory.model';
 export interface PersonalInformation {
     id: number;
     firstname: string;
@@ -6,6 +7,7 @@ export interface PersonalInformation {
     email: string;
     phoneNumber: string;
     age: number;
+    medicalHistoryList : MedicalHistory[];
   }
   export class PersonImpl implements PersonalInformation {
     constructor(
@@ -15,6 +17,7 @@ export interface PersonalInformation {
       public address: string,
       public email: string,
       public phoneNumber: string,
-      public age: number
+      public age: number,
+    public medicalHistoryList : MedicalHistory[]
     ) {}
   }

@@ -188,7 +188,7 @@
             pRipple
             icon="pi pi-pencil"
             class="p-button-rounded p-button-success mr-2"
-            (click)="clickme()"
+            (click)="editPersonalInformation(personalInfo)"
           ></button>
           <button
             pButton
@@ -234,6 +234,8 @@
     <app-add-personal-information
       #addpersonalInformation
       [showButtons]="false"
+      [resetPersonalInformationForm]="resetPersonalInformationForm"
+      [formPerson]="editablePersonInformation"
     ></app-add-personal-information>
   </ng-template>
   <!-- <ng-template pTemplate="content">

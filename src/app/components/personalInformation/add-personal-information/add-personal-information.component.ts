@@ -1,3 +1,4 @@
+import { MedicalHistory } from './../../models/medicalHistory.model';
 import { PersonalInformation } from './../../models/personal-Information.model';
 import { PersonalInformationService } from './../../services/personalInformation.service';
 import { ShowDashBoardService } from '../../services/showDashBoard.service';
@@ -17,7 +18,8 @@ export class AddPersonalInformationComponent implements OnInit {
   currentPath: string = '';
   personNodeResult: PersonalInformation;
   @Input() showButtons: boolean;
-
+  @Input() formPerson: PersonalInformation;
+  @Input() resetPersonalInformationForm: boolean;
   constructor(
     private formBuilder: FormBuilder,
     private route: ActivatedRoute,
@@ -28,7 +30,6 @@ export class AddPersonalInformationComponent implements OnInit {
     private router: Router
   ) {
     this.myForm = this.createForm();
-    this.addMedicalHistory();
     this.route.url.subscribe((url) => {
       this.currentPath = url.join('/');
     });
@@ -42,9 +43,34 @@ export class AddPersonalInformationComponent implements OnInit {
     if (this.currentPath != undefined) {
       this.showDashboardService.setBoolean(false);
     }
+
+    if (
+      this.formPerson != undefined &&
+      this.resetPersonalInformationForm == false
+    ) {
+      console.log(this.formPerson);
+      this.myForm.controls['address'].setValue(this.formPerson.address);
+      this.myForm.controls['firstname'].setValue(this.formPerson.firstname);
+      this.myForm.controls['lastname'].setValue(this.formPerson.lastname);
+      this.myForm.controls['email'].setValue(this.formPerson.email);
+      this.myForm.controls['phoneNumber'].setValue(this.formPerson.phoneNumber);
+      this.myForm.controls['age'].setValue(this.formPerson.age);
+      if (this.formPerson.medicalHistoryList != undefined) {
+        this.formPerson.medicalHistoryList.forEach((item) => {
+          this.medicalHistoryGroupArray.push(
+            this.newEditMedicalHistoryGroup(item)
+          );
+        });
+      }
+      this.myForm.controls['id'].setValue(this.formPerson.id);
+    } else {
+      this.addMedicalHistory();
+    }
   }
+
   createForm(): FormGroup<any> {
     return this.formBuilder.group({
+      id : [null , null],
       firstname: [null, [Validators.required]],
       lastname: [null, [Validators.required]],
       address: [null, [Validators.required]],
@@ -66,6 +92,17 @@ export class AddPersonalInformationComponent implements OnInit {
       allergies: '',
       previousTransplants: '',
       dateDataEntry: null,
+      personalInformation: this.myForm.value,
+    });
+  }
+
+  newEditMedicalHistoryGroup(medicalHistory: MedicalHistory): FormGroup {
+    return this.formBuilder.group({
+      preExistingConditions: medicalHistory.preExistingConditions,
+      currentMedications: medicalHistory.currentMedications,
+      allergies: medicalHistory.allergies,
+      previousTransplants: medicalHistory.previousTransplants,
+      dateDataEntry: this.formatDate(medicalHistory.dateDataEntry),
       personalInformation: this.myForm.value,
     });
   }
@@ -100,6 +137,9 @@ export class AddPersonalInformationComponent implements OnInit {
           email: this.myForm.value.email,
           phoneNumber: this.myForm.value.phoneNumber,
         };
+        if(typeof res.dateDataEntry === "string"){
+          res.dateDataEntry = this.formatToLongDate(res.dateDataEntry);
+        }
       });
     }
 
@@ -124,5 +164,21 @@ export class AddPersonalInformationComponent implements OnInit {
           return throwError(error);
         })
       );
+  }
+
+  formatDate(dateString: any): string {
+    let date = new Date(dateString);
+    let formattedDate = date.toLocaleDateString('en-GB');
+    console.log(formattedDate);
+    return formattedDate;
+  }
+
+  formatToLongDate(dateString: string): string {
+
+      let parts = dateString.split('/');
+      let dateObject = new Date(+parts[2], +parts[1] - 1, +parts[0], 0, 0, 0, 0);
+      let isoString = dateObject.toISOString();
+    
+    return isoString;
   }
 }

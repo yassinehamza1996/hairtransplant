@@ -18,13 +18,13 @@ export class ListPersonalInformationComponent implements OnInit {
   presonalInformationList: PersonalInformation[] = [];
   personalInformationSubscription: Subscription;
   product: Product = {};
-
+  editablePersonInformation : PersonalInformation
   selectedPersonalInformation: PersonalInformation[] = [];
   isLoading: boolean = false;
   submitted: boolean | undefined;
   @ViewChild('addpersonalInformation')
   addpersonalInformationComponent: AddPersonalInformationComponent;
-
+  resetPersonalInformationForm : boolean = false;
   constructor(
     private messageService: MessageService,
     private confirmationService: ConfirmationService,
@@ -94,6 +94,7 @@ export class ListPersonalInformationComponent implements OnInit {
     this.product = {};
     this.submitted = false;
     this.personalInformationDialog = true;
+    this.resetPersonalInformationForm = true;
   }
   getAllPossibleValues(event: any) {
     console.log(event);
@@ -133,10 +134,22 @@ export class ListPersonalInformationComponent implements OnInit {
 
   savePopUpPersonalInformation() {
     this.addpersonalInformationComponent.doSave().subscribe((value: PersonalInformation) => {
+      let indexOfPerson = this.presonalInformationList.findIndex(res=>res.id == value.id)
+      if(indexOfPerson != -1){
+        this.presonalInformationList[indexOfPerson] = value;
+      }
       this.presonalInformationList.push(value)
-    });;
+
+    },
+    (error)=>{
+      this.personalInformationDialog = true;
+    });
    
   }
 
-  clickme() {}
+  editPersonalInformation(personalInfo : PersonalInformation) {
+    this.editablePersonInformation = personalInfo
+    this.personalInformationDialog = true;
+    this.resetPersonalInformationForm = false;
+  }
 }
