@@ -119,11 +119,58 @@ export class AddPersonalInformationComponent implements OnInit {
       icon: 'pi pi-exclamation-triangle',
       accept: () => {
         this.medicalHistoryGroupArray.removeAt(i);
+        return
       },
     });
   }
 
+  doSaveCreateScreen(){
+    if (
+      this.myForm.value.medicalHistoryList != undefined &&
+      this.myForm.value.medicalHistoryList.length != 0
+    ) {
+      this.myForm.value.medicalHistoryList.forEach((res: any) => {
+        res.personalInformation = {
+          firstname: this.myForm.value.firstname,
+          lastname: this.myForm.value.lastname,
+          address: this.myForm.value.address,
+          age: this.myForm.value.age,
+          email: this.myForm.value.email,
+          phoneNumber: this.myForm.value.phoneNumber,
+        };
+        if(typeof res.dateDataEntry === "string"){
+          res.dateDataEntry = this.formatToLongDate(res.dateDataEntry);
+        }
+      });
+    }
+
+    this.personalInformationService.savePersonalInformation(this.myForm.value).subscribe(
+      (value) => {
+        this.messageService.add({
+          severity: 'success',
+          summary: 'success',
+          detail: this.myForm.value['firstname'] + ' Saved Successfully',
+        });
+        setTimeout(() => {
+          // code to execute after 1 second
+          this.router.navigate(['/listpersonalinformation']);
+        }, 1000);
+
+      },
+      (error) => {
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Error',
+          detail: 'Error ' + error.message,
+        });
+        console.log(error)
+      }
+    );
+    
+  }
+
   doSave(): Observable<PersonalInformation> {
+    
     if (
       this.myForm.value.medicalHistoryList != undefined &&
       this.myForm.value.medicalHistoryList.length != 0
@@ -161,6 +208,7 @@ export class AddPersonalInformationComponent implements OnInit {
             summary: 'Error',
             detail: 'Error ' + error.message,
           });
+          console.log(error)
           return throwError(error);
         })
       );

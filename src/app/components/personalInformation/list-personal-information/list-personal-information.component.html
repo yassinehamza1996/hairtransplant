@@ -26,10 +26,12 @@
     <ng-template pTemplate="right">
       <p-fileUpload
         mode="basic"
-        accept="image/*"
+        accept=".xlsx"
         [maxFileSize]="1000000"
         label="Import"
         chooseLabel="Import"
+        (uploadHandler)="doUpload()"
+        (onSelect)="selectFile($event)"
         class="mr-2 inline-block"
       ></p-fileUpload>
       <button
@@ -38,6 +40,7 @@
         label="Export"
         icon="pi pi-upload"
         class="p-button-help"
+        (click)="doExport()"
       ></button>
     </ng-template>
   </p-toolbar>
@@ -159,16 +162,17 @@
     </ng-template>
 
     <ng-template pTemplate="body" let-personalInfo>
+
       <tr>
         <td>
           <p-tableCheckbox [value]="personalInfo"></p-tableCheckbox>
         </td>
-        <td>{{ personalInfo.firstname }}</td>
+        <td pTooltip="personalInfo.firstname" tooltipPosition="top">{{ personalInfo.firstname }}</td>
 
-        <td>{{ personalInfo.lastname }}</td>
-        <td>{{ personalInfo.email }}</td>
-        <td>{{ personalInfo.phoneNumber }}</td>
-        <td>
+        <td pTooltip="personalInfo.lastname" tooltipPosition="top" >{{ personalInfo.lastname }}</td>
+        <td pTooltip="personalInfo.email" tooltipPosition="top" >{{ personalInfo.email }}</td>
+        <td pTooltip="personalInfo.phoneNumber" tooltipPosition="top" >{{ personalInfo.phoneNumber }}</td>
+        <td pTooltip="personalInfo.age" tooltipPosition="top" >
           {{ personalInfo.age }}
         </td>
         <!-- <td>

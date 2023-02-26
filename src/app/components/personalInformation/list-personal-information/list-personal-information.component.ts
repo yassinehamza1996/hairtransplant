@@ -6,6 +6,7 @@ import { PersonalInformation } from '../../models/personal-Information.model';
 import { Product } from '../../models/product';
 import { PersonalInformationService } from '../../services/personalInformation.service';
 import { ShowDashBoardService } from '../../services/showDashBoard.service';
+import * as saveAs from 'file-saver';
 
 @Component({
   selector: 'app-list-personal-information',
@@ -18,13 +19,14 @@ export class ListPersonalInformationComponent implements OnInit {
   presonalInformationList: PersonalInformation[] = [];
   personalInformationSubscription: Subscription;
   product: Product = {};
-  editablePersonInformation : PersonalInformation
+  editablePersonInformation: PersonalInformation;
   selectedPersonalInformation: PersonalInformation[] = [];
   isLoading: boolean = false;
   submitted: boolean | undefined;
+  contents : File[] = []
   @ViewChild('addpersonalInformation')
   addpersonalInformationComponent: AddPersonalInformationComponent;
-  resetPersonalInformationForm : boolean = false;
+  resetPersonalInformationForm: boolean = false;
   constructor(
     private messageService: MessageService,
     private confirmationService: ConfirmationService,
@@ -74,7 +76,7 @@ export class ListPersonalInformationComponent implements OnInit {
               this.messageService.add({
                 severity: 'success',
                 summary: 'Successful',
-                detail: 'presona lInformation List Deleted',
+                detail: 'presonal Information List Deleted',
                 life: 3000,
               });
             },
@@ -112,9 +114,9 @@ export class ListPersonalInformationComponent implements OnInit {
           .subscribe(
             (res) => {
               this.messageService.add({
-                severity: 'success',
+                severity: 'info',
                 summary: 'Successful',
-                detail: 'Personal Information Deleted',
+                detail: 'Personal Information Deleted Successfully',
                 life: 3000,
               });
               this.presonalInformationList =
@@ -132,23 +134,82 @@ export class ListPersonalInformationComponent implements OnInit {
     });
   }
 
-  savePopUpPersonalInformation() {
-    this.addpersonalInformationComponent.doSave().subscribe((value: PersonalInformation) => {
-      let indexOfPerson = this.presonalInformationList.findIndex(res=>res.id == value.id)
-      if(indexOfPerson != -1){
-        this.presonalInformationList[indexOfPerson] = value;
-      }
-      this.presonalInformationList.push(value)
-
-    },
-    (error)=>{
-      this.personalInformationDialog = true;
-    });
-   
+  doExport() {
+    this.personalInformationService
+      .exportToExcel(this.presonalInformationList)
+      .subscribe(
+        (res) => {
+          const blob = new Blob([res.body], {
+            type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+          });
+          const fileName = 'personal-information.xlsx';
+          saveAs(blob, fileName);
+          this.messageService.add({
+            severity: 'success',
+            summary: 'Successful',
+            detail: 'Excel downloaded successfully',
+            life: 3000,
+          });
+        },
+        (err) => {
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Error',
+            detail: 'Error ' + err.message,
+          });
+          console.log(err);
+        }
+      );
   }
 
-  editPersonalInformation(personalInfo : PersonalInformation) {
-    this.editablePersonInformation = personalInfo
+  selectFile(event : any) {
+    this.contents = [event.files[0]]
+    this.doUpload();
+  }
+
+   doUpload() {
+    this.isLoading = true;
+    let content = this.contents[0]
+    let params = {
+      fileName: content.name,
+    }
+
+    this.personalInformationService.importExcelPersonalInformation(this.contents[0]).subscribe(res=>{
+      if(res != undefined){
+        console.log("------import-------------",res);
+        res.forEach((personInfo : PersonalInformation) => {
+         let index = this.presonalInformationList.findIndex((item:PersonalInformation)=> item.id == personInfo.id)
+         if(index ==-1){
+          this.presonalInformationList.push(personInfo)
+         }else{
+          this.presonalInformationList[index] = personInfo
+         }
+        });
+      }
+      this.isLoading = false;
+    })
+  }
+
+
+  savePopUpPersonalInformation() {
+    this.addpersonalInformationComponent.doSave().subscribe(
+      (value: PersonalInformation) => {
+        let indexOfPerson = this.presonalInformationList.findIndex(
+          (res) => res.id == value.id
+        );
+        if (indexOfPerson != -1) {
+          this.presonalInformationList[indexOfPerson] = value;
+        }
+        this.presonalInformationList.push(value);
+      },
+      (error) => {
+        this.personalInformationDialog = true;
+      }
+    );
+  }
+
+  editPersonalInformation(personalInfo: PersonalInformation) {
+    this.editablePersonInformation = personalInfo;
     this.personalInformationDialog = true;
     this.resetPersonalInformationForm = false;
   }

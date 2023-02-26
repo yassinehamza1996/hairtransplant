@@ -70,7 +70,7 @@ export class AppComponent {
     },
     {
       label: 'Goals',
-      icon: 'https://pic.onlinewebfonts.com/svg/img_451982.png',
+      icon: 'https://cdn-icons-png.flaticon.com/512/2618/2618012.png',
       command: () => this.navigateToGoals(),
       tooltipOptions: {
         tooltipLabel : 'Goals',

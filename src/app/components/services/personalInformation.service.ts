@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
@@ -30,4 +30,26 @@ export class PersonalInformationService {
   getCountPersonalInformation(): Observable<any>{
     return this.http.get<any>(environment.apiUrl + this.controllerPath +'/count');
   }
+
+  importExcelPersonalInformation(data: any): Observable<any> {
+    const headers = new HttpHeaders({ 'Content-Type': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' }); 
+    return this.http.post(environment.apiUrl + this.controllerPath + '/import-excel', data, { headers }); 
+  }
+
+  exportToExcel(personalInformationList: PersonalInformation[]): Observable<any> {
+    const headers = new HttpHeaders();
+    
+    const options = {
+      headers: headers,
+      observe: 'response' as 'body',
+      responseType: 'blob' as 'json',
+      body: new Blob([JSON.stringify(personalInformationList)], { type: 'application/json' })
+    };
+   
+    return this.http.request<Blob>('POST', `${environment.apiUrl + this.controllerPath}/export-to-excel`, options);
+  }
+  
+  
+  
+
 }

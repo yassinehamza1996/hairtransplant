@@ -148,7 +148,7 @@
                     let i = index
                   "
                 >
-                  <div [formGroupName]="i" style="margin-top: 12px">
+                  <div [formGroupName]="i" style="margin-top: 12px" key="id">
                     <p-fieldset
                       legend="Medical History Node"
                       [collapsed]="false"
@@ -245,7 +245,19 @@
       </div>
     </div>
     <div *ngIf="showButtons" class="footer-form-cls">
-      <div style="margin-right: 2%">
+      <div style="margin-right: 2%" *ngIf="formPerson == undefined">
+        <button
+          (click)="doSaveCreateScreen()"
+          pButton
+          class="p-button-success"
+          type="submit"
+          icon="pi pi-check"
+          iconPos="left"
+          [disabled]="!myForm.valid"
+          label="Save"
+        ></button>
+      </div>
+      <div style="margin-right: 2%" *ngIf="formPerson != undefined">
         <button
           (click)="doSave()"
           pButton
