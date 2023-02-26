@@ -1,1 +1,131 @@
-<p>add-medical-history works!</p>
+<form [formGroup]="myForm">
+  <div class="grid" class="person-form-cls">
+    <div class="col-12">
+      <div class="card">
+        <h5>Add new Personal Information</h5>
+        <div class="p-fluid p-formgrid grid">
+          <div class="field col-12 md:col-4">
+            <label for="allergies">Allergies</label>
+            <input
+              pInputText
+              formControlName="allergies"
+              class="my-input"
+              #allergiesInput
+              id="allergies"
+              type="text"
+            />
+          </div>
+          <div class="field col-12 md:col-4">
+            <label for="preExistingConditions">PreExisting Conditions</label>
+            <input
+              pInputText
+              class="my-input"
+              formControlName="preExistingConditions"
+              required="true"
+              id="preExistingConditions"
+              #preExistingConditionsInput
+              [placeholder]="
+                (myForm.get('preExistingConditions')?.hasError('required') &&
+                  preExistingConditionsInput.value === '') ||
+                (!myForm.controls['preExistingConditions'].pristine &&
+                  myForm.controls['preExistingConditions'].touched)
+                  ? '* Field is required'
+                  : ''
+              "
+              type="text"
+            />
+          </div>
+          <div class="field col-12 md:col-4">
+            <label for="personalInformation">Personal Information</label>
+            <p-dropdown
+              [options]="listOfPersonInformations"
+              [showClear]="true"
+              appendTo="body"
+              placeholder="Select Personal Information"
+              formControlName="parent"
+              optionLabel="displayedField"
+            ></p-dropdown>
+          </div>
+          <div class="field col-12 md:col-4">
+            <label html for="currentMedications">Current Medications</label>
+            <input
+              pInputTextarea
+              formControlName="currentMedications"
+              class="my-input"
+              id="currentMedications"
+              #currentMedicationsInput
+              rows="4"
+            />
+          </div>
+          <div class="field col-12 md:col-4">
+            <label for="previousTransplants">Previous Transplants</label>
+            <input
+              pInputTextarea
+              formControlName="previousTransplants"
+              class="my-input"
+              id="previousTransplants"
+              #previousTransplantsInput
+              rows="4"
+            />
+          </div>
+          <div class="field col-4 md:col-4 lg:col-4">
+            <label for="dateDataEntry">Date Data Entry</label>
+            <p-calendar
+              formControlName="dateDataEntry"
+              [showIcon]="true"
+              dateFormat="dd/mm/yy"
+              inputId="icon"
+              [showClear]="true"
+              #dateDataEntryInput
+              [placeholder]="
+                (myForm.get('dateDataEntry')?.hasError('required') &&
+                  dateDataEntryInput.value === '') ||
+                (!myForm.controls['dateDataEntry'].pristine &&
+                  myForm.controls['dateDataEntry'].touched)
+                  ? '* Field is required'
+                  : ''
+              "
+            ></p-calendar>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div *ngIf="showButtons" class="footer-form-cls">
+      <div style="margin-right: 2%" *ngIf="formPerson == undefined">
+        <button
+          (click)="doSaveCreateScreen()"
+          pButton
+          class="p-button-success"
+          type="submit"
+          icon="pi pi-check"
+          iconPos="left"
+          [disabled]="!myForm.valid"
+          label="Save"
+        ></button>
+      </div>
+      <div style="margin-right: 2%" *ngIf="formPerson != undefined">
+        <button
+          (click)="doSave()"
+          pButton
+          class="p-button-success"
+          type="submit"
+          icon="pi pi-check"
+          iconPos="left"
+          [disabled]="!myForm.valid"
+          label="Save"
+        ></button>
+      </div>
+      <div>
+        <button
+          pButton
+          class="p-button-danger"
+          icon="pi pi-times"
+          type="reset"
+          label="Reset"
+        ></button>
+      </div>
+    </div>
+  </div>
+</form>
+
+<p-toast position="bottom-right"></p-toast>

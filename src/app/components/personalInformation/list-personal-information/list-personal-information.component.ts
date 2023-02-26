@@ -23,7 +23,8 @@ export class ListPersonalInformationComponent implements OnInit {
   selectedPersonalInformation: PersonalInformation[] = [];
   isLoading: boolean = false;
   submitted: boolean | undefined;
-  contents : File[] = []
+  contents: File[] = [];
+  hideConfirmDialog: boolean = false;
   @ViewChild('addpersonalInformation')
   addpersonalInformationComponent: AddPersonalInformationComponent;
   resetPersonalInformationForm: boolean = false;
@@ -58,6 +59,7 @@ export class ListPersonalInformationComponent implements OnInit {
   }
 
   deleteSelectedPersonalInformation() {
+    this.hideConfirmDialog = false;
     this.confirmationService.confirm({
       message:
         'Are you sure you want to delete the selected personal Information List?',
@@ -97,6 +99,7 @@ export class ListPersonalInformationComponent implements OnInit {
     this.submitted = false;
     this.personalInformationDialog = true;
     this.resetPersonalInformationForm = true;
+    this.hideConfirmDialog = true;
   }
   getAllPossibleValues(event: any) {
     console.log(event);
@@ -133,7 +136,33 @@ export class ListPersonalInformationComponent implements OnInit {
       },
     });
   }
-
+  doExportSelectedItems() {
+    this.personalInformationService
+      .exportToExcel(this.selectedPersonalInformation)
+      .subscribe(
+        (res) => {
+          const blob = new Blob([res.body], {
+            type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+          });
+          const fileName = 'personal-information.xlsx';
+          saveAs(blob, fileName);
+          this.messageService.add({
+            severity: 'success',
+            summary: 'Successful',
+            detail: 'Excel downloaded successfully',
+            life: 3000,
+          });
+        },
+        (err) => {
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Error',
+            detail: 'Error ' + err.message,
+          });
+          console.log(err);
+        }
+      );
+  }
   doExport() {
     this.personalInformationService
       .exportToExcel(this.presonalInformationList)
@@ -162,34 +191,37 @@ export class ListPersonalInformationComponent implements OnInit {
       );
   }
 
-  selectFile(event : any) {
-    this.contents = [event.files[0]]
+  selectFile(event: any) {
+    this.contents = [event.files[0]];
     this.doUpload();
   }
 
-   doUpload() {
+  doUpload() {
     this.isLoading = true;
-    let content = this.contents[0]
+    let content = this.contents[0];
     let params = {
       fileName: content.name,
-    }
+    };
 
-    this.personalInformationService.importExcelPersonalInformation(this.contents[0]).subscribe(res=>{
-      if(res != undefined){
-        console.log("------import-------------",res);
-        res.forEach((personInfo : PersonalInformation) => {
-         let index = this.presonalInformationList.findIndex((item:PersonalInformation)=> item.id == personInfo.id)
-         if(index ==-1){
-          this.presonalInformationList.push(personInfo)
-         }else{
-          this.presonalInformationList[index] = personInfo
-         }
-        });
-      }
-      this.isLoading = false;
-    })
+    this.personalInformationService
+      .importExcelPersonalInformation(this.contents[0])
+      .subscribe((res) => {
+        if (res != undefined) {
+          console.log('------import-------------', res);
+          res.forEach((personInfo: PersonalInformation) => {
+            let index = this.presonalInformationList.findIndex(
+              (item: PersonalInformation) => item.id == personInfo.id
+            );
+            if (index == -1) {
+              this.presonalInformationList.push(personInfo);
+            } else {
+              this.presonalInformationList[index] = personInfo;
+            }
+          });
+        }
+        this.isLoading = false;
+      });
   }
-
 
   savePopUpPersonalInformation() {
     this.addpersonalInformationComponent.doSave().subscribe(

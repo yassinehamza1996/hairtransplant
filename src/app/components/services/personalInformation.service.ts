@@ -8,48 +8,82 @@ import { PersonalInformation } from '../models/personal-Information.model';
   providedIn: 'root',
 })
 export class PersonalInformationService {
-
-   controllerPath = "PersonalInformations"
+  controllerPath = 'PersonalInformations';
 
   constructor(private http: HttpClient) {}
 
   findAllPersonalInformation(): Observable<any> {
-    return this.http.get<any>(environment.apiUrl + this.controllerPath + '/search/all');
-  }
-  savePersonalInformation(personalInfo: PersonalInformation): Observable<any> {
-    return this.http.post(environment.apiUrl + this.controllerPath + '/save', personalInfo);
+    return this.http.get<any>(
+      environment.apiUrl + this.controllerPath + '/search/all'
+    );
   }
 
-  deletePersonalInformation(personalInfo: PersonalInformation): Observable<any> {
-    return this.http.delete(environment.apiUrl + this.controllerPath + '/delete/'+personalInfo.id);
+  findAllOnlyIdAndMail() : Observable<any>{
+    return this.http.get<any>(
+      environment.apiUrl + this.controllerPath + '/fetchwithidandmail/all'
+    );
   }
- 
-  deleteSelectedPersonalInformation(personalInformations: PersonalInformation[]): Observable<void> {
-    return this.http.request<void>('DELETE', `${environment.apiUrl + this.controllerPath}/delete/all`, { body: personalInformations });
+
+  savePersonalInformation(personalInfo: PersonalInformation): Observable<any> {
+    return this.http.post(
+      environment.apiUrl + this.controllerPath + '/save',
+      personalInfo
+    );
   }
-  getCountPersonalInformation(): Observable<any>{
-    return this.http.get<any>(environment.apiUrl + this.controllerPath +'/count');
+
+  deletePersonalInformation(
+    personalInfo: PersonalInformation
+  ): Observable<any> {
+    return this.http.delete(
+      environment.apiUrl + this.controllerPath + '/delete/' + personalInfo.id
+    );
+  }
+
+  deleteSelectedPersonalInformation(
+    personalInformations: PersonalInformation[]
+  ): Observable<void> {
+    return this.http.request<void>(
+      'DELETE',
+      `${environment.apiUrl + this.controllerPath}/delete/all`,
+      { body: personalInformations }
+    );
+  }
+  getCountPersonalInformation(): Observable<any> {
+    return this.http.get<any>(
+      environment.apiUrl + this.controllerPath + '/count'
+    );
   }
 
   importExcelPersonalInformation(data: any): Observable<any> {
-    const headers = new HttpHeaders({ 'Content-Type': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' }); 
-    return this.http.post(environment.apiUrl + this.controllerPath + '/import-excel', data, { headers }); 
+    const headers = new HttpHeaders({
+      'Content-Type':
+        'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+    });
+    return this.http.post(
+      environment.apiUrl + this.controllerPath + '/import-excel',
+      data,
+      { headers }
+    );
   }
 
-  exportToExcel(personalInformationList: PersonalInformation[]): Observable<any> {
+  exportToExcel(
+    personalInformationList: PersonalInformation[]
+  ): Observable<any> {
     const headers = new HttpHeaders();
-    
+
     const options = {
       headers: headers,
       observe: 'response' as 'body',
       responseType: 'blob' as 'json',
-      body: new Blob([JSON.stringify(personalInformationList)], { type: 'application/json' })
+      body: new Blob([JSON.stringify(personalInformationList)], {
+        type: 'application/json',
+      }),
     };
-   
-    return this.http.request<Blob>('POST', `${environment.apiUrl + this.controllerPath}/export-to-excel`, options);
-  }
-  
-  
-  
 
+    return this.http.request<Blob>(
+      'POST',
+      `${environment.apiUrl + this.controllerPath}/export-to-excel`,
+      options
+    );
+  }
 }

@@ -20,6 +20,7 @@ export class AddPersonalInformationComponent implements OnInit {
   @Input() showButtons: boolean;
   @Input() formPerson: PersonalInformation;
   @Input() resetPersonalInformationForm: boolean;
+  showEditTitle: boolean = false;
   constructor(
     private formBuilder: FormBuilder,
     private route: ActivatedRoute,
@@ -48,6 +49,7 @@ export class AddPersonalInformationComponent implements OnInit {
       this.formPerson != undefined &&
       this.resetPersonalInformationForm == false
     ) {
+      this.showEditTitle = true;
       console.log(this.formPerson);
       this.myForm.controls['address'].setValue(this.formPerson.address);
       this.myForm.controls['firstname'].setValue(this.formPerson.firstname);
@@ -66,11 +68,12 @@ export class AddPersonalInformationComponent implements OnInit {
     } else {
       this.addMedicalHistory();
     }
+  
   }
 
   createForm(): FormGroup<any> {
     return this.formBuilder.group({
-      id : [null , null],
+      id: [null, null],
       firstname: [null, [Validators.required]],
       lastname: [null, [Validators.required]],
       address: [null, [Validators.required]],
@@ -81,17 +84,33 @@ export class AddPersonalInformationComponent implements OnInit {
     });
   }
 
+  getTodaysDate(): string {
+    const today = new Date();
+    const day = today.getDate().toString().padStart(2, '0');
+    const month = (today.getMonth() + 1).toString().padStart(2, '0');
+    const year = today.getFullYear().toString().slice(-2);
+    const todayFormatted = `${day}/${month}/${year}`;
+    return todayFormatted;
+  }
+
+  parseToDate(dateString: string) {
+    const [day, month, year] = dateString.split('/').map(Number);
+    const date = new Date(year + 2000, month - 1, day);
+    return date;
+  }
+
   get medicalHistoryGroupArray() {
     return this.myForm.get('medicalHistoryList') as FormArray;
   }
 
   newMedicalHistoryGroup(): FormGroup {
     return this.formBuilder.group({
+      id: '',
       preExistingConditions: '',
       currentMedications: '',
       allergies: '',
       previousTransplants: '',
-      dateDataEntry: null,
+      dateDataEntry: !this.showEditTitle ? this.parseToDate(this.getTodaysDate()) : null,
       personalInformation: this.myForm.value,
     });
   }
@@ -119,12 +138,19 @@ export class AddPersonalInformationComponent implements OnInit {
       icon: 'pi pi-exclamation-triangle',
       accept: () => {
         this.medicalHistoryGroupArray.removeAt(i);
-        return
+        return;
+      },
+      reject: () => {
+        this.messageService.add({
+          severity: 'info',
+          summary: 'Rejected',
+          detail: 'You have rejected',
+        });
       },
     });
   }
 
-  doSaveCreateScreen(){
+  doSaveCreateScreen() {
     if (
       this.myForm.value.medicalHistoryList != undefined &&
       this.myForm.value.medicalHistoryList.length != 0
@@ -138,39 +164,38 @@ export class AddPersonalInformationComponent implements OnInit {
           email: this.myForm.value.email,
           phoneNumber: this.myForm.value.phoneNumber,
         };
-        if(typeof res.dateDataEntry === "string"){
+        if (typeof res.dateDataEntry === 'string') {
           res.dateDataEntry = this.formatToLongDate(res.dateDataEntry);
         }
       });
     }
 
-    this.personalInformationService.savePersonalInformation(this.myForm.value).subscribe(
-      (value) => {
-        this.messageService.add({
-          severity: 'success',
-          summary: 'success',
-          detail: this.myForm.value['firstname'] + ' Saved Successfully',
-        });
-        setTimeout(() => {
-          // code to execute after 1 second
-          this.router.navigate(['/listpersonalinformation']);
-        }, 1000);
-
-      },
-      (error) => {
-        this.messageService.add({
-          severity: 'error',
-          summary: 'Error',
-          detail: 'Error ' + error.message,
-        });
-        console.log(error)
-      }
-    );
-    
+    this.personalInformationService
+      .savePersonalInformation(this.myForm.value)
+      .subscribe(
+        (value) => {
+          this.messageService.add({
+            severity: 'success',
+            summary: 'success',
+            detail: this.myForm.value['firstname'] + ' Saved Successfully',
+          });
+          setTimeout(() => {
+            // code to execute after 1 second
+            this.router.navigate(['/listpersonalinformation']);
+          }, 1000);
+        },
+        (error) => {
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Error',
+            detail: 'Error ' + error.message,
+          });
+          console.log(error);
+        }
+      );
   }
 
   doSave(): Observable<PersonalInformation> {
-    
     if (
       this.myForm.value.medicalHistoryList != undefined &&
       this.myForm.value.medicalHistoryList.length != 0
@@ -184,7 +209,7 @@ export class AddPersonalInformationComponent implements OnInit {
           email: this.myForm.value.email,
           phoneNumber: this.myForm.value.phoneNumber,
         };
-        if(typeof res.dateDataEntry === "string"){
+        if (typeof res.dateDataEntry === 'string') {
           res.dateDataEntry = this.formatToLongDate(res.dateDataEntry);
         }
       });
@@ -208,7 +233,7 @@ export class AddPersonalInformationComponent implements OnInit {
             summary: 'Error',
             detail: 'Error ' + error.message,
           });
-          console.log(error)
+          console.log(error);
           return throwError(error);
         })
       );
@@ -222,11 +247,10 @@ export class AddPersonalInformationComponent implements OnInit {
   }
 
   formatToLongDate(dateString: string): string {
+    let parts = dateString.split('/');
+    let dateObject = new Date(+parts[2], +parts[1] - 1, +parts[0], 0, 0, 0, 0);
+    let isoString = dateObject.toISOString();
 
-      let parts = dateString.split('/');
-      let dateObject = new Date(+parts[2], +parts[1] - 1, +parts[0], 0, 0, 0, 0);
-      let isoString = dateObject.toISOString();
-    
     return isoString;
   }
 }

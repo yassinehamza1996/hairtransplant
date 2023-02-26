@@ -2,7 +2,13 @@
   <div class="grid" class="person-form-cls">
     <div class="col-12">
       <div class="card">
-        <h5>Add new Personal Information</h5>
+        <div *ngIf="!showEditTitle">
+          <h5>Add new Personal Information</h5>
+        </div>
+        <div
+          *ngIf="showEditTitle">
+          <h5>Edit Personal Information</h5>
+        </div>
         <div class="p-fluid p-formgrid grid">
           <div class="field col-12 md:col-6">
             <label for="firstname">Firstname</label>

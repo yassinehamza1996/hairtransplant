@@ -1,7 +1,7 @@
 import { environment } from 'src/environments/environment';
 import { MedicalHistory } from './../models/medicalHistory.model';
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 
@@ -37,7 +37,25 @@ export class MedicalHistoryService {
         return this.http.delete(`${environment.apiUrl + this.controllerPath}/delete/${id}`);
     }
     
-    deleteSelectedPersonalInformation(medicalHistorys: MedicalHistory[]): Observable<void> {
+    deleteSelectedMedicalHistory(medicalHistorys: MedicalHistory[]): Observable<void> {
         return this.http.request<void>('DELETE', `${environment.apiUrl + this.controllerPath}/delete/all`, { body: medicalHistorys });
     }
+    
+    importExcelMedicalHistory(data: any): Observable<any> {
+        const headers = new HttpHeaders({ 'Content-Type': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' }); 
+        return this.http.post(environment.apiUrl + this.controllerPath + '/import-excel', data, { headers }); 
+      }
+    
+      exportToExcel(MedicalHistoryList: MedicalHistory[]): Observable<any> {
+        const headers = new HttpHeaders();
+        
+        const options = {
+          headers: headers,
+          observe: 'response' as 'body',
+          responseType: 'blob' as 'json',
+          body: new Blob([JSON.stringify(MedicalHistoryList)], { type: 'application/json' })
+        };
+       
+        return this.http.request<Blob>('POST', `${environment.apiUrl + this.controllerPath}/export-to-excel`, options);
+      }
 }

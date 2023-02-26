@@ -37,11 +37,26 @@
       <button
         pButton
         pRipple
-        label="Export"
+        label="Export All Items"
         icon="pi pi-upload"
         class="p-button-help"
         (click)="doExport()"
       ></button>
+      <div
+        tooltipPosition="top"
+        pTooltip="Select Items From table"
+        style="margin-left: 10px"
+      >
+        <button
+          pButton
+          pRipple
+          label="Export Selected Items"
+          icon="pi pi-upload"
+          [disabled]="selectedPersonalInformation.length == 0"
+          class="p-button-help"
+          (click)="doExportSelectedItems()"
+        ></button>
+      </div>
     </ng-template>
   </p-toolbar>
 
@@ -162,17 +177,24 @@
     </ng-template>
 
     <ng-template pTemplate="body" let-personalInfo>
-
       <tr>
         <td>
           <p-tableCheckbox [value]="personalInfo"></p-tableCheckbox>
         </td>
-        <td pTooltip="personalInfo.firstname" tooltipPosition="top">{{ personalInfo.firstname }}</td>
+        <td pTooltip="{{ personalInfo.firstname }}" tooltipPosition="top">
+          {{ personalInfo.firstname }}
+        </td>
 
-        <td pTooltip="personalInfo.lastname" tooltipPosition="top" >{{ personalInfo.lastname }}</td>
-        <td pTooltip="personalInfo.email" tooltipPosition="top" >{{ personalInfo.email }}</td>
-        <td pTooltip="personalInfo.phoneNumber" tooltipPosition="top" >{{ personalInfo.phoneNumber }}</td>
-        <td pTooltip="personalInfo.age" tooltipPosition="top" >
+        <td pTooltip="{{ personalInfo.lastname }}" tooltipPosition="top">
+          {{ personalInfo.lastname }}
+        </td>
+        <td pTooltip="{{ personalInfo.email }}" tooltipPosition="top">
+          {{ personalInfo.email }}
+        </td>
+        <td pTooltip="{{ personalInfo.phoneNumber }}" tooltipPosition="top">
+          {{ personalInfo.phoneNumber }}
+        </td>
+        <td pTooltip="{{ personalInfo.age }}" tooltipPosition="top">
           {{ personalInfo.age }}
         </td>
         <!-- <td>
@@ -329,4 +351,6 @@
   </ng-template>
 </p-dialog>
 
-<p-confirmDialog [style]="{ width: '450px' }"></p-confirmDialog>
+<div *ngIf="!hideConfirmDialog">
+  <p-confirmDialog [style]="{ width: '450px' }"></p-confirmDialog>
+</div>
