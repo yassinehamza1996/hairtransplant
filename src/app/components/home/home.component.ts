@@ -1,8 +1,6 @@
 import { MedicalHistoryService } from './../services/medicalHistory.service';
 import { Subscription } from 'rxjs';
 import { PersonalInformationService } from './../services/personalInformation.service';
-import { PersonalInformation } from './../models/personal-Information.model';
-import { ShowDashBoardService } from '../services/showDashBoard.service';
 import { Component, Input, OnInit } from '@angular/core';
 import { PhotoService } from '../services/photoService.service';
 

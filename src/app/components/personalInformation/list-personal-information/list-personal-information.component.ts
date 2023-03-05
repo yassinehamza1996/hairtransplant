@@ -2,11 +2,11 @@ import { AddPersonalInformationComponent } from './../add-personal-information/a
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { Subscription } from 'rxjs';
-import { PersonalInformation } from '../../models/personal-Information.model';
-import { Product } from '../../models/product';
 import { PersonalInformationService } from '../../services/personalInformation.service';
 import { ShowDashBoardService } from '../../services/showDashBoard.service';
 import * as saveAs from 'file-saver';
+import { PersonalInformation } from 'src/core/models/personal-Information.model';
+import { Product } from 'src/core/models/product';
 
 @Component({
   selector: 'app-list-personal-information',
@@ -32,7 +32,7 @@ export class ListPersonalInformationComponent implements OnInit {
     private messageService: MessageService,
     private confirmationService: ConfirmationService,
     private personalInformationService: PersonalInformationService,
-    private showDashboardService: ShowDashBoardService
+    private showDashboardService: ShowDashBoardService,
   ) {}
 
   ngOnInit() {
@@ -231,8 +231,9 @@ export class ListPersonalInformationComponent implements OnInit {
         );
         if (indexOfPerson != -1) {
           this.presonalInformationList[indexOfPerson] = value;
+        }else{
+          this.presonalInformationList.push(value);
         }
-        this.presonalInformationList.push(value);
       },
       (error) => {
         this.personalInformationDialog = true;

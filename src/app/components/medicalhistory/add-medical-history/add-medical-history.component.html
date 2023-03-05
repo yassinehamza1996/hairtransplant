@@ -2,7 +2,7 @@
   <div class="grid" class="person-form-cls">
     <div class="col-12">
       <div class="card">
-        <h5>Add new Personal Information</h5>
+        <h5>Add new Medical History</h5>
         <div class="p-fluid p-formgrid grid">
           <div class="field col-12 md:col-4">
             <label for="allergies">Allergies</label>
@@ -36,7 +36,7 @@
             />
           </div>
           <div class="field col-12 md:col-4">
-            <label for="personalInformation">Personal Information</label>
+            <label for="personalInformation">Medical History</label>
             <p-dropdown
               [options]="listOfPersonInformations"
               [showClear]="true"
@@ -74,7 +74,10 @@
               formControlName="dateDataEntry"
               [showIcon]="true"
               dateFormat="dd/mm/yy"
+              [showTime]="false"
               inputId="icon"
+              appendTo="body"
+              (onSelect)="onSelectDate()"
               [showClear]="true"
               #dateDataEntryInput
               [placeholder]="
@@ -91,7 +94,7 @@
       </div>
     </div>
     <div *ngIf="showButtons" class="footer-form-cls">
-      <div style="margin-right: 2%" *ngIf="formPerson == undefined">
+      <div style="margin-right: 2%" *ngIf="formMedical == undefined">
         <button
           (click)="doSaveCreateScreen()"
           pButton
@@ -103,7 +106,7 @@
           label="Save"
         ></button>
       </div>
-      <div style="margin-right: 2%" *ngIf="formPerson != undefined">
+      <div style="margin-right: 2%" *ngIf="formMedical != undefined">
         <button
           (click)="doSave()"
           pButton

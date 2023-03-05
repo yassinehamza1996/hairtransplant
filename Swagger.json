@@ -1,0 +1,1363 @@
+{
+  "openapi" : "3.0.1",
+  "info" : {
+    "title" : "HairTransplant APIS",
+    "description" : "API DOCUMENTATION",
+    "version" : "1.0.0"
+  },
+  "servers" : [ {
+    "url" : "http://localhost:8080",
+    "description" : "Generated server url"
+  } ],
+  "paths" : {
+    "/api/medicalHistoryController/update/{id}" : {
+      "put" : {
+        "tags" : [ "medical-history-controller" ],
+        "operationId" : "updateMedicalHistory",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "integer",
+            "format" : "int64"
+          }
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/MedicalHistory"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "*/*" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/MedicalHistory"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/lifeStyleController/update/{id}" : {
+      "put" : {
+        "tags" : [ "life-style-controller" ],
+        "operationId" : "updateLifeStyle",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "integer",
+            "format" : "int64"
+          }
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/LifeStyle"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "*/*" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/LifeStyle"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/hairLossController/update/{id}" : {
+      "put" : {
+        "tags" : [ "hair-loss-controller" ],
+        "operationId" : "updateHairLoss",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "integer",
+            "format" : "int64"
+          }
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/HairLoss"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "*/*" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/HairLoss"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/goalsController/update/{id}" : {
+      "put" : {
+        "tags" : [ "goals-controller" ],
+        "operationId" : "updateGoals",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "integer",
+            "format" : "int64"
+          }
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/Goals"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "*/*" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Goals"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/clientVisitController/update/{id}" : {
+      "put" : {
+        "tags" : [ "client-visit-controller" ],
+        "operationId" : "updateClientVisit",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "integer",
+            "format" : "int64"
+          }
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/ClientVisit"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "*/*" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ClientVisit"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/PersonalInformations/update/{id}" : {
+      "put" : {
+        "tags" : [ "personal-information-controller" ],
+        "operationId" : "updatePersonalInformation",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "integer",
+            "format" : "int64"
+          }
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/PersonalInformation"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "*/*" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/PersonalInformation"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/medicalHistoryController/save" : {
+      "post" : {
+        "tags" : [ "medical-history-controller" ],
+        "operationId" : "createMedicalHistory",
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/MedicalHistory"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "*/*" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/MedicalHistory"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/medicalHistoryController/import-excel" : {
+      "post" : {
+        "tags" : [ "medical-history-controller" ],
+        "operationId" : "importExcel",
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "type" : "object",
+                "properties" : {
+                  "short" : {
+                    "type" : "integer",
+                    "format" : "int32"
+                  },
+                  "char" : {
+                    "type" : "string"
+                  },
+                  "int" : {
+                    "type" : "integer",
+                    "format" : "int32"
+                  },
+                  "long" : {
+                    "type" : "integer",
+                    "format" : "int64"
+                  },
+                  "float" : {
+                    "type" : "number",
+                    "format" : "float"
+                  },
+                  "double" : {
+                    "type" : "number",
+                    "format" : "double"
+                  },
+                  "direct" : {
+                    "type" : "boolean"
+                  },
+                  "readOnly" : {
+                    "type" : "boolean"
+                  }
+                }
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "*/*" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/components/schemas/MedicalHistory"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/medicalHistoryController/export-to-excel" : {
+      "post" : {
+        "tags" : [ "medical-history-controller" ],
+        "operationId" : "exportPersonalInformationToExcel",
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "type" : "array",
+                "items" : {
+                  "$ref" : "#/components/schemas/MedicalHistory"
+                }
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "*/*" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "type" : "string",
+                    "format" : "byte"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/lifeStyleController/save" : {
+      "post" : {
+        "tags" : [ "life-style-controller" ],
+        "operationId" : "createLifeStyle",
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/LifeStyle"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "*/*" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/LifeStyle"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/hairLossController/save" : {
+      "post" : {
+        "tags" : [ "hair-loss-controller" ],
+        "operationId" : "createHairLoss",
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/HairLoss"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "*/*" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/HairLoss"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/goalsController/save" : {
+      "post" : {
+        "tags" : [ "goals-controller" ],
+        "operationId" : "createGoals",
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/Goals"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "*/*" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Goals"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/clientVisitController/save" : {
+      "post" : {
+        "tags" : [ "client-visit-controller" ],
+        "operationId" : "createClientVisit",
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/ClientVisit"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "*/*" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ClientVisit"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/PersonalInformations/save" : {
+      "post" : {
+        "tags" : [ "personal-information-controller" ],
+        "operationId" : "createPersonalInformation",
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/PersonalInformation"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "*/*" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/PersonalInformation"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/PersonalInformations/import-excel" : {
+      "post" : {
+        "tags" : [ "personal-information-controller" ],
+        "operationId" : "importExcel_1",
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "type" : "object",
+                "properties" : {
+                  "short" : {
+                    "type" : "integer",
+                    "format" : "int32"
+                  },
+                  "char" : {
+                    "type" : "string"
+                  },
+                  "int" : {
+                    "type" : "integer",
+                    "format" : "int32"
+                  },
+                  "long" : {
+                    "type" : "integer",
+                    "format" : "int64"
+                  },
+                  "float" : {
+                    "type" : "number",
+                    "format" : "float"
+                  },
+                  "double" : {
+                    "type" : "number",
+                    "format" : "double"
+                  },
+                  "direct" : {
+                    "type" : "boolean"
+                  },
+                  "readOnly" : {
+                    "type" : "boolean"
+                  }
+                }
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "*/*" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/components/schemas/PersonalInformation"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/PersonalInformations/export-to-excel" : {
+      "post" : {
+        "tags" : [ "personal-information-controller" ],
+        "operationId" : "exportPersonalInformationToExcel_1",
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "type" : "array",
+                "items" : {
+                  "$ref" : "#/components/schemas/PersonalInformation"
+                }
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "*/*" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "type" : "string",
+                    "format" : "byte"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/exportSwagger/json" : {
+      "get" : {
+        "tags" : [ "swagger-exporter" ],
+        "operationId" : "downloadJsonData",
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "*/*" : {
+                "schema" : {
+                  "type" : "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/medicalHistoryController/{id}" : {
+      "get" : {
+        "tags" : [ "medical-history-controller" ],
+        "operationId" : "getMedicalHistoryById",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "integer",
+            "format" : "int64"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "*/*" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/MedicalHistory"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/medicalHistoryController/search/all" : {
+      "get" : {
+        "tags" : [ "medical-history-controller" ],
+        "operationId" : "getAllMedicalHistorys",
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "*/*" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/components/schemas/MedicalHistory"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/medicalHistoryController/count" : {
+      "get" : {
+        "tags" : [ "medical-history-controller" ],
+        "operationId" : "getCountMedicalHistorys",
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "*/*" : {
+                "schema" : {
+                  "type" : "integer",
+                  "format" : "int64"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/lifeStyleController/{id}" : {
+      "get" : {
+        "tags" : [ "life-style-controller" ],
+        "operationId" : "getLifeStyleById",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "integer",
+            "format" : "int64"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "*/*" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/LifeStyle"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/lifeStyleController/search/all" : {
+      "get" : {
+        "tags" : [ "life-style-controller" ],
+        "operationId" : "getAllLifeStyles",
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "*/*" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/components/schemas/LifeStyle"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/hairLossController/{id}" : {
+      "get" : {
+        "tags" : [ "hair-loss-controller" ],
+        "operationId" : "getHairLossById",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "integer",
+            "format" : "int64"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "*/*" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/HairLoss"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/hairLossController/search/all" : {
+      "get" : {
+        "tags" : [ "hair-loss-controller" ],
+        "operationId" : "getAllHairLosss",
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "*/*" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/components/schemas/HairLoss"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/goalsController/{id}" : {
+      "get" : {
+        "tags" : [ "goals-controller" ],
+        "operationId" : "getGoalsById",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "integer",
+            "format" : "int64"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "*/*" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Goals"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/goalsController/search/all" : {
+      "get" : {
+        "tags" : [ "goals-controller" ],
+        "operationId" : "getAllGoalss",
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "*/*" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/components/schemas/Goals"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/clientVisitController/{id}" : {
+      "get" : {
+        "tags" : [ "client-visit-controller" ],
+        "operationId" : "getClientVisitById",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "integer",
+            "format" : "int64"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "*/*" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ClientVisit"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/clientVisitController/search/all" : {
+      "get" : {
+        "tags" : [ "client-visit-controller" ],
+        "operationId" : "getAllClientVisits",
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "*/*" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/components/schemas/ClientVisit"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/PersonalInformations/{id}" : {
+      "get" : {
+        "tags" : [ "personal-information-controller" ],
+        "operationId" : "getPersonalInformationById",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "integer",
+            "format" : "int64"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "*/*" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/PersonalInformation"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/PersonalInformations/search/all" : {
+      "get" : {
+        "tags" : [ "personal-information-controller" ],
+        "operationId" : "getAllPersonalInformations",
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "*/*" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/components/schemas/PersonalInformation"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/PersonalInformations/fetchwithidandmail/all" : {
+      "get" : {
+        "tags" : [ "personal-information-controller" ],
+        "operationId" : "getAllPersonalInformationsIdMail",
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "*/*" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/components/schemas/PersonalInformation"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/PersonalInformations/count" : {
+      "get" : {
+        "tags" : [ "personal-information-controller" ],
+        "operationId" : "getCountPersonalInformations",
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "*/*" : {
+                "schema" : {
+                  "type" : "integer",
+                  "format" : "int64"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/medicalHistoryController/delete/{id}" : {
+      "delete" : {
+        "tags" : [ "medical-history-controller" ],
+        "operationId" : "deleteMedicalHistory",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "integer",
+            "format" : "int64"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "*/*" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/MedicalHistory"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/medicalHistoryController/delete/all" : {
+      "delete" : {
+        "tags" : [ "medical-history-controller" ],
+        "operationId" : "deleteAllmedicalHistory",
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "type" : "array",
+                "items" : {
+                  "$ref" : "#/components/schemas/MedicalHistory"
+                }
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "*/*" : {
+                "schema" : {
+                  "type" : "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/lifeStyleController/delete/{id}" : {
+      "delete" : {
+        "tags" : [ "life-style-controller" ],
+        "operationId" : "deleteLifeStyle",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "integer",
+            "format" : "int64"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "*/*" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/LifeStyle"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/hairLossController/delete/{id}" : {
+      "delete" : {
+        "tags" : [ "hair-loss-controller" ],
+        "operationId" : "deleteHairLoss",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "integer",
+            "format" : "int64"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "*/*" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/HairLoss"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/goalsController/delete/{id}" : {
+      "delete" : {
+        "tags" : [ "goals-controller" ],
+        "operationId" : "deleteGoals",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "integer",
+            "format" : "int64"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "*/*" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Goals"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/clientVisitController/delete/{id}" : {
+      "delete" : {
+        "tags" : [ "client-visit-controller" ],
+        "operationId" : "deleteClientVisit",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "integer",
+            "format" : "int64"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "*/*" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ClientVisit"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/PersonalInformations/delete/{id}" : {
+      "delete" : {
+        "tags" : [ "personal-information-controller" ],
+        "operationId" : "deletePersonalInformation",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "integer",
+            "format" : "int64"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "*/*" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/PersonalInformation"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/PersonalInformations/delete/all" : {
+      "delete" : {
+        "tags" : [ "personal-information-controller" ],
+        "operationId" : "deleteAllPersonalInformations",
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "type" : "array",
+                "items" : {
+                  "$ref" : "#/components/schemas/PersonalInformation"
+                }
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "*/*" : {
+                "schema" : {
+                  "type" : "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components" : {
+    "schemas" : {
+      "MedicalHistory" : {
+        "type" : "object",
+        "properties" : {
+          "id" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "preExistingConditions" : {
+            "type" : "string"
+          },
+          "currentMedications" : {
+            "type" : "string"
+          },
+          "allergies" : {
+            "type" : "string"
+          },
+          "previousTransplants" : {
+            "type" : "string"
+          },
+          "dateDataEntry" : {
+            "type" : "string",
+            "format" : "date-time"
+          },
+          "parent" : {
+            "type" : "string",
+            "writeOnly" : true
+          },
+          "stringParent" : {
+            "type" : "string"
+          },
+          "idParent" : {
+            "type" : "string"
+          }
+        }
+      },
+      "LifeStyle" : {
+        "type" : "object",
+        "properties" : {
+          "id" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "personalInformation" : {
+            "$ref" : "#/components/schemas/PersonalInformation"
+          },
+          "diet" : {
+            "type" : "string"
+          },
+          "exercise" : {
+            "type" : "string"
+          },
+          "alcohol" : {
+            "type" : "string",
+            "enum" : [ "YES", "NO" ]
+          },
+          "tobacco" : {
+            "type" : "string",
+            "enum" : [ "YES", "NO" ]
+          },
+          "dateDataEntry" : {
+            "type" : "string",
+            "format" : "date"
+          }
+        }
+      },
+      "PersonalInformation" : {
+        "type" : "object",
+        "properties" : {
+          "id" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "firstname" : {
+            "type" : "string"
+          },
+          "lastname" : {
+            "type" : "string"
+          },
+          "address" : {
+            "type" : "string"
+          },
+          "email" : {
+            "type" : "string"
+          },
+          "phoneNumber" : {
+            "type" : "string"
+          },
+          "age" : {
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "medicalHistoryList" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/MedicalHistory"
+            }
+          }
+        }
+      },
+      "HairLoss" : {
+        "type" : "object",
+        "properties" : {
+          "id" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "personalInformation" : {
+            "$ref" : "#/components/schemas/PersonalInformation"
+          },
+          "cause" : {
+            "type" : "string"
+          },
+          "extent" : {
+            "type" : "string"
+          },
+          "pattern" : {
+            "type" : "string"
+          },
+          "dateDataEntry" : {
+            "type" : "string",
+            "format" : "date"
+          }
+        }
+      },
+      "Goals" : {
+        "type" : "object",
+        "properties" : {
+          "id" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "personalInformation" : {
+            "$ref" : "#/components/schemas/PersonalInformation"
+          },
+          "expectations" : {
+            "type" : "string"
+          },
+          "outcome" : {
+            "type" : "string"
+          },
+          "budget" : {
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "dateDataEntry" : {
+            "type" : "string",
+            "format" : "date"
+          }
+        }
+      },
+      "ClientVisit" : {
+        "type" : "object",
+        "properties" : {
+          "id" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "personalInformation" : {
+            "$ref" : "#/components/schemas/PersonalInformation"
+          },
+          "salesperson" : {
+            "type" : "string"
+          },
+          "salesManager" : {
+            "type" : "string"
+          },
+          "visitDate" : {
+            "type" : "string",
+            "format" : "date"
+          }
+        }
+      }
+    }
+  }
+}

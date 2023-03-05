@@ -1,7 +1,5 @@
 import { MedicalHistoryService } from './../../services/medicalHistory.service';
 import { Component } from '@angular/core';
-import { MedicalHistory } from './../../models/medicalHistory.model';
-import { PersonalInformation } from './../../models/personal-Information.model';
 import { PersonalInformationService } from './../../services/personalInformation.service';
 import { ShowDashBoardService } from '../../services/showDashBoard.service';
 import { Input, OnInit } from '@angular/core';
@@ -9,10 +7,12 @@ import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { catchError, Observable, tap, throwError, Subscription } from 'rxjs';
+import { MedicalHistory } from 'src/core/models/medicalHistory.model';
+import { PersonalInformation } from 'src/core/models/personal-Information.model';
 @Component({
   selector: 'app-add-medical-history',
   templateUrl: './add-medical-history.component.html',
-  styleUrls: ['./add-medical-history.component.scss']
+  styleUrls: ['./add-medical-history.component.scss'],
 })
 export class AddMedicalHistoryComponent implements OnInit {
   dropdownItems: any;
@@ -20,10 +20,10 @@ export class AddMedicalHistoryComponent implements OnInit {
   currentPath: string = '';
   medicalNodeResult: MedicalHistory;
   @Input() showButtons: boolean;
-  @Input() formPerson: PersonalInformation;
-  @Input() resetPersonalInformationForm: boolean;
-  listOfPersonInformations : PersonalInformation[]=[]
-  subscription : Subscription = new Subscription();
+  @Input() formMedical: MedicalHistory;
+  @Input() resetmedicalHistoryForm: boolean;
+  listOfPersonInformations: PersonalInformation[] = [];
+  subscription: Subscription = new Subscription();
   constructor(
     private formBuilder: FormBuilder,
     private route: ActivatedRoute,
@@ -32,7 +32,7 @@ export class AddMedicalHistoryComponent implements OnInit {
     private messageService: MessageService,
     private confirmationService: ConfirmationService,
     private router: Router,
-    private personalInformationService : PersonalInformationService
+    private personalInformationService: PersonalInformationService
   ) {
     this.myForm = this.createForm();
     this.route.url.subscribe((url) => {
@@ -44,47 +44,82 @@ export class AddMedicalHistoryComponent implements OnInit {
     if (this.showButtons == undefined) {
       this.showButtons = true;
     }
-    this.subscription.add(this.personalInformationService.findAllOnlyIdAndMail().subscribe(res=>{
-      res.forEach((item: any)=>{
-        item['displayedField'] = item.id + '/'+item.email
-      })
-      this.listOfPersonInformations = res
-    }))
+    this.subscription.add(
+      this.personalInformationService
+        .findAllOnlyIdAndMail()
+        .subscribe((res) => {
+          res.forEach((item: any) => {
+            item['displayedField'] = item.id + '/' + item.email;
+          });
+          this.listOfPersonInformations = res;
+          if (this.formMedical?.idParent != null) {
+            let parentIndex = this.listOfPersonInformations.findIndex(
+              (p: PersonalInformation) =>
+                p.id == parseInt(this.formMedical.idParent)
+            );
+            if (parentIndex != -1) {
+              this.myForm.controls['parent'].setValue(
+                this.listOfPersonInformations[parentIndex]
+              );
+            }
+          }
+        })
+    );
     console.log(this.myForm);
     if (this.currentPath != undefined) {
       this.showDashboardService.setBoolean(false);
     }
 
     if (
-      this.formPerson != undefined &&
-      this.resetPersonalInformationForm == false
+      this.formMedical != undefined &&
+      this.resetmedicalHistoryForm == false
     ) {
-      // console.log(this.formPerson);
-      // this.myForm.controls['address'].setValue(this.formPerson.address);
-      // this.myForm.controls['firstname'].setValue(this.formPerson.firstname);
-      // this.myForm.controls['lastname'].setValue(this.formPerson.lastname);
-      // this.myForm.controls['email'].setValue(this.formPerson.email);
-      // this.myForm.controls['phoneNumber'].setValue(this.formPerson.phoneNumber);
-      // this.myForm.controls['age'].setValue(this.formPerson.age);
-    
-      // this.myForm.controls['id'].setValue(this.formPerson.id);
+      // console.log(this.formMedical);
+      this.myForm.controls['allergies'].setValue(this.formMedical.allergies);
+      this.myForm.controls['currentMedications'].setValue(
+        this.formMedical.currentMedications
+      );
+      console.log('date', this.formMedical.dateDataEntry);
+      this.myForm.controls['dateDataEntry'].setValue(
+        this.formMedical.dateDataEntry
+      );
+      this.myForm.controls['preExistingConditions'].setValue(
+        this.formMedical.preExistingConditions
+      );
+      this.myForm.controls['previousTransplants'].setValue(
+        this.formMedical.previousTransplants
+      );
+
+      this.myForm.controls['id'].setValue(this.formMedical.id);
     }
-    if(this.myForm.value.dateDateEntry == undefined){
+    if (
+      this.myForm.value.dateDateEntry == undefined &&
+      this.formMedical?.dateDataEntry == undefined
+    ) {
       let dateString = this.getTodaysDate();
       let todaysDate = this.parseToDate(dateString);
       this.myForm.controls['dateDataEntry'].setValue(todaysDate);
     }
   }
 
+  onSelectDate() {
+    let date = this.myForm.controls['dateDataEntry'].value;
+    let day = date.getDate();
+    let month = date.getMonth() + 1; // add 1 because months are indexed from 0
+    let year = date.getFullYear();
+    let newDate = day + '/' + month + '/' + year;
+    this.myForm.controls['dateDataEntry'].setValue(newDate);
+  }
+
   createForm(): FormGroup<any> {
     return this.formBuilder.group({
-      id : [null , null],
-      allergies: [null,null],
+      id: [null, null],
+      allergies: [null, null],
       preExistingConditions: [null, [Validators.required]],
       currentMedications: [null, null],
       previousTransplants: [null, null],
       dateDataEntry: [null, Validators.required],
-      parent : [null , Validators.required]
+      parent: [null, Validators.required],
     });
   }
 
@@ -92,58 +127,68 @@ export class AddMedicalHistoryComponent implements OnInit {
     return this.myForm.get('medicalHistoryList') as FormArray;
   }
 
-
-
   newEditMedicalHistoryGroup(medicalHistory: MedicalHistory): FormGroup {
     return this.formBuilder.group({
       preExistingConditions: medicalHistory.preExistingConditions,
       currentMedications: medicalHistory.currentMedications,
       allergies: medicalHistory.allergies,
       previousTransplants: medicalHistory.previousTransplants,
-      dateDataEntry: this.formatDate(medicalHistory.dateDataEntry),
+      dateDataEntry: medicalHistory.dateDataEntry,
       personalInformation: this.myForm.value,
     });
   }
 
-
-  doSaveCreateScreen(){
-    this.myForm.controls['parent'].setValue(this.myForm.value.parent.id)
-    this.medicalHistoryService.createMedicalHistory(this.myForm.value).subscribe(
-      (value) => {
-        this.messageService.add({
-          severity: 'success',
-          summary: 'success',
-          detail: this.myForm.value['preExistingConditions'] + ' Saved Successfully',
-        });
-        setTimeout(() => {
-          // code to execute after 1 second
-          this.router.navigate(['/listpersonalinformation']);
-        }, 1000);
-
-      },
-      (error) => {
-        this.messageService.add({
-          severity: 'error',
-          summary: 'Error',
-          detail: 'Error ' + error.message,
-        });
-        console.log(error)
-      }
-    );
-    
+  doSaveCreateScreen() {
+    this.myForm.controls['parent'].setValue(this.myForm.value.parent.id);
+    this.medicalHistoryService
+      .createMedicalHistory(this.myForm.value)
+      .subscribe(
+        (value) => {
+          this.messageService.add({
+            severity: 'success',
+            summary: 'success',
+            detail:
+              this.myForm.value['preExistingConditions'] +
+              ' Saved Successfully',
+          });
+          setTimeout(() => {
+            // code to execute after 1 second
+            this.router.navigate(['/listmedicalhistory']);
+          }, 1000);
+        },
+        (error) => {
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Error',
+            detail: 'Error ' + error.message,
+          });
+          console.log(error);
+        }
+      );
   }
 
+  //this method is sued to update the medical History Entity
   doSave(): Observable<MedicalHistory> {
-    
-
+    if (this.myForm.controls['dateDataEntry'] != undefined) {
+      if (this.myForm.controls['dateDataEntry'].value instanceof Date) {
+        this.myForm.controls['dateDataEntry'].setValue(
+          this.formatDateToString(this.myForm.controls['dateDataEntry'].value)
+        );
+      }
+    }
+    if (this.myForm.value.parent != undefined) {
+      this.myForm.controls['parent'].setValue(this.myForm.value.parent.id);
+    }
     return this.medicalHistoryService
-      .createMedicalHistory(this.myForm.value)
+      .updateMedicalHistory(this.myForm.value.id, this.myForm.value)
       .pipe(
         tap((value) => {
           this.messageService.add({
             severity: 'success',
             summary: 'success',
-            detail: this.myForm.value['preExistingConditions'] + ' Saved Successfully',
+            detail:
+              this.myForm.value['preExistingConditions'] +
+              ' Saved Successfully',
           });
           this.router.navigate(['/listmedicalhistory']);
           this.medicalNodeResult = value;
@@ -154,28 +199,19 @@ export class AddMedicalHistoryComponent implements OnInit {
             summary: 'Error',
             detail: 'Error ' + error.message,
           });
-          console.log(error)
+          console.log(error);
           return throwError(error);
         })
       );
   }
 
-  formatDate(dateString: any): string {
-    let date = new Date(dateString);
-    let formattedDate = date.toLocaleDateString('en-GB');
-    console.log(formattedDate);
-    return formattedDate;
+  formatDateToString(date: Date) {
+    let day = date.getDate();
+    let month = date.getMonth() + 1; // add 1 because months are indexed from 0
+    let year = date.getFullYear();
+    let newDate = day + '/' + month + '/' + year;
+    return newDate;
   }
-
-  formatToLongDate(dateString: string): string {
-
-      let parts = dateString.split('/');
-      let dateObject = new Date(+parts[2], +parts[1] - 1, +parts[0], 0, 0, 0, 0);
-      let isoString = dateObject.toISOString();
-    
-    return isoString;
-  }
- 
   getTodaysDate(): string {
     const today = new Date();
     const day = today.getDate().toString().padStart(2, '0');

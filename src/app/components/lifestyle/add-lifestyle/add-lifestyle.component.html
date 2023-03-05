@@ -1,1 +1,132 @@
-<p>add-lifestyle works!</p>
+<form [formGroup]="myForm">
+  <div class="grid" class="person-form-cls">
+    <div class="col-12">
+      <div class="card">
+        <h5>Add new Life Style</h5>
+        <div class="p-fluid p-formgrid grid">
+          <div class="field col-12 md:col-4">
+            <label for="alcohol">Alcohol</label>
+            <p-dropdown
+              [options]="alcoholEnum"
+              [showClear]="true"
+              formControlName="alcohol"
+              placeholder="Alcoholic"
+            ></p-dropdown>
+          </div>
+          <div class="field col-12 md:col-4">
+            <label for="diet">Diet</label>
+            <input
+              pInputText
+              class="my-input"
+              formControlName="diet"
+              required="true"
+              id="diet"
+              #dietInput
+              [placeholder]="
+                (myForm.get('diet')?.hasError('required') &&
+                  dietInput.value === '') ||
+                (!myForm.controls['diet'].pristine &&
+                  myForm.controls['diet'].touched)
+                  ? '* Field is required'
+                  : ''
+              "
+              type="text"
+            />
+          </div>
+          <div class="field col-12 md:col-4">
+            <label for="personalInformation">Medical History</label>
+            <p-dropdown
+              [options]="listOfPersonInformations"
+              [showClear]="true"
+              appendTo="body"
+              [filter]="true"
+              appendTo="body"
+              placeholder="Select Personal Information"
+              formControlName="parent"
+              optionLabel="displayedField"
+            ></p-dropdown>
+          </div>
+          <div class="field col-12 md:col-4">
+            <label html for="tobacco">Tobacco</label>
+            <p-dropdown
+            [options]="alcoholEnum"
+            [showClear]="true"
+            formControlName="tobacco"
+            placeholder="Smoker"
+          ></p-dropdown>
+          </div>
+          <div class="field col-12 md:col-4">
+            <label for="exercice">Exercice</label>
+            <input
+              pInputTextarea
+              formControlName="exercice"
+              class="my-input"
+              id="exercice"
+              #exerciceInput
+              rows="4"
+            />
+          </div>
+          <div class="field col-4 md:col-4 lg:col-4">
+            <label for="dateDataEntry">Date Data Entry</label>
+            <p-calendar
+              formControlName="dateDataEntry"
+              [showIcon]="true"
+              dateFormat="dd/mm/yy"
+              [showTime]="false"
+              inputId="icon"
+              appendTo="body"
+              (onSelect)="onSelectDate()"
+              [showClear]="true"
+              #dateDataEntryInput
+              [placeholder]="
+                (myForm.get('dateDataEntry')?.hasError('required') &&
+                  dateDataEntryInput.value === '') ||
+                (!myForm.controls['dateDataEntry'].pristine &&
+                  myForm.controls['dateDataEntry'].touched)
+                  ? '* Field is required'
+                  : ''
+              "
+            ></p-calendar>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div *ngIf="showButtons" class="footer-form-cls">
+      <div style="margin-right: 2%" *ngIf="formLifeStyle == undefined">
+        <button
+          (click)="doSaveCreateScreen()"
+          pButton
+          class="p-button-success"
+          type="submit"
+          icon="pi pi-check"
+          iconPos="left"
+          [disabled]="!myForm.valid"
+          label="Save"
+        ></button>
+      </div>
+      <div style="margin-right: 2%" *ngIf="formLifeStyle != undefined">
+        <button
+          (click)="doSave()"
+          pButton
+          class="p-button-success"
+          type="submit"
+          icon="pi pi-check"
+          iconPos="left"
+          [disabled]="!myForm.valid"
+          label="Save"
+        ></button>
+      </div>
+      <div>
+        <button
+          pButton
+          class="p-button-danger"
+          icon="pi pi-times"
+          type="reset"
+          label="Reset"
+        ></button>
+      </div>
+    </div>
+  </div>
+</form>
+
+<p-toast position="bottom-right"></p-toast>

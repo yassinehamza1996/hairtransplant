@@ -1,5 +1,3 @@
-import { MedicalHistory } from './../../models/medicalHistory.model';
-import { PersonalInformation } from './../../models/personal-Information.model';
 import { PersonalInformationService } from './../../services/personalInformation.service';
 import { ShowDashBoardService } from '../../services/showDashBoard.service';
 import { Component, Input, OnInit } from '@angular/core';
@@ -7,6 +5,8 @@ import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { catchError, Observable, tap, throwError } from 'rxjs';
+import { MedicalHistory } from 'src/core/models/medicalHistory.model';
+import { PersonalInformation } from 'src/core/models/personal-Information.model';
 @Component({
   selector: 'app-add-personal-information',
   templateUrl: './add-personal-information.component.html',
@@ -68,7 +68,6 @@ export class AddPersonalInformationComponent implements OnInit {
     } else {
       this.addMedicalHistory();
     }
-  
   }
 
   createForm(): FormGroup<any> {
@@ -102,7 +101,15 @@ export class AddPersonalInformationComponent implements OnInit {
   get medicalHistoryGroupArray() {
     return this.myForm.get('medicalHistoryList') as FormArray;
   }
-
+  onSelectDate(i: number) {
+    let date = this.medicalHistoryGroupArray.at(i).value.dateDataEntry;
+    let day = date.getDate();
+    let month = date.getMonth() + 1; // add 1 because months are indexed from 0
+    let year = date.getFullYear();
+    let newDate = day + '/' + month + '/' + year;
+    this.medicalHistoryGroupArray.at(i).value.dateDataEntry = newDate;
+    console.log('newDate', newDate);
+  }
   newMedicalHistoryGroup(): FormGroup {
     return this.formBuilder.group({
       id: '',
@@ -110,7 +117,9 @@ export class AddPersonalInformationComponent implements OnInit {
       currentMedications: '',
       allergies: '',
       previousTransplants: '',
-      dateDataEntry: !this.showEditTitle ? this.parseToDate(this.getTodaysDate()) : null,
+      dateDataEntry: !this.showEditTitle
+        ? this.parseToDate(this.getTodaysDate())
+        : null,
       personalInformation: this.myForm.value,
     });
   }
@@ -121,7 +130,7 @@ export class AddPersonalInformationComponent implements OnInit {
       currentMedications: medicalHistory.currentMedications,
       allergies: medicalHistory.allergies,
       previousTransplants: medicalHistory.previousTransplants,
-      dateDataEntry: this.formatDate(medicalHistory.dateDataEntry),
+      dateDataEntry: medicalHistory.dateDataEntry,
       personalInformation: this.myForm.value,
     });
   }
@@ -164,9 +173,6 @@ export class AddPersonalInformationComponent implements OnInit {
           email: this.myForm.value.email,
           phoneNumber: this.myForm.value.phoneNumber,
         };
-        if (typeof res.dateDataEntry === 'string') {
-          res.dateDataEntry = this.formatToLongDate(res.dateDataEntry);
-        }
       });
     }
 
@@ -209,8 +215,8 @@ export class AddPersonalInformationComponent implements OnInit {
           email: this.myForm.value.email,
           phoneNumber: this.myForm.value.phoneNumber,
         };
-        if (typeof res.dateDataEntry === 'string') {
-          res.dateDataEntry = this.formatToLongDate(res.dateDataEntry);
+        if (res.dateDataEntry instanceof Date) {
+          res.dateDataEntry = this.formatDateToString(res.dateDataEntry);
         }
       });
     }
@@ -239,18 +245,11 @@ export class AddPersonalInformationComponent implements OnInit {
       );
   }
 
-  formatDate(dateString: any): string {
-    let date = new Date(dateString);
-    let formattedDate = date.toLocaleDateString('en-GB');
-    console.log(formattedDate);
-    return formattedDate;
-  }
-
-  formatToLongDate(dateString: string): string {
-    let parts = dateString.split('/');
-    let dateObject = new Date(+parts[2], +parts[1] - 1, +parts[0], 0, 0, 0, 0);
-    let isoString = dateObject.toISOString();
-
-    return isoString;
+  formatDateToString(date: Date) {
+    let day = date.getDate();
+    let month = date.getMonth() + 1; // add 1 because months are indexed from 0
+    let year = date.getFullYear();
+    let newDate = day + '/' + month + '/' + year;
+    return newDate;
   }
 }
