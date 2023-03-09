@@ -1,14 +1,14 @@
-import { LifeStyleControllerAPIClient } from './../../../../core/services/life-style-controller/life-style-controller-api-client.service';
+
 import { Component, Input } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MessageService, ConfirmationService } from 'primeng/api';
 import { Subscription, Observable, tap, catchError, throwError } from 'rxjs';
-import { LifeStyle, YesNoEnum } from 'src/core/models/LifeStyle.model';
-import { PersonalInformation } from 'src/core/models/personal-Information.model';
+
 import { PersonalInformationService } from '../../services/personalInformation.service';
 import { ShowDashBoardService } from '../../services/showDashBoard.service';
-import { HttpOptions } from 'src/core/services/life-style-controller';
+import { LifeStyle, LifeStyleControllerService, PersonalInformation } from 'src/core/api/client';
+
 
 @Component({
   selector: 'app-add-lifestyle',
@@ -23,14 +23,15 @@ export class AddLifestyleComponent {
   @Input() showButtons: boolean;
   @Input() formLifeStyle: LifeStyle;
   @Input() resetmedicalHistoryForm: boolean;
-  alcoholEnum : YesNoEnum[] = [];
+  alcoholEnum : LifeStyle.AlcoholEnum[] = [];
   listOfPersonInformations: PersonalInformation[] = [];
   subscription: Subscription = new Subscription();
+  
   constructor(
     private formBuilder: FormBuilder,
     private route: ActivatedRoute,
     private showDashboardService: ShowDashBoardService,
-    private lifeStyleService: LifeStyleControllerAPIClient,
+    private lifeStyleService: LifeStyleControllerService,
     private messageService: MessageService,
     private confirmationService: ConfirmationService,
     private router: Router,
@@ -43,7 +44,7 @@ export class AddLifestyleComponent {
   }
 
   ngOnInit() {
-    this.alcoholEnum.push(YesNoEnum.YES,YesNoEnum.NO)
+    this.alcoholEnum.push(LifeStyle.AlcoholEnum.Yes,LifeStyle.AlcoholEnum.No)
     console.log(this.alcoholEnum)
     if (this.showButtons == undefined) {
       this.showButtons = true;
@@ -59,7 +60,7 @@ export class AddLifestyleComponent {
           if (this.formLifeStyle?.idParent != null) {
             let parentIndex = this.listOfPersonInformations.findIndex(
               (p: PersonalInformation) =>
-                p.id == parseInt(this.formLifeStyle.idParent)
+                p.id == parseInt(this.formLifeStyle.idParent as string)
             );
             if (parentIndex != -1) {
               this.myForm.controls['parent'].setValue(
@@ -77,24 +78,25 @@ export class AddLifestyleComponent {
     if (
       this.formLifeStyle != undefined &&
       this.resetmedicalHistoryForm == false
-    ) {
-      // console.log(this.formLifeStyle);
-      // this.myForm.controls['allergies'].setValue(this.formLifeStyle.allergies);
-      // this.myForm.controls['currentMedications'].setValue(
-      //   this.formLifeStyle.currentMedications
-      // );
-      // console.log('date', this.formLifeStyle.dateDataEntry);
-      // this.myForm.controls['dateDataEntry'].setValue(
-      //   this.formLifeStyle.dateDataEntry
-      // );
-      // this.myForm.controls['preExistingConditions'].setValue(
-      //   this.formLifeStyle.preExistingConditions
-      // );
-      // this.myForm.controls['previousTransplants'].setValue(
-      //   this.formLifeStyle.previousTransplants
-      // );
+    ) 
+    {
+      console.log(this.formLifeStyle);
+      this.myForm.controls['alcohol'].setValue(this.formLifeStyle.alcohol);
+      this.myForm.controls['diet'].setValue(
+        this.formLifeStyle.diet
+      );
+      console.log('date', this.formLifeStyle.dateDataEntry);
+      this.myForm.controls['dateDataEntry'].setValue(
+        this.formLifeStyle.dateDataEntry
+      );
+      this.myForm.controls['exercise'].setValue(
+        this.formLifeStyle.exercise
+      );
+      this.myForm.controls['tobacco'].setValue(
+        this.formLifeStyle.tobacco
+      );
 
-      // this.myForm.controls['id'].setValue(this.formLifeStyle.id);
+      this.myForm.controls['id'].setValue(this.formLifeStyle.id);
     }
     if (
       this.myForm.value.dateDateEntry == undefined &&
@@ -104,6 +106,8 @@ export class AddLifestyleComponent {
       let todaysDate = this.parseToDate(dateString);
       this.myForm.controls['dateDataEntry'].setValue(todaysDate);
     }
+    console.log(this.myForm);
+    console.log(this.formLifeStyle)
   }
 
   onSelectDate() {
@@ -120,7 +124,7 @@ export class AddLifestyleComponent {
       id: [null, null],
       alcohol: [null, null],
       diet: [null, [Validators.required]],
-      exercice: [null, null],
+      exercise: [null, null],
       tobacco: [null, null],
       dateDataEntry: [null, Validators.required],
       parent: [null, Validators.required],
@@ -135,7 +139,7 @@ export class AddLifestyleComponent {
     return this.formBuilder.group({
       alcohol: lifeStyle.alcohol,
       diet: lifeStyle.diet,
-      exercice: lifeStyle.exercise,
+      exercise: lifeStyle.exercise,
       tobacco: lifeStyle.tobacco,
       dateDataEntry: lifeStyle.dateDataEntry,
       parent: this.myForm.value,
@@ -144,18 +148,22 @@ export class AddLifestyleComponent {
 
   doSaveCreateScreen() {
     this.myForm.controls['parent'].setValue(this.myForm.value.parent.id);
-    let payload : HttpOptions ={
-      body : this.myForm.value
+    if (this.myForm.controls['dateDataEntry'] != undefined) {
+      if (this.myForm.controls['dateDataEntry'].value instanceof Date) {
+        this.myForm.controls['dateDataEntry'].setValue(
+          this.formatDateToString(this.myForm.controls['dateDataEntry'].value)
+        );
+      }
     }
     this.lifeStyleService
-      .createLifeStyle(payload)
+      .createLifeStyle(this.myForm.value)
       .subscribe(
         (value) => {
           this.messageService.add({
             severity: 'success',
             summary: 'success',
             detail:
-              this.myForm.value['preExistingConditions'] +
+              this.myForm.value.diet +
               ' Saved Successfully',
           });
           setTimeout(() => {
@@ -187,17 +195,17 @@ export class AddLifestyleComponent {
       this.myForm.controls['parent'].setValue(this.myForm.value.parent.id);
     }
     return this.lifeStyleService
-      .updateLifeStyleEdit(this.myForm.value.id, this.myForm.value)
+      .updateLifeStyle(this.myForm.value.id, this.myForm.value)
       .pipe(
         tap((value) => {
           this.messageService.add({
             severity: 'success',
             summary: 'success',
             detail:
-              this.myForm.value['preExistingConditions'] +
+              this.myForm.value['diet'] +
               ' Saved Successfully',
           });
-          this.router.navigate(['/listmedicalhistory']);
+          this.router.navigate(['/listlifestyle']);
           this.medicalNodeResult = value;
         }),
         catchError((error) => {

@@ -1,0 +1,15 @@
+export * from './clientVisitController.service';
+import { ClientVisitControllerService } from './clientVisitController.service';
+export * from './goalsController.service';
+import { GoalsControllerService } from './goalsController.service';
+export * from './hairLossController.service';
+import { HairLossControllerService } from './hairLossController.service';
+export * from './lifeStyleController.service';
+import { LifeStyleControllerService } from './lifeStyleController.service';
+export * from './medicalHistoryController.service';
+import { MedicalHistoryControllerService } from './medicalHistoryController.service';
+export * from './personalInformationController.service';
+import { PersonalInformationControllerService } from './personalInformationController.service';
+export * from './swaggerExporter.service';
+import { SwaggerExporterService } from './swaggerExporter.service';
+export const APIS = [ClientVisitControllerService, GoalsControllerService, HairLossControllerService, LifeStyleControllerService, MedicalHistoryControllerService, PersonalInformationControllerService, SwaggerExporterService];

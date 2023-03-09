@@ -5,8 +5,7 @@ import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { catchError, Observable, tap, throwError } from 'rxjs';
-import { MedicalHistory } from 'src/core/models/medicalHistory.model';
-import { PersonalInformation } from 'src/core/models/personal-Information.model';
+import { PersonalInformation, MedicalHistory } from 'src/core/api/client';
 @Component({
   selector: 'app-add-personal-information',
   templateUrl: './add-personal-information.component.html',

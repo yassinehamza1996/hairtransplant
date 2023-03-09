@@ -7,8 +7,7 @@ import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { catchError, Observable, tap, throwError, Subscription } from 'rxjs';
-import { MedicalHistory } from 'src/core/models/medicalHistory.model';
-import { PersonalInformation } from 'src/core/models/personal-Information.model';
+import { MedicalHistory, PersonalInformation } from 'src/core/api/client';
 @Component({
   selector: 'app-add-medical-history',
   templateUrl: './add-medical-history.component.html',
@@ -55,7 +54,7 @@ export class AddMedicalHistoryComponent implements OnInit {
           if (this.formMedical?.idParent != null) {
             let parentIndex = this.listOfPersonInformations.findIndex(
               (p: PersonalInformation) =>
-                p.id == parseInt(this.formMedical.idParent)
+                p.id == parseInt(this.formMedical.idParent as string)
             );
             if (parentIndex != -1) {
               this.myForm.controls['parent'].setValue(

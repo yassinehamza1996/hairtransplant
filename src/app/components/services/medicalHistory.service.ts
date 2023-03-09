@@ -2,7 +2,8 @@ import { environment } from 'src/environments/environment';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { MedicalHistory } from 'src/core/models/medicalHistory.model';
+import { MedicalHistory } from 'src/core/api/client';
+
 
 
 @Injectable({

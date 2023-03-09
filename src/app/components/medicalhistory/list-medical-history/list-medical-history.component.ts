@@ -5,8 +5,9 @@ import { ConfirmationService, MessageService } from 'primeng/api';
 import * as saveAs from 'file-saver';
 import { ShowDashBoardService } from '../../services/showDashBoard.service';
 import { MedicalHistoryService } from '../../services/medicalHistory.service';
-import { MedicalHistory } from 'src/core/models/medicalHistory.model';
-import { Product } from 'src/core/models/product';
+import { MedicalHistory } from 'src/core/api/client';
+import { Product } from 'src/core/api/client/model/product';
+
 
 @Component({
   selector: 'app-list-medical-history',

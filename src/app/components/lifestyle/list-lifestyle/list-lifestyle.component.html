@@ -1,1 +1,309 @@
-<p>list-lifestyle works!</p>
+<p-toast position="bottom-right"></p-toast>
+<div class="card">
+  <p-toolbar styleClass="mb-4 gap-2">
+    <ng-template pTemplate="left">
+      <button
+        pButton
+        pRipple
+        label="New"
+        icon="pi pi-plus"
+        class="p-button-success mr-2"
+        (click)="openNew()"
+      ></button>
+      <button
+        pButton
+        pRipple
+        label="Delete"
+        icon="pi pi-trash"
+        class="p-button-danger"
+        (click)="deleteSelectedlifeStyle()"
+        [disabled]="!selectedlifeStyle || !selectedlifeStyle.length"
+      ></button>
+    </ng-template>
+
+    <ng-template pTemplate="right">
+      <p-fileUpload
+        mode="basic"
+        accept=".xlsx"
+        [maxFileSize]="1000000"
+        label="Import"
+        [customUpload]="true"
+        chooseLabel="Import"
+        [showUploadButton]="true"
+        [showCancelButton]="true"
+        [auto]="true"
+        (uploadHandler)="doUpload()"
+        (onSelect)="selectFile($event)"
+        class="mr-2 inline-block"
+      ></p-fileUpload>
+      <button
+        pButton
+        pRipple
+        label="Export All Items"
+        icon="pi pi-upload"
+        class="p-button-help"
+        (click)="doExport()"
+      ></button>
+      <div
+        tooltipPosition="top"
+        pTooltip="Select Items From table"
+        style="margin-left: 10px"
+      >
+        <button
+          pButton
+          pRipple
+          label="Export Selected Items"
+          icon="pi pi-upload"
+          [disabled]="selectedlifeStyle.length == 0"
+          class="p-button-help"
+          (click)="doExportSelectedItems()"
+        ></button>
+      </div>
+    </ng-template>
+  </p-toolbar>
+
+  <p-table
+    #dt
+    [value]="lifeStyleList"
+    [rows]="10"
+    [paginator]="true"
+    [globalFilterFields]="[
+      'alcohol',
+      'diet',
+      'tobacco',
+      'exercise'
+    ]"
+    [tableStyle]="{ 'min-width': '75rem' }"
+    [(selection)]="selectedlifeStyle"
+    [rowsPerPageOptions]="[10, 15, 20, 50, 100]"
+    [rowHover]="true"
+    dataKey="id"
+    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+    [showCurrentPageReport]="true"
+  >
+    <ng-template pTemplate="caption">
+      <div class="flex align-items-center justify-content-between">
+        <h5 class="m-0">Manage Life Style</h5>
+        <span class="p-input-icon-left">
+          <i class="pi pi-search"></i>
+
+          <input
+            (input)="dt.filterGlobal($any($event.target).value, 'contains')"
+            pInputText
+            type="text"
+            (keyup)="getAllPossibleValues($event)"
+            placeholder="Search..."
+          />
+        </span>
+      </div>
+    </ng-template>
+    <ng-template pTemplate="header">
+      <tr>
+        <th style="width: 4rem">
+          <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+        </th>
+        <th pSortableColumn="alcohol" style="min-width: 15rem">
+          alcohol <p-sortIcon field="alcohol"></p-sortIcon>
+        </th>
+
+        <th pSortableColumn="diet">
+          Diet
+          <p-sortIcon field="diet"></p-sortIcon>
+        </th>
+        <th pSortableColumn="exercise" style="min-width: 10rem">
+          Exercice
+          <p-sortIcon field="exercise"></p-sortIcon>
+        </th>
+        <th pSortableColumn="tobacco">
+          Tobacco
+          <p-sortIcon field="tobacco"></p-sortIcon>
+        </th>
+        <th pSortableColumn="dateDataEntry" style="min-width: 10rem">
+          Date data Entry <p-sortIcon field="dateDataEntry"></p-sortIcon>
+        </th>
+
+        <th></th>
+      </tr>
+      <tr>
+        <th></th>
+        <th>
+          <input
+            pInputText
+            type="text"
+            (input)="
+              dt.filter($any($event.target).value, 'alcohol', 'contains')
+            "
+            [value]="$any(dt.filters['alcohol'])?.value"
+            placeholder="Search by alcohol"
+            class="w-full"
+          />
+        </th>
+        <th>
+          <input
+            pInputText
+            type="text"
+            (input)="
+              dt.filter(
+                $any($event.target).value,
+                'diet',
+                'contains'
+              )
+            "
+            [value]="$any(dt.filters['diet'])?.value"
+            placeholder="Search by Diet"
+            class="w-full"
+          />
+        </th>
+        <th>
+          <input
+            pInputText
+            type="text"
+            (input)="
+              dt.filter(
+                $any($event.target).value,
+                'exercise',
+                'contains'
+              )
+            "
+            [value]="$any(dt.filters['exercise'])?.value"
+            placeholder="Search by exercise"
+            class="w-full"
+          />
+        </th>
+        <th>
+          <input
+            pInputText
+            type="text"
+            (input)="
+              dt.filter(
+                $any($event.target).value,
+                'tobacco',
+                'contains'
+              )
+            "
+            [value]="$any(dt.filters['tobacco'])?.value"
+            placeholder="Search by Tobacco"
+            class="w-full"
+          />
+        </th>
+        <th>
+          <input
+            pInputText
+            type="text"
+            (input)="
+              dt.filter($any($event.target).value, 'dateDataEntry', 'contains')
+            "
+            [value]="$any(dt.filters['dateDataEntry'])?.value"
+            placeholder="Search by Date data Entry"
+            class="w-full"
+          />
+        </th>
+        <th></th>
+      </tr>
+    </ng-template>
+
+    <ng-template pTemplate="body" let-md>
+      <tr>
+        <td>
+          <p-tableCheckbox [value]="md"></p-tableCheckbox>
+        </td>
+        <td pTooltip="{{ md.alcohol }}" tooltipPosition="top">
+          {{ md.alcohol }}
+        </td>
+
+        <td pTooltip="{{ md.diet }}" tooltipPosition="top">
+          {{ md.diet }}
+        </td>
+        <td pTooltip="{{ md.exercise }}" tooltipPosition="top">
+          {{ md.exercise }}
+        </td>
+        <td pTooltip="{{ md.tobacco }}" tooltipPosition="top">
+          {{ md.tobacco }}
+        </td>
+        <td pTooltip="{{ md.dateDataEntry }}" tooltipPosition="top">
+          {{ md.dateDataEntry }}
+        </td>
+      
+        <td>
+          <button
+            pButton
+            pRipple
+            icon="pi pi-pencil"
+            class="p-button-rounded p-button-success mr-2"
+            (click)="editlifeStyle(md)"
+          ></button>
+          <button
+            pButton
+            pRipple
+            icon="pi pi-trash"
+            class="p-button-rounded p-button-danger"
+            (click)="deleteRow(md)"
+          ></button>
+        </td>
+      </tr>
+      <div *ngIf="isLoading" class="spinner-cls">
+        <p-progressSpinner></p-progressSpinner>
+      </div>
+    </ng-template>
+    <ng-template pTemplate="emptymessage">
+      <tr>
+        <td colspan="7" style="text-align: center" *ngIf="isLoading">
+          <p-progressSpinner></p-progressSpinner>
+        </td>
+        <td colspan="7" style="text-align: center" *ngIf="!isLoading">
+          <span>No available Life Style !</span>
+        </td>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="summary">
+      <div class="flex align-items-center justify-content-between">
+        In total there are
+        {{ selectedlifeStyle ? selectedlifeStyle.length : 0 }}
+        Life Style
+      </div>
+    </ng-template>
+  </p-table>
+</div>
+
+<p-dialog
+  [(visible)]="lifeStyleDialog"
+  [style]="{ width: '70%' }"
+  header="Life Style Details"
+  [modal]="true"
+  styleClass="p-fluid"
+>
+  <ng-template pTemplate="content">
+    <app-add-lifestyle
+    #addlifeStyle
+    [showButtons]="false"
+    [resetmedicalHistoryForm]="resetlifeStyleForm"
+    [formLifeStyle]="editablelifeStyle"
+    >
+    </app-add-lifestyle>
+
+  </ng-template>
+ 
+
+  <ng-template pTemplate="footer">
+    <button
+      pButton
+      pRipple
+      label="Cancel"
+      icon="pi pi-times"
+      class="p-button-text"
+      (click)="hideDialog()"
+    ></button>
+    <button
+      pButton
+      pRipple
+      label="Save"
+      icon="pi pi-check"
+      class="p-button-text"
+      (click)="savelifeStylePopUp()"
+    ></button>
+  </ng-template>
+</p-dialog>
+
+<div *ngIf="!hideConfirmDialog">
+  <p-confirmDialog [style]="{ width: '450px' }"></p-confirmDialog>
+</div>

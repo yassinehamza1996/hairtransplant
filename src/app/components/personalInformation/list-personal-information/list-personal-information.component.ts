@@ -5,8 +5,9 @@ import { Subscription } from 'rxjs';
 import { PersonalInformationService } from '../../services/personalInformation.service';
 import { ShowDashBoardService } from '../../services/showDashBoard.service';
 import * as saveAs from 'file-saver';
-import { PersonalInformation } from 'src/core/models/personal-Information.model';
-import { Product } from 'src/core/models/product';
+import { PersonalInformation } from 'src/core/api/client';
+import { Product } from 'src/core/api/client/model/product';
+
 
 @Component({
   selector: 'app-list-personal-information',
