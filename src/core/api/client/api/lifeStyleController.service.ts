@@ -26,7 +26,6 @@ import { LifeStyle } from '../model/lifeStyle';
 // @ts-ignore
 import { BASE_PATH, COLLECTION_FORMATS }                     from '../variables';
 import { Configuration }                                     from '../configuration';
-import { environment } from 'src/environments/environment.development';
 
 
 
@@ -396,6 +395,59 @@ export class LifeStyleControllerService {
         return this.httpClient.request<Array<LifeStyle>>('get', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
+                responseType: <any>responseType_,
+                withCredentials: this.configuration.withCredentials,
+                headers: localVarHeaders,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public getCount(observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: '*/*', context?: HttpContext}): Observable<number>;
+    public getCount(observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: '*/*', context?: HttpContext}): Observable<HttpResponse<number>>;
+    public getCount(observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: '*/*', context?: HttpContext}): Observable<HttpEvent<number>>;
+    public getCount(observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: '*/*', context?: HttpContext}): Observable<any> {
+
+        let localVarHeaders = this.defaultHeaders;
+
+        let localVarHttpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
+        if (localVarHttpHeaderAcceptSelected === undefined) {
+            // to determine the Accept header
+            const httpHeaderAccepts: string[] = [
+                '*/*'
+            ];
+            localVarHttpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        }
+        if (localVarHttpHeaderAcceptSelected !== undefined) {
+            localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
+        }
+
+        let localVarHttpContext: HttpContext | undefined = options && options.context;
+        if (localVarHttpContext === undefined) {
+            localVarHttpContext = new HttpContext();
+        }
+
+
+        let responseType_: 'text' | 'json' | 'blob' = 'json';
+        if (localVarHttpHeaderAcceptSelected) {
+            if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
+                responseType_ = 'text';
+            } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
+                responseType_ = 'json';
+            } else {
+                responseType_ = 'blob';
+            }
+        }
+
+        let localVarPath = `/api/lifeStyleController/count`;
+        return this.httpClient.request<number>('get', `${this.configuration.basePath}${localVarPath}`,
+            {
+                context: localVarHttpContext,
                 responseType: <any>'json',
                 withCredentials: this.configuration.withCredentials,
                 headers: localVarHeaders,
@@ -520,7 +572,7 @@ export class LifeStyleControllerService {
             {
                 context: localVarHttpContext,
                 body: importExcelRequest,
-                responseType: <any>'json',
+                responseType: <any>responseType_,
                 withCredentials: this.configuration.withCredentials,
                 headers: localVarHeaders,
                 observe: observe,
@@ -599,16 +651,5 @@ export class LifeStyleControllerService {
             }
         );
     }
-    exportToExcel(MedicalHistoryList: LifeStyle[]): Observable<any> {
-        const headers = new HttpHeaders();
-        
-        const options = {
-          headers: headers,
-          observe: 'response' as 'body',
-          responseType: 'blob' as 'json',
-          body: new Blob([JSON.stringify(MedicalHistoryList)], { type: 'application/json' })
-        };
-       
-        return this.httpClient.request<Blob>('POST', `${environment.apiUrl + "lifeStyleController"}/export-to-excel`, options);
-      }
+
 }

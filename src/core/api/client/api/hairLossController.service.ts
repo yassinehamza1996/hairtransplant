@@ -20,6 +20,8 @@ import { Observable }                                        from 'rxjs';
 
 // @ts-ignore
 import { HairLoss } from '../model/hairLoss';
+// @ts-ignore
+import { ImportExcelRequest } from '../model/importExcelRequest';
 
 // @ts-ignore
 import { BASE_PATH, COLLECTION_FORMATS }                     from '../variables';
@@ -36,7 +38,7 @@ export class HairLossControllerService {
     public defaultHeaders = new HttpHeaders();
     public configuration = new Configuration();
     public encoder: HttpParameterCodec;
-
+    private contentTypeHeader : string = "application/json";
     constructor(protected httpClient: HttpClient, @Optional()@Inject(BASE_PATH) basePath: string|string[], @Optional() configuration: Configuration) {
         if (configuration) {
             this.configuration = configuration;
@@ -106,16 +108,16 @@ export class HairLossControllerService {
 
         let localVarHeaders = this.defaultHeaders;
 
-        let localVarHttpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
-        if (localVarHttpHeaderAcceptSelected === undefined) {
+
+        if (this.contentTypeHeader === undefined) {
             // to determine the Accept header
             const httpHeaderAccepts: string[] = [
                 '*/*'
             ];
-            localVarHttpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+            
         }
-        if (localVarHttpHeaderAcceptSelected !== undefined) {
-            localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
+        if (this.contentTypeHeader !== undefined) {
+            localVarHeaders = localVarHeaders.set('Accept', this.contentTypeHeader);
         }
 
         let localVarHttpContext: HttpContext | undefined = options && options.context;
@@ -134,10 +136,10 @@ export class HairLossControllerService {
         }
 
         let responseType_: 'text' | 'json' | 'blob' = 'json';
-        if (localVarHttpHeaderAcceptSelected) {
-            if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
+        if (this.contentTypeHeader) {
+            if (this.contentTypeHeader.startsWith('text')) {
                 responseType_ = 'text';
-            } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
+            } else if (this.configuration.isJsonMime(this.contentTypeHeader)) {
                 responseType_ = 'json';
             } else {
                 responseType_ = 'blob';
@@ -172,17 +174,18 @@ export class HairLossControllerService {
         }
 
         let localVarHeaders = this.defaultHeaders;
+        
 
-        let localVarHttpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
-        if (localVarHttpHeaderAcceptSelected === undefined) {
+
+        if (this.contentTypeHeader === undefined) {
             // to determine the Accept header
             const httpHeaderAccepts: string[] = [
                 '*/*'
             ];
-            localVarHttpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+            
         }
-        if (localVarHttpHeaderAcceptSelected !== undefined) {
-            localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
+        if (this.contentTypeHeader !== undefined) {
+            localVarHeaders = localVarHeaders.set('Accept', this.contentTypeHeader);
         }
 
         let localVarHttpContext: HttpContext | undefined = options && options.context;
@@ -192,10 +195,10 @@ export class HairLossControllerService {
 
 
         let responseType_: 'text' | 'json' | 'blob' = 'json';
-        if (localVarHttpHeaderAcceptSelected) {
-            if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
+        if (this.contentTypeHeader) {
+            if (this.contentTypeHeader.startsWith('text')) {
                 responseType_ = 'text';
-            } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
+            } else if (this.configuration.isJsonMime(this.contentTypeHeader)) {
                 responseType_ = 'json';
             } else {
                 responseType_ = 'blob';
@@ -216,6 +219,140 @@ export class HairLossControllerService {
     }
 
     /**
+     * @param hairLoss 
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public deleteSelectedHairLoss1(hairLoss: Array<HairLoss>, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: '*/*', context?: HttpContext}): Observable<object>;
+    public deleteSelectedHairLoss1(hairLoss: Array<HairLoss>, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: '*/*', context?: HttpContext}): Observable<HttpResponse<object>>;
+    public deleteSelectedHairLoss1(hairLoss: Array<HairLoss>, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: '*/*', context?: HttpContext}): Observable<HttpEvent<object>>;
+    public deleteSelectedHairLoss1(hairLoss: Array<HairLoss>, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: '*/*', context?: HttpContext}): Observable<any> {
+        if (hairLoss === null || hairLoss === undefined) {
+            throw new Error('Required parameter hairLoss was null or undefined when calling deleteSelectedHairLoss1.');
+        }
+
+        let localVarHeaders = this.defaultHeaders;
+
+
+        if (this.contentTypeHeader === undefined) {
+            // to determine the Accept header
+            const httpHeaderAccepts: string[] = [
+                '*/*'
+            ];
+            
+        }
+        if (this.contentTypeHeader !== undefined) {
+            localVarHeaders = localVarHeaders.set('Accept', this.contentTypeHeader);
+        }
+
+        let localVarHttpContext: HttpContext | undefined = options && options.context;
+        if (localVarHttpContext === undefined) {
+            localVarHttpContext = new HttpContext();
+        }
+
+
+        // to determine the Content-Type header
+        const consumes: string[] = [
+            'application/json'
+        ];
+        const httpContentTypeSelected: string | undefined = this.configuration.selectHeaderContentType(consumes);
+        if (httpContentTypeSelected !== undefined) {
+            localVarHeaders = localVarHeaders.set('Content-Type', httpContentTypeSelected);
+        }
+
+        let responseType_: 'text' | 'json' | 'blob' = 'json';
+        if (this.contentTypeHeader) {
+            if (this.contentTypeHeader.startsWith('text')) {
+                responseType_ = 'text';
+            } else if (this.configuration.isJsonMime(this.contentTypeHeader)) {
+                responseType_ = 'json';
+            } else {
+                responseType_ = 'blob';
+            }
+        }
+
+        let localVarPath = `/api/hairLossController/delete/all`;
+        return this.httpClient.request<object>('delete', `${this.configuration.basePath}${localVarPath}`,
+            {
+                context: localVarHttpContext,
+                body: hairLoss,
+                responseType: <any>responseType_,
+                withCredentials: this.configuration.withCredentials,
+                headers: localVarHeaders,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * @param hairLoss 
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public exportLifeStyleToExcel1(hairLoss: Array<HairLoss>, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: '*/*', context?: HttpContext}): Observable<Array<string>>;
+    public exportLifeStyleToExcel1(hairLoss: Array<HairLoss>, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: '*/*', context?: HttpContext}): Observable<HttpResponse<Array<string>>>;
+    public exportLifeStyleToExcel1(hairLoss: Array<HairLoss>, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: '*/*', context?: HttpContext}): Observable<HttpEvent<Array<string>>>;
+    public exportLifeStyleToExcel1(hairLoss: Array<HairLoss>, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: '*/*', context?: HttpContext}): Observable<any> {
+        if (hairLoss === null || hairLoss === undefined) {
+            throw new Error('Required parameter hairLoss was null or undefined when calling exportLifeStyleToExcel1.');
+        }
+
+        let localVarHeaders = this.defaultHeaders;
+
+
+        if (this.contentTypeHeader === undefined) {
+            // to determine the Accept header
+            const httpHeaderAccepts: string[] = [
+                '*/*'
+            ];
+            
+        }
+        if (this.contentTypeHeader !== undefined) {
+            localVarHeaders = localVarHeaders.set('Accept', this.contentTypeHeader);
+        }
+
+        let localVarHttpContext: HttpContext | undefined = options && options.context;
+        if (localVarHttpContext === undefined) {
+            localVarHttpContext = new HttpContext();
+        }
+
+
+        // to determine the Content-Type header
+        const consumes: string[] = [
+            'application/json'
+        ];
+        const httpContentTypeSelected: string | undefined = this.configuration.selectHeaderContentType(consumes);
+        if (httpContentTypeSelected !== undefined) {
+            localVarHeaders = localVarHeaders.set('Content-Type', httpContentTypeSelected);
+        }
+
+        let responseType_: 'text' | 'json' | 'blob' = 'json';
+        if (this.contentTypeHeader) {
+            if (this.contentTypeHeader.startsWith('text')) {
+                responseType_ = 'text';
+            } else if (this.configuration.isJsonMime(this.contentTypeHeader)) {
+                responseType_ = 'json';
+            } else {
+                responseType_ = 'blob';
+            }
+        }
+
+        let localVarPath = `/api/hairLossController/export-to-excel`;
+        return this.httpClient.request<Array<string>>('post', `${this.configuration.basePath}${localVarPath}`,
+            {
+                context: localVarHttpContext,
+                body: hairLoss,
+                responseType: <any>responseType_,
+                withCredentials: this.configuration.withCredentials,
+                headers: localVarHeaders,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
@@ -226,16 +363,16 @@ export class HairLossControllerService {
 
         let localVarHeaders = this.defaultHeaders;
 
-        let localVarHttpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
-        if (localVarHttpHeaderAcceptSelected === undefined) {
+
+        if (this.contentTypeHeader === undefined) {
             // to determine the Accept header
             const httpHeaderAccepts: string[] = [
                 '*/*'
             ];
-            localVarHttpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+            
         }
-        if (localVarHttpHeaderAcceptSelected !== undefined) {
-            localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
+        if (this.contentTypeHeader !== undefined) {
+            localVarHeaders = localVarHeaders.set('Accept', this.contentTypeHeader);
         }
 
         let localVarHttpContext: HttpContext | undefined = options && options.context;
@@ -245,10 +382,14 @@ export class HairLossControllerService {
 
 
         let responseType_: 'text' | 'json' | 'blob' = 'json';
-        if (localVarHttpHeaderAcceptSelected) {
-            if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
+
+        this.contentTypeHeader =  "application/json"
+
+          
+        if (this.contentTypeHeader) {
+            if (this.contentTypeHeader.startsWith('text')) {
                 responseType_ = 'text';
-            } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
+            } else if (this.configuration.isJsonMime(this.contentTypeHeader)) {
                 responseType_ = 'json';
             } else {
                 responseType_ = 'blob';
@@ -257,6 +398,59 @@ export class HairLossControllerService {
 
         let localVarPath = `/api/hairLossController/search/all`;
         return this.httpClient.request<Array<HairLoss>>('get', `${this.configuration.basePath}${localVarPath}`,
+            {
+                context: localVarHttpContext,
+                responseType: <any>responseType_,
+                withCredentials: this.configuration.withCredentials,
+                headers: localVarHeaders,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public getCount1(observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: '*/*', context?: HttpContext}): Observable<number>;
+    public getCount1(observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: '*/*', context?: HttpContext}): Observable<HttpResponse<number>>;
+    public getCount1(observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: '*/*', context?: HttpContext}): Observable<HttpEvent<number>>;
+    public getCount1(observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: '*/*', context?: HttpContext}): Observable<any> {
+
+        let localVarHeaders = this.defaultHeaders;
+
+
+        if (this.contentTypeHeader === undefined) {
+            // to determine the Accept header
+            const httpHeaderAccepts: string[] = [
+                '*/*'
+            ];
+            
+        }
+        if (this.contentTypeHeader !== undefined) {
+            localVarHeaders = localVarHeaders.set('Accept', this.contentTypeHeader);
+        }
+
+        let localVarHttpContext: HttpContext | undefined = options && options.context;
+        if (localVarHttpContext === undefined) {
+            localVarHttpContext = new HttpContext();
+        }
+
+
+        let responseType_: 'text' | 'json' | 'blob' = 'json';
+        if (this.contentTypeHeader) {
+            if (this.contentTypeHeader.startsWith('text')) {
+                responseType_ = 'text';
+            } else if (this.configuration.isJsonMime(this.contentTypeHeader)) {
+                responseType_ = 'json';
+            } else {
+                responseType_ = 'blob';
+            }
+        }
+
+        let localVarPath = `/api/hairLossController/count`;
+        return this.httpClient.request<number>('get', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 responseType: <any>responseType_,
@@ -283,16 +477,16 @@ export class HairLossControllerService {
 
         let localVarHeaders = this.defaultHeaders;
 
-        let localVarHttpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
-        if (localVarHttpHeaderAcceptSelected === undefined) {
+
+        if (this.contentTypeHeader === undefined) {
             // to determine the Accept header
             const httpHeaderAccepts: string[] = [
                 '*/*'
             ];
-            localVarHttpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+            
         }
-        if (localVarHttpHeaderAcceptSelected !== undefined) {
-            localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
+        if (this.contentTypeHeader !== undefined) {
+            localVarHeaders = localVarHeaders.set('Accept', this.contentTypeHeader);
         }
 
         let localVarHttpContext: HttpContext | undefined = options && options.context;
@@ -302,10 +496,10 @@ export class HairLossControllerService {
 
 
         let responseType_: 'text' | 'json' | 'blob' = 'json';
-        if (localVarHttpHeaderAcceptSelected) {
-            if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
+        if (this.contentTypeHeader) {
+            if (this.contentTypeHeader.startsWith('text')) {
                 responseType_ = 'text';
-            } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
+            } else if (this.configuration.isJsonMime(this.contentTypeHeader)) {
                 responseType_ = 'json';
             } else {
                 responseType_ = 'blob';
@@ -316,6 +510,73 @@ export class HairLossControllerService {
         return this.httpClient.request<HairLoss>('get', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
+                responseType: <any>responseType_,
+                withCredentials: this.configuration.withCredentials,
+                headers: localVarHeaders,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * @param importExcelRequest 
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public importExcel2(importExcelRequest: ImportExcelRequest, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: '*/*', context?: HttpContext}): Observable<Array<HairLoss>>;
+    public importExcel2(importExcelRequest: ImportExcelRequest, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: '*/*', context?: HttpContext}): Observable<HttpResponse<Array<HairLoss>>>;
+    public importExcel2(importExcelRequest: ImportExcelRequest, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: '*/*', context?: HttpContext}): Observable<HttpEvent<Array<HairLoss>>>;
+    public importExcel2(importExcelRequest: ImportExcelRequest, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: '*/*', context?: HttpContext}): Observable<any> {
+        if (importExcelRequest === null || importExcelRequest === undefined) {
+            throw new Error('Required parameter importExcelRequest was null or undefined when calling importExcel2.');
+        }
+
+        let localVarHeaders = this.defaultHeaders;
+
+
+        if (this.contentTypeHeader === undefined) {
+            // to determine the Accept header
+            const httpHeaderAccepts: string[] = [
+                '*/*'
+            ];
+            
+        }
+        if (this.contentTypeHeader !== undefined) {
+            localVarHeaders = localVarHeaders.set('Accept', this.contentTypeHeader);
+        }
+
+        let localVarHttpContext: HttpContext | undefined = options && options.context;
+        if (localVarHttpContext === undefined) {
+            localVarHttpContext = new HttpContext();
+        }
+
+
+        // to determine the Content-Type header
+        const consumes: string[] = [
+            'application/json'
+        ];
+        const httpContentTypeSelected: string | undefined = this.configuration.selectHeaderContentType(consumes);
+        if (httpContentTypeSelected !== undefined) {
+            localVarHeaders = localVarHeaders.set('Content-Type', httpContentTypeSelected);
+        }
+
+        let responseType_: 'text' | 'json' | 'blob' = 'json';
+        if (this.contentTypeHeader) {
+            if (this.contentTypeHeader.startsWith('text')) {
+                responseType_ = 'text';
+            } else if (this.configuration.isJsonMime(this.contentTypeHeader)) {
+                responseType_ = 'json';
+            } else {
+                responseType_ = 'blob';
+            }
+        }
+
+        let localVarPath = `/api/hairLossController/import-excel`;
+        return this.httpClient.request<Array<HairLoss>>('post', `${this.configuration.basePath}${localVarPath}`,
+            {
+                context: localVarHttpContext,
+                body: importExcelRequest,
                 responseType: <any>responseType_,
                 withCredentials: this.configuration.withCredentials,
                 headers: localVarHeaders,
@@ -344,16 +605,16 @@ export class HairLossControllerService {
 
         let localVarHeaders = this.defaultHeaders;
 
-        let localVarHttpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
-        if (localVarHttpHeaderAcceptSelected === undefined) {
+
+        if (this.contentTypeHeader === undefined) {
             // to determine the Accept header
             const httpHeaderAccepts: string[] = [
                 '*/*'
             ];
-            localVarHttpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+            
         }
-        if (localVarHttpHeaderAcceptSelected !== undefined) {
-            localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
+        if (this.contentTypeHeader !== undefined) {
+            localVarHeaders = localVarHeaders.set('Accept', this.contentTypeHeader);
         }
 
         let localVarHttpContext: HttpContext | undefined = options && options.context;
@@ -372,10 +633,10 @@ export class HairLossControllerService {
         }
 
         let responseType_: 'text' | 'json' | 'blob' = 'json';
-        if (localVarHttpHeaderAcceptSelected) {
-            if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
+        if (this.contentTypeHeader) {
+            if (this.contentTypeHeader.startsWith('text')) {
                 responseType_ = 'text';
-            } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
+            } else if (this.configuration.isJsonMime(this.contentTypeHeader)) {
                 responseType_ = 'json';
             } else {
                 responseType_ = 'blob';

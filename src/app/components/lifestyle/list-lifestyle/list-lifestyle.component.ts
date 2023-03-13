@@ -173,7 +173,7 @@ export class ListLifestyleComponent {
       r['stringParent'] = r.idParent;
     });
 
-    this.lifeStyleService.exportToExcel(listToBeExported).subscribe(
+    this.lifeStyleService.exportLifeStyleToExcel(listToBeExported).subscribe(
       (res : any) => {
         const blob = new Blob([res.body], {
           type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
@@ -187,7 +187,7 @@ export class ListLifestyleComponent {
           life: 3000,
         });
       },
-      (err) => {
+      (err: { message: string; }) => {
         this.messageService.add({
           severity: 'error',
           summary: 'Error',

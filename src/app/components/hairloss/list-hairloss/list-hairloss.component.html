@@ -1,1 +1,286 @@
-<p>list-hairloss works!</p>
+<p-toast position="bottom-right"></p-toast>
+<div class="card">
+  <p-toolbar styleClass="mb-4 gap-2">
+    <ng-template pTemplate="left">
+      <button
+        pButton
+        pRipple
+        label="New"
+        icon="pi pi-plus"
+        class="p-button-success mr-2"
+        (click)="openNew()"
+      ></button>
+      <button
+        pButton
+        pRipple
+        label="Delete"
+        icon="pi pi-trash"
+        class="p-button-danger"
+        (click)="deleteSelectedHairLoss()"
+        [disabled]="!selectedHairLoss || !selectedHairLoss.length"
+      ></button>
+    </ng-template>
+
+    <ng-template pTemplate="right">
+      <p-fileUpload
+        mode="basic"
+        accept=".xlsx"
+        [maxFileSize]="1000000"
+        label="Import"
+        [customUpload]="true"
+        chooseLabel="Import"
+        [showUploadButton]="true"
+        [showCancelButton]="true"
+        [auto]="true"
+        (uploadHandler)="doUpload()"
+        (onSelect)="selectFile($event)"
+        class="mr-2 inline-block"
+      ></p-fileUpload>
+      <button
+        pButton
+        pRipple
+        label="Export All Items"
+        icon="pi pi-upload"
+        class="p-button-help"
+        (click)="doExport()"
+      ></button>
+      <div
+        tooltipPosition="top"
+        pTooltip="Select Items From table"
+        style="margin-left: 10px"
+      >
+        <button
+          pButton
+          pRipple
+          label="Export Selected Items"
+          icon="pi pi-upload"
+          [disabled]="selectedHairLoss.length == 0"
+          class="p-button-help"
+          (click)="doExportSelectedItems()"
+        ></button>
+      </div>
+    </ng-template>
+  </p-toolbar>
+
+  <p-table
+    #dt
+    [value]="hairLossList"
+    [rows]="10"
+    [paginator]="true"
+    [globalFilterFields]="[
+      'cause',
+      'extent',
+      'pattern',
+    ]"
+    [tableStyle]="{ 'min-width': '75rem' }"
+    [(selection)]="selectedHairLoss"
+    [rowsPerPageOptions]="[10, 15, 20, 50, 100]"
+    [rowHover]="true"
+    dataKey="id"
+    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+    [showCurrentPageReport]="true"
+  >
+    <ng-template pTemplate="caption">
+      <div class="flex align-items-center justify-content-between">
+        <h5 class="m-0">Manage Hair Loss</h5>
+        <span class="p-input-icon-left">
+          <i class="pi pi-search"></i>
+
+          <input
+            (input)="dt.filterGlobal($any($event.target).value, 'contains')"
+            pInputText
+            type="text"
+            (keyup)="getAllPossibleValues($event)"
+            placeholder="Search..."
+          />
+        </span>
+      </div>
+    </ng-template>
+    <ng-template pTemplate="header">
+      <tr>
+        <th style="width: 4rem">
+          <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+        </th>
+        <th pSortableColumn="cause" style="min-width: 15rem">
+          Cause <p-sortIcon field="cause"></p-sortIcon>
+        </th>
+
+        <th pSortableColumn="extent">
+          Extent
+          <p-sortIcon field="extent"></p-sortIcon>
+        </th>
+        <th pSortableColumn="pattern" style="min-width: 10rem">
+          Pattern
+          <p-sortIcon field="pattern"></p-sortIcon>
+        </th>
+        <th pSortableColumn="dateDataEntry" style="min-width: 10rem">
+          Date data Entry <p-sortIcon field="dateDataEntry"></p-sortIcon>
+        </th>
+
+        <th></th>
+      </tr>
+      <tr>
+        <th></th>
+        <th>
+          <input
+            pInputText
+            type="text"
+            (input)="
+              dt.filter($any($event.target).value, 'cause', 'contains')
+            "
+            [value]="$any(dt.filters['cause'])?.value"
+            placeholder="Search by cause"
+            class="w-full"
+          />
+        </th>
+        <th>
+          <input
+            pInputText
+            type="text"
+            (input)="
+              dt.filter(
+                $any($event.target).value,
+                'extent',
+                'contains'
+              )
+            "
+            [value]="$any(dt.filters['extent'])?.value"
+            placeholder="Search by extent"
+            class="w-full"
+          />
+        </th>
+        <th>
+          <input
+            pInputText
+            type="text"
+            (input)="
+              dt.filter(
+                $any($event.target).value,
+                'pattern',
+                'contains'
+              )
+            "
+            [value]="$any(dt.filters['pattern'])?.value"
+            placeholder="Search by pattern"
+            class="w-full"
+          />
+        </th>
+
+        <th>
+          <input
+            pInputText
+            type="text"
+            (input)="
+              dt.filter($any($event.target).value, 'dateDataEntry', 'contains')
+            "
+            [value]="$any(dt.filters['dateDataEntry'])?.value"
+            placeholder="Search by Date data Entry"
+            class="w-full"
+          />
+        </th>
+        <th></th>
+      </tr>
+    </ng-template>
+
+    <ng-template pTemplate="body" let-md>
+      <tr>
+        <td>
+          <p-tableCheckbox [value]="md"></p-tableCheckbox>
+        </td>
+        <td pTooltip="{{ md.cause }}" tooltipPosition="top">
+          {{ md.cause }}
+        </td>
+
+        <td pTooltip="{{ md.extent }}" tooltipPosition="top">
+          {{ md.extent }}
+        </td>
+        <td pTooltip="{{ md.pattern }}" tooltipPosition="top">
+          {{ md.pattern }}
+        </td>
+        <td pTooltip="{{ md.dateDataEntry }}" tooltipPosition="top">
+          {{ md.dateDataEntry }}
+        </td>
+      
+        <td>
+          <button
+            pButton
+            pRipple
+            icon="pi pi-pencil"
+            class="p-button-rounded p-button-success mr-2"
+            (click)="editHairLoss(md)"
+          ></button>
+          <button
+            pButton
+            pRipple
+            icon="pi pi-trash"
+            class="p-button-rounded p-button-danger"
+            (click)="deleteRow(md)"
+          ></button>
+        </td>
+      </tr>
+      <div *ngIf="isLoading" class="spinner-cls">
+        <p-progressSpinner></p-progressSpinner>
+      </div>
+    </ng-template>
+    <ng-template pTemplate="emptymessage">
+      <tr>
+        <td colspan="7" style="text-align: center" *ngIf="isLoading">
+          <p-progressSpinner></p-progressSpinner>
+        </td>
+        <td colspan="7" style="text-align: center" *ngIf="!isLoading">
+          <span>No available Hair Loss !</span>
+        </td>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="summary">
+      <div class="flex align-items-center justify-content-between">
+        In total there are
+        {{ hairLossList ? hairLossList.length : 0 }}
+        Hair Loss
+      </div>
+    </ng-template>
+  </p-table>
+</div>
+
+<p-dialog
+  [(visible)]="HairLossDialog"
+  [style]="{ width: '70%' }"
+  header="Hair Loss Details"
+  [modal]="true"
+  styleClass="p-fluid"
+>
+  <ng-template pTemplate="content">
+    <app-add-hairloss
+    #addlifeStyle
+    [showButtons]="false"
+    [resethairLossForm]="resetHairLossForm"
+    [formHairLoss]="editableHairLoss"
+    >
+    </app-add-hairloss>
+
+  </ng-template>
+ 
+
+  <ng-template pTemplate="footer">
+    <button
+      pButton
+      pRipple
+      label="Cancel"
+      icon="pi pi-times"
+      class="p-button-text"
+      (click)="hideDialog()"
+    ></button>
+    <button
+      pButton
+      pRipple
+      label="Save"
+      icon="pi pi-check"
+      class="p-button-text"
+      (click)="saveHairLossPopUp()"
+    ></button>
+  </ng-template>
+</p-dialog>
+
+<div *ngIf="!hideConfirmDialog">
+  <p-confirmDialog [style]="{ width: '450px' }"></p-confirmDialog>
+</div>

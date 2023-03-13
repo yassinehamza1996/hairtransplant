@@ -1,1 +1,126 @@
-<p>add-hairloss works!</p>
+<form [formGroup]="myForm">
+  <div class="grid" class="person-form-cls">
+    <div class="col-12">
+      <div class="card">
+        <h5>Add new Hair Loss</h5>
+        <div class="p-fluid p-formgrid grid">
+          <div class="field col-12 md:col-4">
+            <label for="extent">Extent</label>
+            <input
+              pInputTextarea
+              formControlName="extent"
+              class="my-input"
+              id="extent"
+              #extentInput
+              rows="4"
+            />
+          </div>
+          <div class="field col-12 md:col-4">
+            <label for="cause">Cause</label>
+            <input
+              pInputText
+              class="my-input"
+              formControlName="cause"
+              required="true"
+              id="cause"
+              #causeInput
+              [placeholder]="
+                (myForm.get('cause')?.hasError('required') &&
+                  causeInput.value === '') ||
+                (!myForm.controls['cause'].pristine &&
+                  myForm.controls['cause'].touched)
+                  ? '* Field is required'
+                  : ''
+              "
+              type="text"
+            />
+          </div>
+          <div class="field col-12 md:col-4">
+            <label for="personalInformation">Personal Information</label>
+            <p-dropdown
+              [options]="listOfPersonInformations"
+              [showClear]="true"
+              appendTo="body"
+              [filter]="true"
+              appendTo="body"
+              placeholder="Select Personal Information"
+              formControlName="parent"
+              optionLabel="displayedField"
+            ></p-dropdown>
+          </div>
+          <div class="field col-12 md:col-4">
+            <label for="pattern">Pattern</label>
+            <input
+              pInputTextarea
+              formControlName="pattern"
+              class="my-input"
+              id="extent"
+              #extentInput
+              rows="4"
+            />
+          </div>
+
+          <div class="field col-4 md:col-4 lg:col-4">
+            <label for="dateDataEntry">Date Data Entry</label>
+            <p-calendar
+              formControlName="dateDataEntry"
+              [showIcon]="true"
+              dateFormat="dd/mm/yy"
+              [showTime]="false"
+              inputId="icon"
+              appendTo="body"
+              (onSelect)="onSelectDate()"
+              [showClear]="true"
+              #dateDataEntryInput
+              [placeholder]="
+                (myForm.get('dateDataEntry')?.hasError('required') &&
+                  dateDataEntryInput.value === '') ||
+                (!myForm.controls['dateDataEntry'].pristine &&
+                  myForm.controls['dateDataEntry'].touched)
+                  ? '* Field is required'
+                  : ''
+              "
+            ></p-calendar>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div *ngIf="showButtons" class="footer-form-cls">
+      <div style="margin-right: 2%" *ngIf="formHairLoss == undefined">
+        <button
+          (click)="doSaveCreateScreen()"
+          pButton
+          class="p-button-success"
+          type="submit"
+          icon="pi pi-check"
+          iconPos="left"
+          [disabled]="!myForm.valid"
+          label="Save"
+        ></button>
+      </div>
+      <div style="margin-right: 2%" *ngIf="formHairLoss != undefined">
+        <button
+          (click)="doSave()"
+          pButton
+          class="p-button-success"
+          type="submit"
+          icon="pi pi-check"
+          iconPos="left"
+          [disabled]="!myForm.valid"
+          label="Save"
+        ></button>
+      </div>
+      <div>
+        <button
+          pButton
+          class="p-button-danger"
+          icon="pi pi-times"
+          type="reset"
+          label="Reset"
+        ></button>
+      </div>
+    </div>
+  </div>
+</form>
+
+<p-toast position="bottom-right"></p-toast>

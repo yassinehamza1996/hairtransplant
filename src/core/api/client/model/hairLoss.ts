@@ -19,5 +19,6 @@ export interface HairLoss {
     extent?: string;
     pattern?: string;
     dateDataEntry?: string;
+    idParent? : string;
 }
 

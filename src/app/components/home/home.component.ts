@@ -1,3 +1,4 @@
+import { LifeStyleControllerService } from 'src/core/api/client';
 import { MedicalHistoryService } from './../services/medicalHistory.service';
 import { Subscription } from 'rxjs';
 import { PersonalInformationService } from './../services/personalInformation.service';
@@ -18,6 +19,7 @@ export class HomeComponent implements OnInit {
   subscription: Subscription = new Subscription();
   numberOfPersonalInformations : number = 0;
   numberOfMedicalHistories : number = 0;
+  numberOflifeStyles : number = 0;
   galleriaResponsiveOptions: any[] = [
     {
       breakpoint: '1024px',
@@ -40,13 +42,17 @@ export class HomeComponent implements OnInit {
   constructor(
     private photoService: PhotoService,
     private personalInformationService: PersonalInformationService,
-    private medicalHistoryService : MedicalHistoryService
+    private medicalHistoryService : MedicalHistoryService,
+    private lifeStyleService : LifeStyleControllerService
   ) {}
   ngOnInit() {
     this.initChart();
     this.applyLightTheme();
     this.subscription.add(this.medicalHistoryService.getCountMedicalHistorys().subscribe(res=>{
       this.numberOfMedicalHistories = res
+    }))
+    this.subscription.add(this.lifeStyleService.getCount().subscribe(res=>{
+      this.numberOflifeStyles = res
     }))
     this.subscription.add(this.personalInformationService
       .getCountPersonalInformation()
