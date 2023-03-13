@@ -22,7 +22,7 @@ export class AddLifestyleComponent {
   medicalNodeResult: LifeStyle;
   @Input() showButtons: boolean;
   @Input() formLifeStyle: LifeStyle;
-  @Input() resetmedicalHistoryForm: boolean;
+  @Input() resetlifeStyleForm: boolean;
   alcoholEnum : LifeStyle.AlcoholEnum[] = [];
   listOfPersonInformations: PersonalInformation[] = [];
   subscription: Subscription = new Subscription();
@@ -77,7 +77,7 @@ export class AddLifestyleComponent {
 
     if (
       this.formLifeStyle != undefined &&
-      this.resetmedicalHistoryForm == false
+      this.resetlifeStyleForm == false
     ) 
     {
       console.log(this.formLifeStyle);

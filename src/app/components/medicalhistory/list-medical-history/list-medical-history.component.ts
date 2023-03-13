@@ -8,7 +8,6 @@ import { MedicalHistoryService } from '../../services/medicalHistory.service';
 import { MedicalHistory } from 'src/core/api/client';
 import { Product } from 'src/core/api/client/model/product';
 
-
 @Component({
   selector: 'app-list-medical-history',
   templateUrl: './list-medical-history.component.html',
@@ -138,43 +137,41 @@ export class ListMedicalHistoryComponent implements OnInit {
 
   doExportSelectedItems() {
     let listToBeExported = JSON.parse(JSON.stringify(this.medicalHistoryList));
-    listToBeExported.forEach((r:any)=>{
-      r.parent = r.idParent
-      r['stringParent'] = r.idParent
-    })
-    this.medicalHistoryService
-      .exportToExcel(listToBeExported)
-      .subscribe(
-        (res) => {
-          const blob = new Blob([res.body], {
-            type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-          });
-          const fileName = 'medical-history.xlsx';
-          saveAs(blob, fileName);
-          this.messageService.add({
-            severity: 'success',
-            summary: 'Successful',
-            detail: 'Excel downloaded successfully',
-            life: 3000,
-          });
-        },
-        (err) => {
-          this.messageService.add({
-            severity: 'error',
-            summary: 'Error',
-            detail: 'Error ' + err.message,
-          });
-        }
-      );
+    listToBeExported.forEach((r: any) => {
+      r.parent = r.idParent;
+      r['stringParent'] = r.idParent;
+    });
+    this.medicalHistoryService.exportToExcel(listToBeExported).subscribe(
+      (res) => {
+        const blob = new Blob([res.body], {
+          type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+        });
+        const fileName = 'medical-history.xlsx';
+        saveAs(blob, fileName);
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Successful',
+          detail: 'Excel downloaded successfully',
+          life: 3000,
+        });
+      },
+      (err) => {
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Error',
+          detail: 'Error ' + err.message,
+        });
+      }
+    );
   }
 
   doExport() {
     let listToBeExported = JSON.parse(JSON.stringify(this.medicalHistoryList));
 
-    listToBeExported.forEach((r:any)=>{
-      r.parent = r.idParent
-      r['stringParent'] = r.idParent
-    })
+    listToBeExported.forEach((r: any) => {
+      r.parent = r.idParent;
+      r['stringParent'] = r.idParent;
+    });
 
     this.medicalHistoryService.exportToExcel(listToBeExported).subscribe(
       (res) => {
@@ -233,25 +230,36 @@ export class ListMedicalHistoryComponent implements OnInit {
   }
 
   savePopUpMedicalHistory() {
-    this.addmedicalHistoryComponent.doSave().subscribe(
-      (value: MedicalHistory) => {
-        let indexOfPerson = this.medicalHistoryList.findIndex(
-          (res) => res.id == value.id
-        );
-        if (indexOfPerson != -1) {
-          this.medicalHistoryList[indexOfPerson] = value;
-        }else{
+    if (this.resetMedicalHistoryForm) {
+      this.addmedicalHistoryComponent.doSaveCreateScreen().subscribe(
+        (value: MedicalHistory) => {
           this.medicalHistoryList.push(value);
+        },
+        (error) => {
+          this.medicalHistoryDialog = true;
         }
-      },
-      (error) => {
-        this.medicalHistoryDialog = true;
-      }
-    );
+      );
+    } else if (!this.resetMedicalHistoryForm) {
+      this.addmedicalHistoryComponent.doSave().subscribe(
+        (value: MedicalHistory) => {
+          let indexOfPerson = this.medicalHistoryList.findIndex(
+            (res) => res.id == value.id
+          );
+          if (indexOfPerson != -1) {
+            this.medicalHistoryList[indexOfPerson] = value;
+          } else {
+            this.medicalHistoryList.push(value);
+          }
+        },
+        (error) => {
+          this.medicalHistoryDialog = true;
+        }
+      );
+    }
   }
 
   editMedicalHistory(medicalHistory: MedicalHistory) {
-    let mh = JSON.parse(JSON.stringify(medicalHistory))
+    let mh = JSON.parse(JSON.stringify(medicalHistory));
     this.editableMedicalHistory = mh;
     this.medicalHistoryDialog = true;
     this.resetMedicalHistoryForm = false;

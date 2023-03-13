@@ -1,3 +1,4 @@
+import { MedicalHistoryControllerService } from './../../../../core/api/client/api/medicalHistoryController.service';
 import { MedicalHistoryService } from './../../services/medicalHistory.service';
 import { Component } from '@angular/core';
 import { PersonalInformationService } from './../../services/personalInformation.service';
@@ -27,7 +28,7 @@ export class AddMedicalHistoryComponent implements OnInit {
     private formBuilder: FormBuilder,
     private route: ActivatedRoute,
     private showDashboardService: ShowDashBoardService,
-    private medicalHistoryService: MedicalHistoryService,
+    private medicalHistoryService: MedicalHistoryControllerService,
     private messageService: MessageService,
     private confirmationService: ConfirmationService,
     private router: Router,
@@ -137,12 +138,19 @@ export class AddMedicalHistoryComponent implements OnInit {
     });
   }
 
-  doSaveCreateScreen() {
+  doSaveCreateScreen() : Observable<MedicalHistory>{
+    if (this.myForm.controls['dateDataEntry'] != undefined) {
+      if (this.myForm.controls['dateDataEntry'].value instanceof Date) {
+        this.myForm.controls['dateDataEntry'].setValue(
+          this.formatDateToString(this.myForm.controls['dateDataEntry'].value)
+        );
+      }
+    }
     this.myForm.controls['parent'].setValue(this.myForm.value.parent.id);
-    this.medicalHistoryService
+    return this.medicalHistoryService
       .createMedicalHistory(this.myForm.value)
-      .subscribe(
-        (value) => {
+      .pipe(
+        tap((value) => {
           this.messageService.add({
             severity: 'success',
             summary: 'success',
@@ -154,15 +162,16 @@ export class AddMedicalHistoryComponent implements OnInit {
             // code to execute after 1 second
             this.router.navigate(['/listmedicalhistory']);
           }, 1000);
-        },
-        (error) => {
+        }),
+        catchError((error) => {
           this.messageService.add({
             severity: 'error',
             summary: 'Error',
             detail: 'Error ' + error.message,
           });
           console.log(error);
-        }
+          return throwError(error);
+        })
       );
   }
 
