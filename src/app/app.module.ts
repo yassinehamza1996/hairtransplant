@@ -29,7 +29,7 @@ import { HeaderComponent } from './components/header/header.component';
 import { AnimateModule } from 'primeng/animate';
 import { GalleriaModule } from 'primeng/galleria';
 import { PhotoService } from './components/services/photoService.service';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { DropdownModule } from 'primeng/dropdown';
 import { InputTextareaModule } from 'primeng/inputtextarea';
 import { ReactiveFormsModule } from '@angular/forms';

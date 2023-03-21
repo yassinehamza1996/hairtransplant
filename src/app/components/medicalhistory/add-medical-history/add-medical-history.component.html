@@ -2,7 +2,12 @@
   <div class="grid" class="person-form-cls">
     <div class="col-12">
       <div class="card">
-        <h5>Add new Medical History</h5>
+        <div *ngIf="resetmedicalHistoryForm || resetmedicalHistoryForm == undefined">
+          <h5>Add new Medical History</h5>
+        </div>
+        <div *ngIf="resetmedicalHistoryForm == false">
+          <h5>Edit Medical History</h5>
+        </div>
         <div class="p-fluid p-formgrid grid">
           <div class="field col-12 md:col-4">
             <label for="allergies">Allergies</label>
@@ -96,7 +101,7 @@
     <div *ngIf="showButtons" class="footer-form-cls">
       <div style="margin-right: 2%" *ngIf="formMedical == undefined">
         <button
-          (click)="doSaveCreateScreen()"
+          (click)="doSaveCreateScreenNew()"
           pButton
           class="p-button-success"
           type="submit"

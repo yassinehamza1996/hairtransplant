@@ -79,22 +79,19 @@ export class AddHairlossComponent {
     ) 
     {
       console.log(this.formHairLoss);
-      // this.myForm.controls['alcohol'].setValue(this.formHairLoss.alcohol);
-      // this.myForm.controls['diet'].setValue(
-      //   this.formHairLoss.diet
-      // );
-      // console.log('date', this.formHairLoss.dateDataEntry);
-      // this.myForm.controls['dateDataEntry'].setValue(
-      //   this.formHairLoss.dateDataEntry
-      // );
-      // this.myForm.controls['exercise'].setValue(
-      //   this.formHairLoss.exercise
-      // );
-      // this.myForm.controls['tobacco'].setValue(
-      //   this.formHairLoss.tobacco
-      // );
-
-      // this.myForm.controls['id'].setValue(this.formHairLoss.id);
+      this.myForm.controls['extent'].setValue(this.formHairLoss.extent);
+      this.myForm.controls['cause'].setValue(
+        this.formHairLoss.cause
+      );
+      console.log('date', this.formHairLoss.dateDataEntry);
+      this.myForm.controls['dateDataEntry'].setValue(
+        this.formHairLoss.dateDataEntry
+      );
+      this.myForm.controls['pattern'].setValue(
+        this.formHairLoss.pattern
+      );
+    
+      this.myForm.controls['id'].setValue(this.formHairLoss.id);
     }
     if (
       this.myForm.value.dateDateEntry == undefined &&
@@ -132,8 +129,7 @@ export class AddHairlossComponent {
     return this.myForm.get('hairLossList') as FormArray;
   }
 
-
-  doSaveCreateScreen() {
+  doSaveCreateScreenNew() {
     this.myForm.controls['parent'].setValue(this.myForm.value.parent.id);
     if (this.myForm.controls['dateDataEntry'] != undefined) {
       if (this.myForm.controls['dateDataEntry'].value instanceof Date) {
@@ -158,15 +154,54 @@ export class AddHairlossComponent {
             // code to execute after 1 second
             this.router.navigate(['/listhairloss']);
           }, 1000);
-        },
-        (error) => {
+        }),
+        catchError((error) => {
           this.messageService.add({
             severity: 'error',
             summary: 'Error',
             detail: 'Error ' + error.message,
           });
           console.log(error);
-        }
+          return throwError(error);
+        })
+    
+  }
+
+  doSaveCreateScreen() : Observable<HairLoss> {
+    this.myForm.controls['parent'].setValue(this.myForm.value.parent.id);
+    if (this.myForm.controls['dateDataEntry'] != undefined) {
+      if (this.myForm.controls['dateDataEntry'].value instanceof Date) {
+        this.myForm.controls['dateDataEntry'].setValue(
+          this.formatDateToString(this.myForm.controls['dateDataEntry'].value)
+        );
+      }
+    }
+    
+   return this.HairLossService
+      .createHairLoss(this.myForm.value)
+      .pipe(
+        tap((value) => {
+          this.messageService.add({
+            severity: 'success',
+            summary: 'success',
+            detail:
+              this.myForm.value.cause +
+              ' Saved Successfully',
+          });
+          setTimeout(() => {
+            // code to execute after 1 second
+            this.router.navigate(['/listhairloss']);
+          }, 1000);
+        }),
+        catchError((error) => {
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Error',
+            detail: 'Error ' + error.message,
+          });
+          console.log(error);
+          return throwError(error);
+        })
       );
   }
 

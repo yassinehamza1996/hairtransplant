@@ -143,7 +143,7 @@ export class ListLifestyleComponent {
     });
     this.lifeStyleService.exportLifeStyleToExcel(listToBeExported).subscribe(
       (res : any) => {
-        const blob = new Blob([res.body], {
+        const blob = new Blob([res], {
           type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
         });
         const fileName = 'medical-history.xlsx';
@@ -175,7 +175,7 @@ export class ListLifestyleComponent {
 
     this.lifeStyleService.exportLifeStyleToExcel(listToBeExported).subscribe(
       (res : any) => {
-        const blob = new Blob([res.body], {
+        const blob = new Blob([res], {
           type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
         });
         const fileName = 'life-Style.xlsx';

@@ -138,6 +138,42 @@ export class AddMedicalHistoryComponent implements OnInit {
     });
   }
 
+  doSaveCreateScreenNew() {
+    if (this.myForm.controls['dateDataEntry'] != undefined) {
+      if (this.myForm.controls['dateDataEntry'].value instanceof Date) {
+        this.myForm.controls['dateDataEntry'].setValue(
+          this.formatDateToString(this.myForm.controls['dateDataEntry'].value)
+        );
+      }
+    }
+    this.myForm.controls['parent'].setValue(this.myForm.value.parent.id);
+     this.medicalHistoryService
+      .createMedicalHistory(this.myForm.value)
+      .subscribe((value) => {
+          this.messageService.add({
+            severity: 'success',
+            summary: 'success',
+            detail:
+              this.myForm.value['preExistingConditions'] +
+              ' Saved Successfully',
+          });
+          setTimeout(() => {
+            // code to execute after 1 second
+            this.router.navigate(['/listmedicalhistory']);
+          }, 1000);
+        }),
+        catchError((error) => {
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Error',
+            detail: 'Error ' + error.message,
+          });
+          console.log(error);
+          return throwError(error);
+        })
+      
+  }
+
   doSaveCreateScreen() : Observable<MedicalHistory>{
     if (this.myForm.controls['dateDataEntry'] != undefined) {
       if (this.myForm.controls['dateDataEntry'].value instanceof Date) {

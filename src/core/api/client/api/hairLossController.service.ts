@@ -290,26 +290,26 @@ export class HairLossControllerService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public exportLifeStyleToExcel1(hairLoss: Array<HairLoss>, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: '*/*', context?: HttpContext}): Observable<Array<string>>;
-    public exportLifeStyleToExcel1(hairLoss: Array<HairLoss>, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: '*/*', context?: HttpContext}): Observable<HttpResponse<Array<string>>>;
-    public exportLifeStyleToExcel1(hairLoss: Array<HairLoss>, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: '*/*', context?: HttpContext}): Observable<HttpEvent<Array<string>>>;
-    public exportLifeStyleToExcel1(hairLoss: Array<HairLoss>, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: '*/*', context?: HttpContext}): Observable<any> {
+    public exportHairLossToExcel(hairLoss: Array<HairLoss>, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: '*/*', context?: HttpContext}): Observable<Array<string>>;
+    public exportHairLossToExcel(hairLoss: Array<HairLoss>, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: '*/*', context?: HttpContext}): Observable<HttpResponse<Array<string>>>;
+    public exportHairLossToExcel(hairLoss: Array<HairLoss>, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: '*/*', context?: HttpContext}): Observable<HttpEvent<Array<string>>>;
+    public exportHairLossToExcel(hairLoss: Array<HairLoss>, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: '*/*', context?: HttpContext}): Observable<any> {
         if (hairLoss === null || hairLoss === undefined) {
-            throw new Error('Required parameter hairLoss was null or undefined when calling exportLifeStyleToExcel1.');
+            throw new Error('Required parameter hairLoss was null or undefined when calling exportHairLossToExcel.');
         }
 
         let localVarHeaders = this.defaultHeaders;
 
-
-        if (this.contentTypeHeader === undefined) {
+        let localVarHttpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
+        if (localVarHttpHeaderAcceptSelected === undefined) {
             // to determine the Accept header
             const httpHeaderAccepts: string[] = [
                 '*/*'
             ];
-            
+            localVarHttpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
         }
-        if (this.contentTypeHeader !== undefined) {
-            localVarHeaders = localVarHeaders.set('Accept', this.contentTypeHeader);
+        if (localVarHttpHeaderAcceptSelected !== undefined) {
+            localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
         }
 
         let localVarHttpContext: HttpContext | undefined = options && options.context;
@@ -328,10 +328,10 @@ export class HairLossControllerService {
         }
 
         let responseType_: 'text' | 'json' | 'blob' = 'json';
-        if (this.contentTypeHeader) {
-            if (this.contentTypeHeader.startsWith('text')) {
+        if (localVarHttpHeaderAcceptSelected) {
+            if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
                 responseType_ = 'text';
-            } else if (this.configuration.isJsonMime(this.contentTypeHeader)) {
+            } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
                 responseType_ = 'json';
             } else {
                 responseType_ = 'blob';

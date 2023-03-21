@@ -2,7 +2,12 @@
   <div class="grid" class="person-form-cls">
     <div class="col-12">
       <div class="card">
-        <h5>Add new Life Style</h5>
+        <div *ngIf="resetlifeStyleForm || resetlifeStyleForm == undefined">
+          <h5>Add new Life Style</h5>
+        </div>
+        <div *ngIf="resetlifeStyleForm == false ">
+          <h5>Edit Life Style</h5>
+        </div>
         <div class="p-fluid p-formgrid grid">
           <div class="field col-12 md:col-4">
             <label for="alcohol">Alcohol</label>

@@ -2,7 +2,12 @@
   <div class="grid" class="person-form-cls">
     <div class="col-12">
       <div class="card">
-        <h5>Add new Hair Loss</h5>
+        <div *ngIf="resethairLossForm || resethairLossForm == undefined ">
+          <h5>Add new Hair Loss</h5>
+        </div>
+        <div *ngIf="resethairLossForm == false">
+          <h5>Edit Hair Loss</h5>
+        </div>
         <div class="p-fluid p-formgrid grid">
           <div class="field col-12 md:col-4">
             <label for="extent">Extent</label>
@@ -88,7 +93,7 @@
     <div *ngIf="showButtons" class="footer-form-cls">
       <div style="margin-right: 2%" *ngIf="formHairLoss == undefined">
         <button
-          (click)="doSaveCreateScreen()"
+          (click)="doSaveCreateScreenNew()"
           pButton
           class="p-button-success"
           type="submit"

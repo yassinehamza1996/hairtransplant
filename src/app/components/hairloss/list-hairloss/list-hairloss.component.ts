@@ -63,7 +63,7 @@ export class ListHairlossComponent {
     this.hideConfirmDialog = false;
     this.confirmationService.confirm({
       message:
-        'Are you sure you want to delete the selected medical history items?',
+        'Are you sure you want to delete the selected Hair loss items?',
       header: 'Confirm',
       icon: 'pi pi-exclamation-triangle',
       accept: () => {
@@ -117,7 +117,7 @@ export class ListHairlossComponent {
             this.messageService.add({
               severity: 'info',
               summary: 'Successful',
-              detail: 'Medical History Deleted Successfully',
+              detail: 'Hair loss Deleted Successfully',
               life: 3000,
             });
             this.hairLossList = this.hairLossList.filter(
@@ -142,9 +142,9 @@ export class ListHairlossComponent {
       r.parent = r.idParent;
       r['stringParent'] = r.idParent;
     });
-    this.hairLossService.exportLifeStyleToExcel1(listToBeExported).subscribe(
+    this.hairLossService.exportHairLossToExcel(listToBeExported).subscribe(
       (res : any) => {
-        const blob = new Blob([res.body], {
+        const blob = new Blob([res], {
           type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
         });
         const fileName = 'medical-history.xlsx';
@@ -174,12 +174,12 @@ export class ListHairlossComponent {
       r['stringParent'] = r.idParent;
     });
 
-    this.hairLossService.exportLifeStyleToExcel1(listToBeExported).subscribe(
+    this.hairLossService.exportHairLossToExcel(listToBeExported).subscribe(
       (res : any) => {
-        const blob = new Blob([res.body], {
+        const blob = new Blob([res], {
           type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
         });
-        const fileName = 'life-Style.xlsx';
+        const fileName = 'Hair-Loss.xlsx';
         saveAs(blob, fileName);
         this.messageService.add({
           severity: 'success',
@@ -232,21 +232,33 @@ export class ListHairlossComponent {
   }
 
   savePopUpHairLoss() {
-    this.addHairLossComponent.doSave().subscribe(
-      (value: HairLoss) => {
-        let indexOfPerson = this.hairLossList.findIndex(
-          (res) => res.id == value.id
-        );
-        if (indexOfPerson != -1) {
-          this.hairLossList[indexOfPerson] = value;
-        } else {
-          this.hairLossList.push(value);
+    if(this.resetHairLossForm){
+      this.addHairLossComponent.doSaveCreateScreen().subscribe(
+        (value: HairLoss) => {
+            this.hairLossList.push(value);
+        },
+        (error) => {
+          this.HairLossDialog = true;
         }
-      },
-      (error) => {
-        this.HairLossDialog = true;
-      }
-    );
+      );
+    }else if (!this.resetHairLossForm){
+      this.addHairLossComponent.doSave().subscribe(
+        (value: HairLoss) => {
+          let indexOfPerson = this.hairLossList.findIndex(
+            (res) => res.id == value.id
+          );
+          if (indexOfPerson != -1) {
+            this.hairLossList[indexOfPerson] = value;
+          } else {
+            this.hairLossList.push(value);
+          }
+        },
+        (error) => {
+          this.HairLossDialog = true;
+        }
+      );
+    }
+
   }
 
   editHairLoss(HairLoss: HairLoss) {

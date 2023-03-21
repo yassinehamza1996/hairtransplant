@@ -18,5 +18,8 @@ export interface ClientVisit {
     salesperson?: string;
     salesManager?: string;
     visitDate?: string;
+    parent?: string;
+    stringParent?: string;
+    idParent?: string;
 }
 

@@ -19,5 +19,6 @@ export interface Goals {
     outcome?: string;
     budget?: number;
     dateDataEntry?: string;
+    idParent? : string;
 }
 

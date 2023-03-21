@@ -258,7 +258,7 @@
     <ng-template pTemplate="summary">
       <div class="flex align-items-center justify-content-between">
         In total there are
-        {{ selectedlifeStyle ? selectedlifeStyle.length : 0 }}
+        {{ lifeStyleList ? lifeStyleList.length : 0 }}
         Life Style
       </div>
     </ng-template>
@@ -276,7 +276,7 @@
     <app-add-lifestyle
     #addlifeStyle
     [showButtons]="false"
-    [resetmedicalHistoryForm]="resetlifeStyleForm"
+    [resetlifeStyleForm]="resetlifeStyleForm"
     [formLifeStyle]="editablelifeStyle"
     >
     </app-add-lifestyle>
